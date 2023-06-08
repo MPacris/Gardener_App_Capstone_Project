@@ -19,14 +19,7 @@ class UserCarResource(Resource):
         user_id = get_jwt_identity()
         user_cars = Car.query.filter_by(user_id=user_id)
         return cars_schema.dump(user_cars), 200
-        # # Alternate version where JWT is used, but not required
-        # try:
-        #     verify_jwt_in_request()
-        #     user_id = get_jwt_identity()
-        # # Do stuff with token
-        # except:
-        # # Do stuff without token
-        #     return "Unauthorized", 401
+
 
     @jwt_required()
     def post(self):

@@ -62,10 +62,10 @@ cars_schema = CarSchema(many=True)
 
 class GardenSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
-    owner_id = fields.Integer()
+    user_id = fields.Integer()
     name = fields.String(required=True)
     notes = fields.String()
-    user = ma.Nested(UserSchema, many=True)
+    user = ma.Nested(UserSchema)
     class Meta:
         fields = ("id", "owner_id", "name", "notes", "user")
     
@@ -80,7 +80,7 @@ class UserGardenSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
     user_id = fields.Integer()
     garden_id = fields.Integer()
-    user = ma.Nested(UserSchema, many=True)
+    user = ma.Nested(UserSchema)
     class Meta:
         fields = ("id", "user_id", "garden_id", "user")
     
@@ -133,7 +133,7 @@ class HarvestSchema(ma.Schema):
     notes = fields.String()
     user = ma.Nested(UserSchema, many=False)
     class Meta:
-        fields = ("id", "task_id", "rating", "image_url", "notes", "user")
+        fields = ("id", "task_id", "rating", "image_url", "notes")
     
     @post_load
     def create_harvest(self, data, **kwargs):

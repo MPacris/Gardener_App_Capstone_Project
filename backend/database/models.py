@@ -32,7 +32,7 @@ class Car(db.Model):
 
 class Garden(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(255), nullable=False)
     notes = db.Column(db.Text)
     user = db.relationship("User")
@@ -43,6 +43,8 @@ class UserGarden(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
+    user = db.relationship("User")
+    user = db.relationship("Garden")
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,6 +52,7 @@ class Plant(db.Model):
     location = db.Column(db.String(255), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
     garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
+    user = db.relationship("Garden")
 
 
 class Task(db.Model):
@@ -67,4 +70,3 @@ class Harvest(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255))
     notes = db.Column(db.Text)
-    user = db.relationship("User")
