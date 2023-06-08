@@ -67,7 +67,7 @@ class GardenSchema(ma.Schema):
     notes = fields.String()
     user = ma.Nested(UserSchema)
     class Meta:
-        fields = ("id", "owner_id", "name", "notes", "user")
+        fields = ("id", "user_id", "name", "notes", "user")
     
     @post_load
     def create_garden(self, data, **kwargs):

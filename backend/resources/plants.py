@@ -24,3 +24,30 @@ class UserGardenResource(Resource):
         db.session.commit()
         return garden_schema.dump(new_garden), 201
     
+    @jwt_required()
+    def put(self, garden_id):
+        user_id = get_jwt_identity()
+        garden = Garden.query.filter_by(id=garden_id, user_id=user_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        update_data = request.get_json()
+        updated_garden = garden_schema.load(update_data, partial=True)
+        garden.name = updated_garden.name
+        garden.notes = updated_garden.notes
+        db.session.commit()
+
+        return garden_schema.dump(garden), 200
+
+    @jwt_required()
+    def delete(self, garden_id):
+        user_id = get_jwt_identity()
+        garden = Garden.query.filter_by(id=garden_id, user_id=user_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        db.session.delete(garden)
+        db.session.commit()
+
+        return {'message': 'Garden deleted'}, 200
+    
