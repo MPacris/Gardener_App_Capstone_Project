@@ -44,7 +44,7 @@ class UserGarden(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
     user = db.relationship("User")
-    user = db.relationship("Garden")
+    garden = db.relationship("Garden")
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)

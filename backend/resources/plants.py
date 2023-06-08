@@ -6,7 +6,7 @@ from database.schemas import garden_schema, gardens_schema
 
 
 
-class UserGardenResource(Resource):
+class GardensResource(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
@@ -23,6 +23,9 @@ class UserGardenResource(Resource):
         db.session.add(new_garden)
         db.session.commit()
         return garden_schema.dump(new_garden), 201
+    
+
+class GetGardensResource(Resource):
     
     @jwt_required()
     def put(self, garden_id):
