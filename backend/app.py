@@ -9,8 +9,9 @@ from database.schemas import ma
 from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
 from resources.gardens import GardensResource, GetGardenResource
-from resources.plants import PlantsResource, GetPlantsResource
-
+from resources.plants import PlantsResource, GetPlantResource
+from resources.tasks import TasksResource, GetTaskResource
+from resources.harvests import HarvestsResource, GetHarvestResource
 
 
 
@@ -67,7 +68,14 @@ def create_routes():
     api.add_resource(GetGardenResource, '/api/gardens/<int:garden_id>')
 
     api.add_resource(PlantsResource, '/api/plants')
-    api.add_resource(GetPlantsResource, '/api/plants/<int:plant_id>')
+    api.add_resource(GetPlantResource, '/api/plants/<int:plant_id>')
+
+    api.add_resource(TasksResource, '/api/tasks')
+    api.add_resource(GetTaskResource, '/api/tasks/<int:task_id>')
+
+    api.add_resource(HarvestsResource, '/api/harvests')
+    api.add_resource(GetHarvestResource, '/api/harvests/<int:harvest_id>')
+
 
 
 

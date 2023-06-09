@@ -1,5 +1,6 @@
+from datetime import date
 from flask_marshmallow import Marshmallow
-from marshmallow import post_load, fields
+from marshmallow import post_load, fields, validates, ValidationError
 from database.models import User, Car, Garden, Plant, Task, Harvest
 
 ma = Marshmallow()
@@ -111,12 +112,18 @@ plants_schema = PlantSchema(many=True)
 
 class TaskSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
-    plant_id = fields.Integer()
-    user_id = fields.Integer()
+    user_id = fields.Integer(reqired=True)
+    plant_id = fields.Integer(required=True)
     task_type = fields.String(required=True)
     task_scheduled = fields.Date(required=True)
-    task_completed = fields.Date()
+    task_completed = fields.Date(missing=None)
     user = ma.Nested(UserSchema, many=False)
+    
+    def validate_task_completed(self, value):
+        if value is not None and not isinstance(value, date):
+            raise ValidationError('Invalid date format for task_completed field.')
+
+    
     class Meta:
         fields = ("id", "plant_id", "user_id", "task_type", "task_scheduled", "task_completed", "user")
     

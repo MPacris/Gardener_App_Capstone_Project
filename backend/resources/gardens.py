@@ -27,6 +27,18 @@ class GardensResource(Resource):
 
 class GetGardenResource(Resource):
     
+    
+    @jwt_required()
+    def get(self, garden_id):
+        user_id = get_jwt_identity()
+        garden = Garden.query.filter_by(id=garden_id, user_id=user_id).first()
+        if not garden:
+            return {'message': 'Garden not found'}, 404
+
+        return garden_schema.dump(garden), 200
+    
+    
+    
     @jwt_required()
     def put(self, garden_id):
         user_id = get_jwt_identity()

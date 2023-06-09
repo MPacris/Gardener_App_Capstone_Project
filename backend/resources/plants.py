@@ -5,25 +5,27 @@ from database.models import db, User, Garden, UserGarden, Plant, Harvest
 from database.schemas import garden_schema, gardens_schema, plant_schema, plants_schema
 
 class PlantsResource(Resource):
+    
+    @jwt_required()
     def get(self):
         plants = Plant.query.all()
         return plants_schema.dump(plants), 200
 
-
+    @jwt_required()
     def post(self):
-  
+        user_id = get_jwt_identity()
         form_data = request.get_json()
         new_plant = plant_schema.load(form_data)
+        new_plant.user_id = user_id
         db.session.add(new_plant)
         db.session.commit()
         return plant_schema.dump(new_plant), 201
     
 
-class GetPlantsResource(Resource):
+class GetPlantResource(Resource):
     
-
+    @jwt_required()
     def put(self, plant_id):
-
         plant = Plant.query.filter_by(id=plant_id).first()
         if not plant:
             return {'message': 'Plant not found'}, 404
@@ -38,7 +40,8 @@ class GetPlantsResource(Resource):
 
         return plant_schema.dump(plant), 200
 
-
+    
+    @jwt_required()
     def delete(self, plant_id):
 
         plant = Plant.query.filter_by(id=plant_id).first()
@@ -50,6 +53,7 @@ class GetPlantsResource(Resource):
 
         return {'message': 'Plant deleted'}, 200
     
+    @jwt_required()
     def get(self, plant_id):
         plant = Plant.query.filter_by(id=plant_id).first()
         return plant_schema.dump(plant), 200
