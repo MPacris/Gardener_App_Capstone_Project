@@ -1,5 +1,7 @@
-from flask import request
+import os
+from flask import request, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
+from werkzeug.utils import secure_filename
 from flask_restful import Resource
 from database.models import db, Harvest
 from database.schemas import harvest_schema, harvests_schema
@@ -62,4 +64,23 @@ class GetHarvestResource(Resource):
         db.session.commit()
 
         return {'message': 'Harvest deleted'}, 200
-    
+
+
+
+class HarvestImageUploadResource(Resource):
+    def post(self):
+        if 'harvest_image' not in request.files:
+            return 'no_file', 404   
+        file = request.files['harvest_image']
+        
+        if file.filename == '':
+            return 'filename_empty', 404
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            return 'Success', 201
+        
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}

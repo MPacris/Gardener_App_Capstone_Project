@@ -1,5 +1,7 @@
-from flask import request
+import os
+from flask import request, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
+from werkzeug.utils import secure_filename
 from flask_restful import Resource
 from database.models import db, Plant
 from database.schemas import plant_schema, plants_schema
@@ -57,4 +59,25 @@ class GetPlantResource(Resource):
     def get(self, plant_id):
         plant = Plant.query.filter_by(id=plant_id).first()
         return plant_schema.dump(plant), 200
+    
+
+class PlantImageUploadResource(Resource):
+    def post(self):
+        if 'plant_image' not in request.files:
+            return 'no_file', 404   
+        file = request.files['plant_image']
+        
+        if file.filename == '':
+            return 'filename_empty', 404
+        
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            return 'Success', 201
+        
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+
    
