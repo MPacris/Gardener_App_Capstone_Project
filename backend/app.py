@@ -12,7 +12,7 @@ from resources.gardens import GardensResource, GetGardenResource
 from resources.plants import PlantsResource, GetPlantResource
 from resources.tasks import TasksResource, GetTaskResource
 from resources.harvests import HarvestsResource, GetHarvestResource
-
+from resources.user_gardens import UserGardensResource
 
 
 from dotenv import load_dotenv
@@ -67,6 +67,7 @@ def create_routes():
     api.add_resource(GardensResource, '/api/gardens')
     api.add_resource(GetGardenResource, '/api/gardens/<int:garden_id>')
 
+
     api.add_resource(PlantsResource, '/api/plants')
     api.add_resource(GetPlantResource, '/api/plants/<int:plant_id>')
 
@@ -76,7 +77,9 @@ def create_routes():
     api.add_resource(HarvestsResource, '/api/harvests')
     api.add_resource(GetHarvestResource, '/api/harvests/<int:harvest_id>')
 
+    api.add_resource(UserGardensResource, '/api/user_gardens')
 
+ 
 
 
     return api

@@ -1,7 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
-from database.models import db, User, Garden, UserGarden, Plant, Harvest
+from database.models import db, Garden
 from database.schemas import garden_schema, gardens_schema
 
 

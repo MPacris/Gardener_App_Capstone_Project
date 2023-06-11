@@ -1,8 +1,8 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
-from database.models import db, User, Garden, UserGarden, Plant, Harvest
-from database.schemas import garden_schema, gardens_schema, plant_schema, plants_schema
+from database.models import db, Plant
+from database.schemas import plant_schema, plants_schema
 
 class PlantsResource(Resource):
     
@@ -58,4 +58,3 @@ class GetPlantResource(Resource):
         plant = Plant.query.filter_by(id=plant_id).first()
         return plant_schema.dump(plant), 200
    
-    

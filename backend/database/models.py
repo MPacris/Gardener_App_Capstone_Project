@@ -3,6 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+user_gardens = db.Table('UserGardens',
+    db.Column('id', db.Integer, primary_key=True, autoincrement=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key= True),
+    db.Column('garden_id', db.Integer, db.ForeignKey('garden.id'), primary_key= True))
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), nullable=False, unique=True)
@@ -10,6 +15,8 @@ class User(db.Model):
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
+
+    user_gardens = db.relationship('Garden', secondary=user_gardens, backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
@@ -39,20 +46,13 @@ class Garden(db.Model):
 
 
 
-class UserGarden(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
-    user = db.relationship("User")
-    garden = db.relationship("Garden")
-
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(255), nullable=False)
     image_url = db.Column(db.String(255), nullable=False)
     garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
-    user = db.relationship("Garden")
+    garden = db.relationship("Garden")
 
 
 class Task(db.Model):
@@ -63,6 +63,7 @@ class Task(db.Model):
     task_scheduled = db.Column(db.Date, nullable=False)
     task_completed = db.Column(db.Date)
     user = db.relationship("User")
+    plant= db.relationship("Plant")
 
 class Harvest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,3 +71,4 @@ class Harvest(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255))
     notes = db.Column(db.Text)
+    task = db.relationship("Task")

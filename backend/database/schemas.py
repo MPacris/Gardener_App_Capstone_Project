@@ -78,19 +78,22 @@ garden_schema = GardenSchema()
 gardens_schema = GardenSchema(many=True)
 
 class UserGardenSchema(ma.Schema):
-    id = fields.Integer(primary_key=True)
     user_id = fields.Integer()
     garden_id = fields.Integer()
     user = ma.Nested(UserSchema)
+    garden = ma.Nested(GardenSchema)
     class Meta:
-        fields = ("id", "user_id", "garden_id", "user")
+        fields = ("user_id", "garden_id", "user", "garden")
     
     @post_load
-    def create_usergarden(self, data, **kwargs):
+    def create_garden(self, data, **kwargs):
         return Garden(**data)
 
-usergarden_schema = GardenSchema()
-usergardens_schema = GardenSchema(many=True)
+user_garden_schema = GardenSchema()
+user_gardens_schema = GardenSchema(many=True)
+
+
+
 
 class PlantSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
@@ -101,7 +104,7 @@ class PlantSchema(ma.Schema):
     garden = ma.Nested(GardenSchema)
     
     class Meta:
-        fields = ("id", "type", "location", "image_url", "garden_id")
+        fields = ("id", "type", "location", "image_url", "garden_id", "garden")
     
     @post_load
     def create_plant(self, data, **kwargs):
@@ -118,6 +121,7 @@ class TaskSchema(ma.Schema):
     task_scheduled = fields.Date(required=True)
     task_completed = fields.Date(missing=None)
     user = ma.Nested(UserSchema, many=False)
+    plant = ma.Nested(PlantSchema, many=False)
     
     def validate_task_completed(self, value):
         if value is not None and not isinstance(value, date):
@@ -125,7 +129,7 @@ class TaskSchema(ma.Schema):
 
     
     class Meta:
-        fields = ("id", "plant_id", "user_id", "task_type", "task_scheduled", "task_completed", "user")
+        fields = ("id", "plant_id", "user_id", "task_type", "task_scheduled", "task_completed", "user", "plant")
     
     @post_load
     def create_task(self, data, **kwargs):
@@ -140,9 +144,10 @@ class HarvestSchema(ma.Schema):
     rating = fields.Integer(required=True)
     image_url = fields.String()
     notes = fields.String()
-    user = ma.Nested(UserSchema, many=False)
+    task = ma.Nested(TaskSchema, many=False)
+
     class Meta:
-        fields = ("id", "task_id", "rating", "image_url", "notes")
+        fields = ("id", "task_id", "rating", "image_url", "notes", "task")
     
     @post_load
     def create_harvest(self, data, **kwargs):
