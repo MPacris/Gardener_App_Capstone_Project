@@ -58,8 +58,13 @@ class CarSchema(ma.Schema):
 car_schema = CarSchema()
 cars_schema = CarSchema(many=True)
 
+class GardenUserSchema(ma.Schema):
+    user_id = fields.Integer()
+    user = ma.Nested(UserSchema)
 
-# TODO: Add your schemas below
+    class Meta:
+        fields = ("user_id", "user")
+
 
 class GardenSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
@@ -67,6 +72,8 @@ class GardenSchema(ma.Schema):
     name = fields.String(required=True)
     notes = fields.String()
     user = ma.Nested(UserSchema)
+    # users = ma.Nested(GardenUserSchema, many =True)
+
     class Meta:
         fields = ("id", "user_id", "name", "notes", "user")
     

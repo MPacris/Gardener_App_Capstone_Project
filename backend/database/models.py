@@ -16,7 +16,7 @@ class User(db.Model):
     last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False, unique=True)
 
-    user_gardens = db.relationship('Garden', secondary=user_gardens, backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
+    # user_gardens = db.relationship('Garden', secondary=user_gardens, backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
@@ -43,6 +43,7 @@ class Garden(db.Model):
     name = db.Column(db.String(255), nullable=False)
     notes = db.Column(db.Text)
     user = db.relationship("User")
+    # users = db.relationship("usergardens", backref= "user")
 
 
 

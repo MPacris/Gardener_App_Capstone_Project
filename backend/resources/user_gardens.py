@@ -16,7 +16,7 @@ class UserGardensResource(Resource):
 
     @jwt_required()
     def post(self):
-        user_id = get_jwt_identity()
+        user_id = request.json.get('user_id')
         user = User.query.get(user_id)
 
         garden_id = request.json.get('garden_id')
