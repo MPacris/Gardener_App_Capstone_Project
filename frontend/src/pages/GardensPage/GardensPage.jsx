@@ -27,11 +27,19 @@ const GardensPage = () => {
   return (
     <div className="container">
       <h1>This is the Gardens Page</h1>
-      <ul>
+      <div>
         {gardens.map((garden) => (
           <li key={garden.id}>{garden.name}</li>
         ))}
-      </ul>
+      </div>
+
+      <Link to="/add_garden">
+        <p>Add a New Garden!!</p>
+      </Link>
+
+    
+
+
     </div>
   );
 };
