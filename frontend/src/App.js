@@ -6,7 +6,8 @@ import "./App.css";
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import GardensPage from "./pages/GardensPage/GardensPage"
+import GardensPage from "./pages/GardensPage/GardensPage";
+import GardenDetails from "./pages/GardensPage/GardenDetails";
 
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
@@ -32,8 +33,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/gardens" element={<GardensPage/>} />
-        <Route path="/add_garden" element={<AddGarden/>} />
-        
+        <Route path="/add-garden" element={<AddGarden/>} />
+        <Route path="/garden-details/:garden_id" element={<GardenDetails />} />
+
       </Routes>
       <Footer />
     </div>

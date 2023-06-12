@@ -29,17 +29,15 @@ const GardensPage = () => {
       <h1>This is the Gardens Page</h1>
       <div>
         {gardens.map((garden) => (
-          <li key={garden.id}>{garden.name}</li>
+          <Link to={`/garden-details/${garden.id}`} key={garden.id}>
+            <li>{garden.name}</li>
+          </Link>
         ))}
       </div>
 
-      <Link to="/add_garden">
+      <Link to="/add-garden">
         <p>Add a New Garden!!</p>
       </Link>
-
-    
-
-
     </div>
   );
 };
