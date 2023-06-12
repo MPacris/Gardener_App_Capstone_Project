@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   // The "user" value from this Hook contains the decoded logged in user information (username, first name, id)
@@ -26,17 +26,25 @@ const HomePage = () => {
     };
     fetchCars();
   }, [token]);
+
+
+
   return (
     <div className="container">
       {console.log(user)}
       <h1>Home Page for {user.username}!</h1>
-      {cars &&
-        cars.map((car) => (
-          <p key={car.id}>
-            {car.year} {car.model} {car.make}
-          </p>
-        ))}
+
+
+      <Link to="/gardens">
+        <p>Go To GardensPage</p>
+      </Link>
+
     </div>
+
+
+
+
+
   );
 };
 

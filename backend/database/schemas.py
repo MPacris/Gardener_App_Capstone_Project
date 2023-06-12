@@ -58,12 +58,6 @@ class CarSchema(ma.Schema):
 car_schema = CarSchema()
 cars_schema = CarSchema(many=True)
 
-class GardenUserSchema(ma.Schema):
-    user_id = fields.Integer()
-    user = ma.Nested(UserSchema)
-
-    class Meta:
-        fields = ("user_id", "user")
 
 
 class GardenSchema(ma.Schema):
@@ -72,10 +66,10 @@ class GardenSchema(ma.Schema):
     name = fields.String(required=True)
     notes = fields.String()
     user = ma.Nested(UserSchema)
-    # users = ma.Nested(GardenUserSchema, many =True)
+    users = ma.Nested(UserSchema, many =True)
 
     class Meta:
-        fields = ("id", "user_id", "name", "notes", "user")
+        fields = ("id", "user_id", "name", "notes", "user", "users")
     
     @post_load
     def create_garden(self, data, **kwargs):
