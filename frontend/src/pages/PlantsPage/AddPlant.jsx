@@ -3,17 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { useLocation } from 'react-router-dom';
 
 const defaultValues = {
-  name: '',
-  notes: ''
+  type: '',
+  location:'',
+  image_url:'',
+  garden_id: '',
 };
 
-const AddGarden = () => {
+const AddPlant = () => {
   const [user, token] = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultValues);
-  const [error, setError] = useState('');
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -23,21 +26,10 @@ const AddGarden = () => {
     }));
   };
 
-  async function postNewGarden() {
+  async function postNewPlant() {
     try {
-      let existingGardens = await axios.get('http://localhost:5000/api/gardens', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
 
-      let isDuplicate = existingGardens.data.some((garden) => garden.name === formData.name);
-      if (isDuplicate) {
-        setError('Garden name must be unique.');
-        return;
-      }
-
-      let response = await axios.post('http://localhost:5000/api/gardens', formData, {
+      const response = await axios.post('http://localhost:5000/api/plants', formData, {
         headers: {
           Authorization: 'Bearer ' + token,
         },
@@ -54,36 +46,54 @@ const AddGarden = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    postNewGarden();
+    postNewPlant();
   };
+
 
   return (
     <div className="container">
-      <h1>Add Garden</h1>
-      {error && <p>{error}</p>}
+      <h1>Add Plant</h1>
+
       <form className="form" onSubmit={handleSubmit}>
-        <label element="name">Name:</label>
+        <label element="type">Type:</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={formData.name}
+          id="type"
+          name="type"
+          value={formData.type}
+          onChange={handleInputChange}
+        />
+        <label element="name">Location:</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          value={formData.location}
           onChange={handleInputChange}
         />
 
-        <label element="notes">Notes:</label>
-        <textarea
-          id="notes"
-          name="notes"
-          value={formData.notes}
+        <label element="plant_image">Plant Image:</label>
+        <input
+          id="image_url"
+          name="image_url"
+          value={formData.image_url}
           onChange={handleInputChange}
         />
 
-        <button type="submit">Add Garden</button>
+        <label element="garden_id">Garden ID:</label>
+        <input
+          id="garden_id"
+          name="garden_id"
+          value={formData.garden_id}
+          onChange={handleInputChange}
+        />
+
+
+        <button type="submit">Add plant</button>
       </form>
       <Link to="/gardens">Go to Gardens Page</Link>
     </div>
   );
 };
 
-export default AddGarden;
+export default AddPlant;

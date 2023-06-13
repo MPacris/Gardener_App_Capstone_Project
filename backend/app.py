@@ -38,6 +38,7 @@ def create_app():
     """
     # Creates app instance
     app = Flask(__name__, static_url_path='/static')
+    CORS(app)
 
     # Loads config properties from .env file
     app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('SQLALCHEMY_DATABASE_URI')

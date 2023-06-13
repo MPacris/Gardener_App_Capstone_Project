@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { Link, useNavigate } from "react-router-dom";
 
 const GardenDetails = () => {
   const { garden_id } = useParams();
   const [garden, setGarden] = useState(null);
   const [plants, setPlants] = useState([]);
   const [user, token] = useAuth();
+  const navigate = useNavigate()
 
   const fetchGardenDetails = async () => {
     try {
@@ -51,11 +53,16 @@ const GardenDetails = () => {
       <h2>{garden.name}</h2>
       <p>{garden.notes}</p>
       <h3>Plants:</h3>
-      <ul>
+      <div>
         {filteredPlants.map((plant) => (
           <li key={plant.id}>{plant.type} {plant.location} {plant.image_url} </li>
         ))}
-      </ul>
+      </div>
+      <Link to="/add-plant">
+        <p>Add a New Plant!!</p>
+      </Link>
+
+
     </div>
   );
 };

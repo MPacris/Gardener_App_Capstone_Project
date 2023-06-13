@@ -17,8 +17,10 @@ class PlantsResource(Resource):
     def post(self):
         user_id = get_jwt_identity()
         form_data = request.get_json()
+        garden_id = int(form_data.get('garden_id', 0))
         new_plant = plant_schema.load(form_data)
         new_plant.user_id = user_id
+        new_plant.garden_id = garden_id
         db.session.add(new_plant)
         db.session.commit()
         return plant_schema.dump(new_plant), 201

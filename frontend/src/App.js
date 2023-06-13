@@ -16,6 +16,7 @@ import Footer from "./components/Footer/Footer";
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
 import AddGarden from "./pages/GardensPage/AddGarden";
+import AddPlant from "./pages/PlantsPage/AddPlant";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/gardens" element={<GardensPage/>} />
         <Route path="/add-garden" element={<AddGarden/>} />
         <Route path="/garden-details/:garden_id" element={<GardenDetails />} />
+        <Route path= "/add-plant" element={<AddPlant/>}/>
 
       </Routes>
       <Footer />
