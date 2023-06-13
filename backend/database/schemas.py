@@ -120,10 +120,11 @@ class TaskSchema(ma.Schema):
     plant_id = fields.Integer(required=True)
     task_type = fields.String(required=True)
     task_scheduled = fields.Date(required=True)
-    task_completed = fields.Date(missing=None)
+    task_completed = fields.Date()
     user = ma.Nested(UserSchema, many=False)
     plant = ma.Nested(PlantSchema, many=False)
     
+    @validates('task_completed')
     def validate_task_completed(self, value):
         if value is not None and not isinstance(value, date):
             raise ValidationError('Invalid date format for task_completed field.')

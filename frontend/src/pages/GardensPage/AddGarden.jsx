@@ -10,7 +10,7 @@ const defaultValues = {
 };
 
 const AddGarden = () => {
-  const [token] = useAuth();
+  const [user, token] = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultValues);
   const [error, setError] = useState('');

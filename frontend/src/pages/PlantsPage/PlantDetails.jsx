@@ -8,7 +8,7 @@ const PlantDetails = () => {
   const { plant_id } = useParams();
   const [plant, setPlant] = useState(null);
   const [user, token] = useAuth();
-  const navigate = useNavigate();
+
 
   const fetchPlantDetails = async () => {
     try {

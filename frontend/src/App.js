@@ -10,6 +10,8 @@ import GardensPage from "./pages/GardensPage/GardensPage";
 import GardenDetails from "./pages/GardensPage/GardenDetails";
 import PlantsPage from "./pages/PlantsPage/PlantsPage";
 import PlantDetails from "./pages/PlantsPage/PlantDetails"
+import TaskDetails from "./pages/TasksPage/TaskDetails";
+import TasksPage from "./pages/TasksPage/TasksPage";
 
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
@@ -19,6 +21,8 @@ import Footer from "./components/Footer/Footer";
 import PrivateRoute from "./utils/PrivateRoute";
 import AddGarden from "./pages/GardensPage/AddGarden";
 import AddPlant from "./pages/PlantsPage/AddPlant";
+import CreateTask from "./pages/TasksPage/CreateTask";
+
 
 
 function App() {
@@ -41,7 +45,12 @@ function App() {
         <Route path="/garden-details/:garden_id" element={<GardenDetails />} />
         <Route path="/add-plant" element={<AddPlant/>}/>
         <Route path="/plant-details/:plant_id" element={<PlantDetails />} />
-        <Route path="/plants" element={<PlantsPage />} />  
+        <Route path="/plants" element={<PlantsPage />} /> 
+        <Route path="/tasks" element={<TasksPage/>} />
+        <Route path="/task-details/:task_id" element={<TaskDetails/>} />
+        <Route path="/create-task" element={<CreateTask/>} />
+
+
       </Routes>
       <Footer />
     </div>

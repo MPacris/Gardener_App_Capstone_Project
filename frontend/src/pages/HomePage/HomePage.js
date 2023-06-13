@@ -44,6 +44,12 @@ const HomePage = () => {
         <p>Go To PlantsPage</p>
       </Link>
 
+      <Link to="/create-task">
+        <p>Go To CreateTask</p>
+      </Link>
+
+
+
     </div>
 
 
