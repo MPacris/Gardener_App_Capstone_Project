@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import GardensPage from "./pages/GardensPage/GardensPage";
 import GardenDetails from "./pages/GardensPage/GardenDetails";
+import PlantsPage from "./pages/PlantsPage/PlantsPage";
 import PlantDetails from "./pages/PlantsPage/PlantDetails"
 
 // Component Imports
@@ -40,7 +41,7 @@ function App() {
         <Route path="/garden-details/:garden_id" element={<GardenDetails />} />
         <Route path="/add-plant" element={<AddPlant/>}/>
         <Route path="/plant-details/:plant_id" element={<PlantDetails />} />
-
+        <Route path="/plants" element={<PlantsPage />} />  
       </Routes>
       <Footer />
     </div>
