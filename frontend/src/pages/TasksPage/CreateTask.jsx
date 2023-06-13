@@ -59,7 +59,7 @@ async function postNewTask() {
 
         <label element="plant_id">Plant ID:</label>
         <input
-          type="text"
+          type="number"
           id="plant_id"
           name="plant_id"
           value={formData.plant_id}
@@ -96,7 +96,7 @@ async function postNewTask() {
         
         <label element="user_id">User ID:</label>
         <input
-          type="text"
+          type="number"
           id="user_id"
           name="user_id"
           value={formData.user_id}

@@ -68,7 +68,6 @@ const TaskDetails = () => {
       <h2>User ID: {task.user_id}</h2>
       <h2>Plant ID: {task.plant_id}</h2>
 
-  
     </div>
   );
 };

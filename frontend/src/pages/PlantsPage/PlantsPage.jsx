@@ -33,7 +33,7 @@ const PlantsPage = () => {
             <li>
               <h3>Type: {plant.type}</h3>
               <p>Location: {plant.location}</p>
-              <img src={plant.image_url} alt={plant.type} />
+              <p>Image: {plant.image_url} </p>
               <p>Garden ID: {plant.garden_id}</p>
             </li>
           </Link>

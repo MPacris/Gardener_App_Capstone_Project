@@ -37,7 +37,7 @@ const AddPlant = () => {
 
       setFormData(defaultValues);
 
-      navigate('/gardens');
+      navigate('/plants');
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
@@ -74,7 +74,7 @@ const AddPlant = () => {
 
         <label element="plant_image">Plant Image:</label>
         <input
-          type='text'
+          type="text"
           id="image_url"
           name="image_url"
           value={formData.image_url}
@@ -83,7 +83,7 @@ const AddPlant = () => {
 
         <label element="garden_id">Garden ID:</label>
         <input
-          type='text'
+          type="number"
           id="garden_id"
           name="garden_id"
           value={formData.garden_id}
