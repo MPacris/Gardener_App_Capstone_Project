@@ -9,7 +9,7 @@ const GardenDetails = () => {
   const [garden, setGarden] = useState(null);
   const [plants, setPlants] = useState([]);
   const [user, token] = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const fetchGardenDetails = async () => {
     try {
@@ -45,26 +45,33 @@ const GardenDetails = () => {
     return <p>Garden not found</p>;
   }
 
-  // Filter plants based on garden_id
-  const filteredPlants = plants.filter((plant) => plant.garden_id === parseInt(garden_id));
+  const filteredPlants = plants.filter(
+    (plant) => plant.garden_id === parseInt(garden_id)
+  );
 
   return (
     <div>
       <h2>{garden.name}</h2>
       <p>{garden.notes}</p>
+      <h3>Users:</h3>
+      <div>
+        {garden.users.map((user) => (
+          <li key={user.id}>{user.username}</li>
+        ))}
+      </div>
       <h3>Plants:</h3>
       <div>
-      {filteredPlants.map((plant) => (
+        {filteredPlants.map((plant) => (
           <Link to={`/plant-details/${plant.id}`} key={plant.id}>
-            <li>{plant.type} {plant.location} {plant.image_url}</li>
+            <li>
+              {plant.type} {plant.location} {plant.image_url}
+            </li>
           </Link>
         ))}
       </div>
       <Link to="/add-plant">
         <p>Add a New Plant!!</p>
       </Link>
-
-
     </div>
   );
 };
