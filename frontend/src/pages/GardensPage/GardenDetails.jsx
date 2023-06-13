@@ -54,8 +54,10 @@ const GardenDetails = () => {
       <p>{garden.notes}</p>
       <h3>Plants:</h3>
       <div>
-        {filteredPlants.map((plant) => (
-          <li key={plant.id}>{plant.type} {plant.location} {plant.image_url} </li>
+      {filteredPlants.map((plant) => (
+          <Link to={`/plant-details/${plant.id}`} key={plant.id}>
+            <li>{plant.type} {plant.location} {plant.image_url}</li>
+          </Link>
         ))}
       </div>
       <Link to="/add-plant">
