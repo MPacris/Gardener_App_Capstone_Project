@@ -1,82 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 
+const defaultValues = {
+  rating: "",
+  image_url: "",
+  notes: "",
+  task_id: "",
+}
+
+
 const CreateHarvest = () => {
   const [user, token] = useAuth();
-  const [harvestData, setHarvestData] = useState({
-    rating: "",
-    image_url: "",
-    notes: "",
-    task_id: "",
-  });
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState(defaultValues);
+  const location = useLocation();
 
-  const handleInputChange = (e) => {
-    setHarvestData({
-      ...harvestData,
-      [e.target.name]: e.target.value,
-    });
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const taskIdFromQuery = searchParams.get("task_id");
+    setFormData((prevData) => ({
+      ...prevData,
+      task_id: taskIdFromQuery,
+    }));
+  }, [location.search]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  async function postNewHarvest() {
     try {
-      await axios.post("http://localhost:5000/api/harvests", harvestData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/harvests",
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      setFormData(defaultValues);
+      navigate("/harvests");
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
     }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    postNewHarvest();
   };
+
 
   return (
     <div className="container">
       <h1>Create Harvest</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Rating:</label>
-          <input
-            type="number"
-            name="rating"
-            value={harvestData.rating}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Image URL:</label>
-          <input
-            type="text"
-            name="image_url"
-            value={harvestData.image_url}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Notes:</label>
-          <textarea
-            name="notes"
-            value={harvestData.notes}
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
-        <div>
-          <label>Task ID:</label>
-          <input
-            type="number"
-            name="task_id"
-            value={harvestData.task_id}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+      <form className="form" onSubmit={handleSubmit}>
+        <label element="rating">Rating:</label>
+        <input
+          type="number"
+          id="rating"
+          name="rating"
+          value={formData.rating}
+          onChange={handleInputChange}
+        />
+
+        <label element="image_url">Harvest Image:</label>
+        <input
+          type="text"
+          id="image_url"
+          name="image_url"
+          value={formData.image_url}
+          onChange={handleInputChange}
+        />
+        <label element="notes">Notes:</label>
+        <input
+          type="text"
+          id="notes"
+          name="notes"
+          value={formData.notes}
+          onChange={handleInputChange}
+        />
+
+        <label element="task_id">Task ID:</label>
+        <input
+          type="number"
+          id="task_id"
+          name="task_id"
+          value={formData.task_id}
+          onChange={handleInputChange}
+        />
         <button type="submit">Create Harvest</button>
-        <Link to="/harvests">Back to Harvests Page</Link>
+        
+
       </form>
     </div>
   );

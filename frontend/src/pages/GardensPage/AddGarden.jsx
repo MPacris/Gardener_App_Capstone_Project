@@ -73,6 +73,7 @@ const AddGarden = () => {
 
         <label element="notes">Notes:</label>
         <textarea
+          type="text"
           id="notes"
           name="notes"
           value={formData.notes}

@@ -68,6 +68,10 @@ const TaskDetails = () => {
       <h2>User ID: {task.user_id}</h2>
       <h2>Plant ID: {task.plant_id}</h2>
 
+      {task.task_type === "harvest" && (
+        <Link to={`/create-harvest?task_id=${task_id}`}>Create Harvest</Link>
+      )}
+
     </div>
   );
 };

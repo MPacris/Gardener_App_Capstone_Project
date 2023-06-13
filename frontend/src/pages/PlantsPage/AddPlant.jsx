@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import useAuth from '../../hooks/useAuth';
-
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const defaultValues = {
-  type: '',
-  location:'',
-  image_url:'',
-  garden_id: '',
+  type: "",
+  location: "",
+  image_url: "",
+  garden_id: "",
 };
 
 const AddPlant = () => {
   const [user, token] = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(defaultValues);
+  const location = useLocation();
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const gardenIdFromQuery = searchParams.get("garden_id");
+    setFormData((prevData) => ({
+      ...prevData,
+      garden_id: gardenIdFromQuery,
+    }));
+  }, [location.search]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,16 +36,18 @@ const AddPlant = () => {
 
   async function postNewPlant() {
     try {
-
-      const response = await axios.post('http://localhost:5000/api/plants', formData, {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/plants",
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       setFormData(defaultValues);
-
-      navigate('/plants');
+      navigate("/plants");
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
@@ -48,7 +58,6 @@ const AddPlant = () => {
     event.preventDefault();
     postNewPlant();
   };
-
 
   return (
     <div className="container">
@@ -63,7 +72,7 @@ const AddPlant = () => {
           value={formData.type}
           onChange={handleInputChange}
         />
-        <label element="name">Location:</label>
+        <label element="location">Location:</label>
         <input
           type="text"
           id="location"
@@ -72,7 +81,7 @@ const AddPlant = () => {
           onChange={handleInputChange}
         />
 
-        <label element="plant_image">Plant Image:</label>
+        <label element="image_url">Plant Image:</label>
         <input
           type="text"
           id="image_url"
@@ -89,7 +98,6 @@ const AddPlant = () => {
           value={formData.garden_id}
           onChange={handleInputChange}
         />
-
 
         <button type="submit">Add plant</button>
       </form>

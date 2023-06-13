@@ -69,7 +69,7 @@ const GardenDetails = () => {
           </Link>
         ))}
       </div>
-      <Link to="/add-plant">
+      <Link to={`/add-plant?garden_id=${garden_id}`}>
         <p>Add a New Plant!!</p>
       </Link>
     </div>

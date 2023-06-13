@@ -40,8 +40,8 @@ const PlantDetails = () => {
       <h2>{plant.image_url}</h2>
       <h2>{plant.garden_id}</h2>
 
-      <Link to="/add-plant">
-        <p>Add a New Plant!!</p>
+      <Link to={`/create-task?plant_id=${plant_id}`}>
+        <p>Create Task</p>
       </Link>
     </div>
   );
