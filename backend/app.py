@@ -77,7 +77,7 @@ def create_routes():
 
     api.add_resource(PlantsResource, '/api/plants')
     api.add_resource(GetPlantResource, '/api/plants/<int:plant_id>')
-    api.add_resource(PlantImageUploadResource, '/api/plantImage')
+    api.add_resource(PlantImageUploadResource, '/api/plantImage/<int:plant_id>')
 
     api.add_resource(TasksResource, '/api/tasks')
     api.add_resource(GetTaskResource, '/api/tasks/<int:task_id>')

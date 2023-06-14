@@ -62,9 +62,8 @@ const HarvestDetails = () => {
       <h2>Image URL: {harvest.image_url}</h2>
       <h2>Notes: {harvest.notes}</h2>
       <h3>Task Information:</h3>
-      <h2>Task Type: {task.task_type}</h2>
-      <h2>Start Date: {task.task_scheduled}</h2>
-      <h2>End Date: {task.task_completed}</h2>
+      <h2>Task Scheduled: {task.task_scheduled}</h2>
+      <h2>Task Comlpeted: {task.task_completed}</h2>
       <h2>Assigned User: {task.user_id}</h2>
     </div>
   );

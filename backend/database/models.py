@@ -51,7 +51,7 @@ class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(255), nullable=False)
     location = db.Column(db.String(255), nullable=False)
-    image_url = db.Column(db.String(255), nullable=False)
+    image_url = db.Column(db.String(255))
     garden_id = db.Column(db.Integer, db.ForeignKey('garden.id'))
     garden = db.relationship("Garden")
 

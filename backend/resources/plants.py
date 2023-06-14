@@ -64,15 +64,20 @@ class GetPlantResource(Resource):
     
 
 class PlantImageUploadResource(Resource):
-    def post(self):
-        if 'plant_image' not in request.files:
+    
+    def post(self,plant_id):
+        if 'image_url' not in request.files:
             return 'no_file', 404   
-        file = request.files['plant_image']
+        file = request.files['image_url']
         
         if file.filename == '':
             return 'filename_empty', 404
         
         if file and allowed_file(file.filename):
+            plant = Plant.query.get_or_404(plant_id)
+            plant.image_url = file.filename
+            db.session.commit()
+
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             return 'Success', 201
@@ -81,5 +86,3 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-
-   

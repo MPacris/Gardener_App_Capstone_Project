@@ -100,7 +100,7 @@ class PlantSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
     type = fields.String(required=True)
     location = fields.String(required=True)
-    image_url = fields.String(required=True)
+    image_url = fields.String()
     garden_id = fields.Integer()
     garden = ma.Nested(GardenSchema)
     

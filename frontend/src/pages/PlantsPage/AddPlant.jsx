@@ -7,7 +7,6 @@ import useAuth from "../../hooks/useAuth";
 const defaultValues = {
   type: "",
   location: "",
-  image_url: "",
   garden_id: "",
 };
 
@@ -34,9 +33,26 @@ const AddPlant = () => {
     }));
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      image: file,
+    }));
+  };
+
+
   async function postNewPlant() {
     try {
+
+      const form = new FormData();
+      form.append("type", formData.type);
+      form.append("location", formData.location);
+
+      form.append("garden_id", formData.garden_id);
+
       const response = await axios.post(
+
         "http://localhost:5000/api/plants",
         formData,
         {
@@ -81,14 +97,7 @@ const AddPlant = () => {
           onChange={handleInputChange}
         />
 
-        <label element="image_url">Plant Image:</label>
-        <input
-          type="text"
-          id="image_url"
-          name="image_url"
-          value={formData.image_url}
-          onChange={handleInputChange}
-        />
+
 
         <label element="garden_id">Garden ID:</label>
         <input

@@ -10,15 +10,12 @@ const PlantDetails = () => {
   const [user, token] = useAuth();
   const [editType, setEditType] = useState(false);
   const [editLocation, setEditLocation] = useState(false);
-  const [editImageUrl, setEditImageUrl] = useState(false);
-  const [editGardenId, setEditGardenId] = useState(false);
   const [newType, setNewType] = useState("");
   const [newLocation, setNewLocation] = useState("");
-  const [newImageUrl, setNewImageUrl] = useState("");
-  const [newGardenId, setNewGardenId] = useState("");
+  const [imageFile, setImageFile] = useState(null);
 
   const navigate = useNavigate();
-
+  console.log(plant);
   const fetchPlantDetails = async () => {
     try {
       const response = await axios.get(
@@ -30,7 +27,9 @@ const PlantDetails = () => {
         }
       );
       setPlant(response.data);
-    } catch (error) {}
+    } catch (error) {
+      // Handle error
+    }
   };
 
   useEffect(() => {
@@ -42,34 +41,48 @@ const PlantDetails = () => {
       const data = {
         type: field === "type" ? newType : plant.type,
         location: field === "location" ? newLocation : plant.location,
-        image_url: field === "image_url" ? newImageUrl : plant.image_url,
-        garden_id: field === "garden_id" ? newGardenId : plant.garden_id,
       };
 
-      await axios.put(
-        `http://localhost:5000/api/plants/${plant_id}`,
-        data,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      await axios.put(`http://localhost:5000/api/plants/${plant_id}`, data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
 
       setPlant((prevPlant) => ({
         ...prevPlant,
         type: data.type,
         location: data.location,
-        image_url: data.image_url,
-        garden_id: data.garden_id,
       }));
 
       setEditType(false);
       setEditLocation(false);
-      setEditImageUrl(false);
-      setEditGardenId(false);
     } catch (error) {
       // Handle error
+    }
+  };
+
+  const handleImageUpload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("image_url", imageFile);
+
+      const response = await axios.post(
+        `http://localhost:5000/api/plantImage/${plant_id}`,
+        formData
+      );
+
+      const { fileName } = response.data;
+
+      setPlant((prevPlant) => ({
+        ...prevPlant,
+        image_url: fileName,
+      }));
+
+      console.log("Image uploaded successfully");
+    } catch (error) {
+      // Handle error
+      console.log("Image upload failed", error);
     }
   };
 
@@ -89,8 +102,7 @@ const PlantDetails = () => {
           />
         ) : (
           <>
-            {plant.type}{" "}
-            <button onClick={() => setEditType(true)}>Edit</button>
+            {plant.type} <button onClick={() => setEditType(true)}>Edit</button>
           </>
         )}
         {editType && <button onClick={() => handleSave("type")}>Save</button>}
@@ -112,44 +124,22 @@ const PlantDetails = () => {
           <button onClick={() => handleSave("location")}>Save</button>
         )}
       </h2>
-      <h2>
-        {editImageUrl ? (
-          <input
-            type="text"
-            value={newImageUrl}
-            onChange={(e) => setNewImageUrl(e.target.value)}
-          />
-        ) : (
-          <>
-            {plant.image_url}{" "}
-            <button onClick={() => setEditImageUrl(true)}>Edit</button>
-          </>
-        )}
-        {editImageUrl && (
-          <button onClick={() => handleSave("image_url")}>Save</button>
-        )}
-      </h2>
-      <h2>
-        {editGardenId ? (
-          <input
-            type="text"
-            value={newGardenId}
-            onChange={(e) => setNewGardenId(e.target.value)}
-          />
-        ) : (
-          <>
-            {plant.garden_id}{" "}
-            <button onClick={() => setEditGardenId(true)}>Edit</button>
-          </>
-        )}
-        {editGardenId && (
-          <button onClick={() => handleSave("garden_id")}>Save</button>
-        )}
-      </h2>
 
-      <Link to={`/create-task?plant_id=${plant_id}`}>
-        <p>Create Task</p>
+      <input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+      <button onClick={handleImageUpload}>Upload Image</button>
+
+      <img
+        src={`http://127.0.0.1:5000/static/images/${plant.image_url}`}
+        alt="Plant"
+      />
+
+      <p>
+        <Link to="/plants">Back to Plants</Link>
+
+        <Link to={`/create-task?plant_id=${plant_id}`}>
+        <p>Create task!!</p>
       </Link>
+      </p>
     </div>
   );
 };
