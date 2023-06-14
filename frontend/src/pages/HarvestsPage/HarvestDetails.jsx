@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
 const HarvestDetails = () => {
   const { harvest_id } = useParams();
   const [harvest, setHarvest] = useState(null);
+  const [task, setTask] = useState(null);
   const [user, token] = useAuth();
-  const [editedHarvest, setEditedHarvest] = useState(null);
+  const [error, setError] = useState(null);
 
   const fetchHarvestDetails = async () => {
     try {
-      const response = await axios.get(
+      const harvestResponse = await axios.get(
         `http://localhost:5000/api/harvests/${harvest_id}`,
         {
           headers: {
@@ -19,34 +20,24 @@ const HarvestDetails = () => {
           },
         }
       );
-      setHarvest(response.data);
-      setEditedHarvest(response.data);
-    } catch (error) {
-      // Handle error
-    }
-  };
 
-  const handleInputChange = (e) => {
-    setEditedHarvest({
-      ...editedHarvest,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const saveHarvestChanges = async () => {
-    try {
-      await axios.put(
-        `http://localhost:5000/api/harvests/${harvest_id}`,
-        editedHarvest,
+      const taskResponse = await axios.get(
+        `http://localhost:5000/api/tasks/${harvestResponse.data.task_id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
           },
         }
       );
-      setHarvest(editedHarvest);
+
+      setHarvest(harvestResponse.data);
+      setTask(taskResponse.data);
     } catch (error) {
-      // Handle error
+      if (error.response && error.response.status === 404) {
+        setError("Harvest not found");
+      } else {
+        setError("Error fetching harvest details");
+      }
     }
   };
 
@@ -54,8 +45,12 @@ const HarvestDetails = () => {
     fetchHarvestDetails();
   }, [harvest_id, token]);
 
-  if (!harvest) {
-    return <p>Harvest not found</p>;
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (!harvest || !task) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -66,40 +61,11 @@ const HarvestDetails = () => {
       <h2>Rating: {harvest.rating}</h2>
       <h2>Image URL: {harvest.image_url}</h2>
       <h2>Notes: {harvest.notes}</h2>
-      
-      {user.id === harvest.user_id && (
-        <div>
-          <h3>Edit Harvest:</h3>
-          <input
-            type="text"
-            name="rating"
-            placeholder="Rating"
-            value={editedHarvest.rating}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="image_url"
-            placeholder="Image URL"
-            value={editedHarvest.image_url}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="notes"
-            placeholder="Notes"
-            value={editedHarvest.notes}
-            onChange={handleInputChange}
-          />
-          <button onClick={saveHarvestChanges}>Save Changes</button>
-        </div>
-      )}
-
-<       Link to="/create-harvest">
-        <p>Add a New Harvest!!</p>
-        </Link>
-
-
+      <h3>Task Information:</h3>
+      <h2>Task Type: {task.task_type}</h2>
+      <h2>Start Date: {task.task_scheduled}</h2>
+      <h2>End Date: {task.task_completed}</h2>
+      <h2>Assigned User: {task.user_id}</h2>
     </div>
   );
 };

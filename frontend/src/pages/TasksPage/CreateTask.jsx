@@ -11,6 +11,15 @@ const defaultValues = {
   user_id: "",
 };
 
+const taskTypeOptions = [
+  "add fertilizer",
+  "till soil",
+  "plant seed",
+  "water",
+  "harvest",
+  "final harvest",
+];
+
 const CreateTask = () => {
   const [user, token] = useAuth();
   const navigate = useNavigate();
@@ -68,7 +77,7 @@ const CreateTask = () => {
       <h1>Create Task</h1>
 
       <form className="form" onSubmit={handleSubmit}>
-        <label element="plant_id">Plant ID:</label>
+        <label htmlFor="plant_id">Plant ID:</label>
         <input
           type="number"
           id="plant_id"
@@ -77,16 +86,22 @@ const CreateTask = () => {
           onChange={handleInputChange}
         />
 
-        <label element="task_type">Task Type:</label>
-        <input
-          type="text"
+        <label htmlFor="task_type">Task Type:</label>
+        <select
           id="task_type"
           name="task_type"
           value={formData.task_type}
           onChange={handleInputChange}
-        />
+        >
+          <option value="">Select a task type</option>
+          {taskTypeOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
 
-        <label element="task_scheduled">Task Scheduled:</label>
+        <label htmlFor="task_scheduled">Task Scheduled:</label>
         <input
           type="datetime"
           id="task_scheduled"
@@ -95,8 +110,7 @@ const CreateTask = () => {
           onChange={handleInputChange}
         />
 
-
-        <label element="user_id">User ID:</label>
+        <label htmlFor="user_id">User ID:</label>
         <input
           type="number"
           id="user_id"

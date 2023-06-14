@@ -43,7 +43,7 @@ class GetHarvestResource(Resource):
     def put(self, harvest_id):
         harvest = Harvest.query.filter_by(id=harvest_id).first()
         if not harvest:
-            return {'message': 'Garden not found'}, 404
+            return {'message': 'Harvest not found'}, 404
 
         update_data = request.get_json()
         updated_harvest = harvest_schema.load(update_data, partial=True)

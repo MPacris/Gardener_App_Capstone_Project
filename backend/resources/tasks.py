@@ -44,7 +44,7 @@ class GetTaskResource(Resource):
         user_id = get_jwt_identity()
         task = Task.query.filter_by(id=task_id, user_id=user_id).first()
         if not task:
-            return {'message': 'Garden not found'}, 404
+            return {'message': 'Task not found'}, 404
 
         update_data = request.get_json()
         task.task_completed = update_data.get("task_completed", task.task_completed)
