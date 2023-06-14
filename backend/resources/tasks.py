@@ -47,12 +47,8 @@ class GetTaskResource(Resource):
             return {'message': 'Garden not found'}, 404
 
         update_data = request.get_json()
-        updated_task = task_schema.load(update_data, partial=True)
-        task.user_id = updated_task.user_id
-        task.plant_id = updated_task.plant_id
-        task.task_type = updated_task.task_type
-        task.task_scheduled = updated_task.task_scheduled
-        task.task_completed = updated_task.task_completed
+        task.task_completed = update_data.get("task_completed", task.task_completed)
+        task.user_id = update_data.get("user_id", task.user_id)
         db.session.commit()
 
         return task_schema.dump(task), 200

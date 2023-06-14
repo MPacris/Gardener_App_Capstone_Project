@@ -8,7 +8,6 @@ const defaultValues = {
   plant_id: "",
   task_type: "",
   task_scheduled: "",
-  task_completed: "",
   user_id: "",
 };
 
@@ -96,14 +95,6 @@ const CreateTask = () => {
           onChange={handleInputChange}
         />
 
-        <label element="task_completed">Task Completed:</label>
-        <input
-          type="datetime"
-          id="task_completed"
-          name="task_completed"
-          value={formData.task_completed}
-          onChange={handleInputChange}
-        />
 
         <label element="user_id">User ID:</label>
         <input
