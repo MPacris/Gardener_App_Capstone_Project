@@ -1,0 +1,84 @@
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
+import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
+import UploadImage from "../../utils/UploadImage/UploadImage";
+import "./PlantDetails.css"
+
+const PlantDetails = () => {
+  const { plant_id } = useParams();
+  const [plant, setPlant] = useState(null);
+  const [user, token] = useAuth();
+
+  const fetchPlantDetails = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/plants/${plant_id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      setPlant(response.data);
+    } catch (error) {
+      // Handle error
+    }
+  };
+
+  useEffect(() => {
+    fetchPlantDetails();
+  }, [plant_id, token]);
+
+  const handleSave = (data) => {
+    setPlant((prevPlant) => ({
+      ...prevPlant,
+      type: data.type,
+      location: data.location,
+    }));
+  };
+
+  const handleImageUpload = () => {
+    fetchPlantDetails();
+  };
+
+  if (!plant) {
+    return <p>Plant not found</p>;
+  }
+
+  return (
+    <div>
+      <h3>Plant Information:</h3>
+      {plant && (
+        <>
+          <div>PLANT ID: {plant_id}</div>
+
+          <EditPlantDetails
+            plant={plant}
+            token={token}
+            handleSave={handleSave}
+          />
+
+          <UploadImage
+            plant={plant}
+            token={token}
+            handleImageUpload={handleImageUpload}
+          />
+
+          <div className="image-container">
+            <img
+              className="plant-image"
+              src={`http://127.0.0.1:5000/static/images/${plant.image_url}`}
+              alt="Plant"
+            />
+          </div>
+        </>
+      )}
+
+      <p>
+        <Link to="/plants">Back to Plants</Link>
+        <Link to={`/create-task?plant_id=${plant_id}`}>Create task</Link>
+      </p>
+    </div>
+  );
+};
+
+export default PlantDetails;
