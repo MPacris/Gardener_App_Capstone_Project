@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
 import "./PlantDetails.css";
+import PlantHistory from "../../utils/PlantHistory/PlantHistory";
 
 const PlantDetails = () => {
   const { plant_id } = useParams();
@@ -66,11 +67,13 @@ const PlantDetails = () => {
             handleImageUpload={handleImageUpload}
           />
 
+          <PlantHistory plantId={plant_id} token={token} />
+
           <div className="image-container">
             <img
               className="plant-image"
               src={`http://127.0.0.1:5000/static/images/${plant.image_url}`}
-              alt="Plant"
+           
             />
           </div>
         </>
