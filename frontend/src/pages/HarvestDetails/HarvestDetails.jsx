@@ -97,7 +97,6 @@ const HarvestDetails = () => {
         <img
           className="harvest-image"
           src={`http://127.0.0.1:5000/static/images/${harvest.image_url}`}
-          alt="Plant"
         />
       </div>
     </div>

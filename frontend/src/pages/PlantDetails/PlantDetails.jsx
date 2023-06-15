@@ -6,6 +6,7 @@ import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
 import "./PlantDetails.css";
 import PlantHistory from "../../utils/PlantHistory/PlantHistory";
+import HarvestTracker from "../../utils/HarvestTracker/HarvestTracker";
 
 const PlantDetails = () => {
   const { plant_id } = useParams();
@@ -52,7 +53,7 @@ const PlantDetails = () => {
     <div>
       <h3>Plant Information:</h3>
       {plant && (
-        <>
+        <div>
           <div>PLANT ID: {plant_id}</div>
 
           <EditPlantDetails
@@ -73,10 +74,12 @@ const PlantDetails = () => {
             <img
               className="plant-image"
               src={`http://127.0.0.1:5000/static/images/${plant.image_url}`}
-           
-            />
+              />
           </div>
-        </>
+
+          <HarvestTracker plantId={plant_id} token={token} />
+
+        </div>
       )}
 
       <div>
