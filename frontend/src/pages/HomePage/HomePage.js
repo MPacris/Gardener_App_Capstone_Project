@@ -56,7 +56,11 @@ const HomePage = () => {
         <p>Go to User Gardens</p>
       </Link>
 
+      <Link to="/weather-page">
+        <p>Go to WeatherPage</p>
+      </Link>
 
+      
 
 
     </div>

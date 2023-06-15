@@ -15,6 +15,7 @@ import TasksPage from "./pages/TasksPage/TasksPage";
 import HarvestsPage from "./pages/HarvestsPage/HarvestsPage";
 import HarvestDetails from "./pages/HarvestDetails/HarvestDetails";
 import UserGardens from "./pages/UserGardens/UserGardens";
+import WeatherPage from "./pages/WeatherPage/WeatherPage";
 
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
@@ -60,6 +61,7 @@ function App() {
         <Route path="/create-harvest" element={<CreateHarvest/>}/>
         <Route path="/add-user-garden" element={<AddUserGarden/>}/>
         <Route path="/user-gardens" element={<UserGardens/>}/>
+        <Route path="/weather-page" element={<WeatherPage/>}/>
 
 
 
