@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const PlantHistory = ({ plantId, token }) => {
+const PlantHistory = ({ plant, token }) => {
   const [plantTasks, setPlantTasks] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
 
   const fetchPlantTasks = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/tasks?plant_id=${plantId}`,
+        `http://localhost:5000/api/tasks?plant_id=${plant.id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -24,12 +24,12 @@ const PlantHistory = ({ plantId, token }) => {
   useEffect(() => {
     fetchPlantTasks();
     calculateAverageRating();
-  }, [plantId, token]);
+  }, [plant, token]);
 
   const calculateAverageRating = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/harvests?plant_id=${plantId}`,
+        `http://localhost:5000/api/harvests?plant_id=${plant.id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -54,12 +54,15 @@ const PlantHistory = ({ plantId, token }) => {
   return (
     <div>
       <h3>Plant History:</h3>
-      {plantTasks.map((task) => (
-        <div key={task.id}>
-          <p>Task Type: {task.task_type}</p>
-          <p>Task Completed: {task.task_completed}</p>
-        </div>
-      ))}
+      {plantTasks
+        .filter((task) => task.plant.id === plant.id)
+        .map((task) => (
+          <div key={task.id}>
+            <p>Task ID: {task.id}</p>
+            <p>Task Type: {task.task_type}</p>
+            <p>Task Completed: {task.task_completed}</p>
+          </div>
+        ))}
       <p>Average Rating: {averageRating}</p>
     </div>
   );

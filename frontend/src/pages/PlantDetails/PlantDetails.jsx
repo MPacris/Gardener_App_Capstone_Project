@@ -68,7 +68,7 @@ const PlantDetails = () => {
             handleImageUpload={handleImageUpload}
           />
 
-          <PlantHistory plantId={plant_id} token={token} />
+          <PlantHistory plant={plant} token={token} />
 
           <div className="image-container">
             <img
@@ -77,7 +77,7 @@ const PlantDetails = () => {
               />
           </div>
 
-          <HarvestTracker plantId={plant_id} token={token} />
+          <HarvestTracker plantId={plant} token={token} />
 
         </div>
       )}

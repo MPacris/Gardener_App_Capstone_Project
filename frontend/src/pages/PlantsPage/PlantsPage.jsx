@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const PlantsPage = () => {
-  const [user,token] = useAuth();
+  const [user, token] = useAuth();
   const [plants, setPlants] = useState([]);
 
   useEffect(() => {
@@ -43,9 +43,6 @@ const PlantsPage = () => {
       <Link to="/add-plant">
         <p>Add a New Plant!!</p>
       </Link>
-
-
-
     </div>
   );
 };
