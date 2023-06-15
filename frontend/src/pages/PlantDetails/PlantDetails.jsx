@@ -3,8 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
-import UploadImage from "../../utils/UploadImage/UploadImage";
-import "./PlantDetails.css"
+import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
+import "./PlantDetails.css";
 
 const PlantDetails = () => {
   const { plant_id } = useParams();
@@ -13,11 +13,14 @@ const PlantDetails = () => {
 
   const fetchPlantDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/plants/${plant_id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const response = await axios.get(
+        `http://localhost:5000/api/plants/${plant_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
       setPlant(response.data);
     } catch (error) {
       // Handle error
@@ -57,7 +60,7 @@ const PlantDetails = () => {
             handleSave={handleSave}
           />
 
-          <UploadImage
+          <UploadPlantImage
             plant={plant}
             token={token}
             handleImageUpload={handleImageUpload}
@@ -73,10 +76,10 @@ const PlantDetails = () => {
         </>
       )}
 
-      <p>
+      <div>
         <Link to="/plants">Back to Plants</Link>
         <Link to={`/create-task?plant_id=${plant_id}`}>Create task</Link>
-      </p>
+      </div>
     </div>
   );
 };

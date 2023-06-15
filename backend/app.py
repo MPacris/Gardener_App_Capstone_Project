@@ -84,7 +84,7 @@ def create_routes():
 
     api.add_resource(HarvestsResource, '/api/harvests')
     api.add_resource(GetHarvestResource, '/api/harvests/<int:harvest_id>')
-    api.add_resource(HarvestImageUploadResource, '/api/harvestImage')
+    api.add_resource(HarvestImageUploadResource, '/api/harvestImage/<int:harvest_id>')
 
     api.add_resource(UserGardensResource, '/api/user_gardens')
 

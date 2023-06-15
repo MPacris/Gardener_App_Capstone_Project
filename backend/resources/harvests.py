@@ -68,15 +68,20 @@ class GetHarvestResource(Resource):
 
 
 class HarvestImageUploadResource(Resource):
-    def post(self):
-        if 'harvest_image' not in request.files:
+    
+    def post(self,harvest_id):
+        if 'image_url' not in request.files:
             return 'no_file', 404   
-        file = request.files['harvest_image']
+        file = request.files['image_url']
         
         if file.filename == '':
             return 'filename_empty', 404
         
         if file and allowed_file(file.filename):
+            harvest = Harvest.query.get_or_404(harvest_id)
+            harvest.image_url = file.filename
+            db.session.commit()
+
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             return 'Success', 201

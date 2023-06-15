@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const UploadImage = ({ plant, token, handleImageUpload }) => {
+const UploadPlantImage = ({ plant, token, handleImageUpload }) => {
   const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (e) => {
@@ -34,4 +34,4 @@ const UploadImage = ({ plant, token, handleImageUpload }) => {
   );
 };
 
-export default UploadImage;
+export default UploadPlantImage;
