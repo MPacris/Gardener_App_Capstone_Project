@@ -83,15 +83,21 @@ class UserGardenSchema(ma.Schema):
     garden_id = fields.Integer()
     user = ma.Nested(UserSchema)
     garden = ma.Nested(GardenSchema)
+    
     class Meta:
         fields = ("user_id", "garden_id", "user", "garden")
     
     @post_load
-    def create_garden(self, data, **kwargs):
-        return Garden(**data)
+    def create_user_garden(self, data, **kwargs):
+        return {
+            'user_id': data['user_id'],
+            'garden_id': data['garden_id'],
+            'user': data['user'],
+            'garden': data['garden']
+        }
 
-user_garden_schema = GardenSchema()
-user_gardens_schema = GardenSchema(many=True)
+user_garden_schema = UserGardenSchema()
+user_gardens_schema = UserGardenSchema(many=True)
 
 
 

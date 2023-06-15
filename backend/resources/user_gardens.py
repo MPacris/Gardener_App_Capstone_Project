@@ -26,4 +26,3 @@ class UserGardensResource(Resource):
         serialized_user_garden = user_garden_schema.dump(garden)
         return serialized_user_garden, 201
 
-

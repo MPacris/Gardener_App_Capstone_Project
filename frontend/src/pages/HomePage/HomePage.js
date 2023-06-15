@@ -52,6 +52,11 @@ const HomePage = () => {
         <p>Go To HarvestsPage</p>
       </Link>
 
+      <Link to="/user-gardens">
+        <p>Go to User Gardens</p>
+      </Link>
+
+
 
 
     </div>
