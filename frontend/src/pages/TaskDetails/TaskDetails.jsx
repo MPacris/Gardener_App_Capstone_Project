@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import UploadHarvestImage from "../../utils/UploadHarvestImage/UploadHarvestImage";
 
 const TaskDetails = () => {
   const { task_id } = useParams();
@@ -9,13 +10,8 @@ const TaskDetails = () => {
   const [user, token] = useAuth();
   const [harvestFormData, setHarvestFormData] = useState({
     rating: "",
-    image_url: "",
     notes: "",
   });
-  const [editUser, setEditUser] = useState(false);
-  const [editCompleted, setEditCompleted] = useState(false);
-  const [newUserId, setNewUserId] = useState("");
-  const [newCompleted, setNewCompleted] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +43,8 @@ const TaskDetails = () => {
     }));
   };
 
+
+  
   const handleHarvestSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,36 +69,22 @@ const TaskDetails = () => {
     }
   };
 
-  const handleEdit = (field) => {
-    if (field === "user_id") {
-      setEditUser(true);
-    } else if (field === "task_completed") {
-      setEditCompleted(true);
-    }
-  };
-
-  const handleUpdate = async (field) => {
+  const handleImageUpload = async (formData) => {
     try {
-      const data = {
-        user_id: field === "user_id" ? newUserId : task.user_id,
-        task_completed:
-          field === "task_completed" ? newCompleted : task.task_completed,
-      };
-
-      await axios.put(`http://localhost:5000/api/tasks/${task_id}`, data, {
+      await axios.post(`http://localhost:5000/api/harvestImage/${task.id}`, formData, {
         headers: {
           Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data",
         },
       });
-
-      setEditUser(false);
-      setEditCompleted(false);
-
-      navigate(`/tasks`);
+  
+      window.location.reload(); // Reload the page after successful upload
     } catch (error) {
+      // Handle error
       console.error(error);
     }
   };
+
 
   if (!task) {
     return <p>Task not found</p>;
@@ -112,45 +96,12 @@ const TaskDetails = () => {
       <h2>Task ID: {task.id}</h2>
       <h2>Task Type: {task.task_type}</h2>
       <h2>Task Scheduled: {task.task_scheduled}</h2>
-      <h2>
-        Task Completed:{" "}
-        {editCompleted ? (
-          <input
-            type="date"
-            value={newCompleted}
-            onChange={(e) => setNewCompleted(e.target.value)}
-            min="1000-01-01"
-          />
-        ) : (
-          <>
-            {task.task_completed || "Not Completed"}{" "}
-            <button onClick={() => handleEdit("task_completed")}>Edit</button>
-          </>
-        )}
-        {editCompleted && (
-          <button onClick={() => handleUpdate("task_completed")}>Save</button>
-        )}
-      </h2>
-      <h2>
-        User ID:{" "}
-        {editUser ? (
-          <input
-            type="text"
-            value={newUserId}
-            onChange={(e) => setNewUserId(e.target.value)}
-          />
-        ) : (
-          <>
-            {task.user_id}{" "}
-            <button onClick={() => handleEdit("user_id")}>Edit</button>
-          </>
-        )}
-        {editUser && <button onClick={() => handleUpdate("user_id")}>Save</button>}
-      </h2>
+      <h2>Task Completed: {task.task_completed}</h2>
+      <h2>User ID: {task.user_id}</h2>
       <h2>Plant ID: {task.plant_id}</h2>
 
       <h3>Create Harvest</h3>
-
+      <div>
       <form onSubmit={handleHarvestSubmit}>
         <div>
           <label htmlFor="rating">Rating:</label>
@@ -163,14 +114,8 @@ const TaskDetails = () => {
           />
         </div>
         <div>
-          <label htmlFor="image_url">Image URL:</label>
-          <input
-            type="text"
-            id="image_url"
-            name="image_url"
-            value={harvestFormData.image_url}
-            onChange={handleHarvestChange}
-          />
+          <label>Upload Image:</label>
+          <UploadHarvestImage onImageUpload={handleImageUpload} harvest={task} token={token} />
         </div>
         <div>
           <label htmlFor="notes">Notes:</label>
@@ -183,14 +128,11 @@ const TaskDetails = () => {
         </div>
         <button type="submit">Create Harvest</button>
       </form>
+      </div>
 
       <Link to="/plants">Back to Plants</Link>
       <Link to="/tasks">Back to Tasks</Link>
-
-
-      {task.task_type === "harvest" && (
-        <Link to={`/create-harvest?task_id=${task_id}`}>Create Harvest</Link>
-      )}
+      <Link to={`/edit-task-details/${task.id}`}>Edit Task Details</Link>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
 import "./PlantDetails.css";
 import PlantHistory from "../../utils/PlantHistory/PlantHistory";
-import HarvestTracker from "../../utils/HarvestTracker/HarvestTracker";
+
 
 const PlantDetails = () => {
   const { plant_id } = useParams();

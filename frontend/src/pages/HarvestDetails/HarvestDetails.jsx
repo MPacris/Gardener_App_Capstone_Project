@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import EditHarvestDetails from "../../utils/EditHarvestDetails/EditHarvestDetails";
@@ -12,6 +12,7 @@ const HarvestDetails = () => {
   const [task, setTask] = useState(null);
   const [user, token] = useAuth();
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchHarvestDetails = async () => {
     try {
@@ -23,7 +24,7 @@ const HarvestDetails = () => {
           },
         }
       );
-  
+
       const taskResponse = await axios.get(
         `http://localhost:5000/api/tasks/${harvestResponse.data.task_id}`,
         {
@@ -32,18 +33,18 @@ const HarvestDetails = () => {
           },
         }
       );
-  
+
       setHarvest(harvestResponse.data);
       setTask(taskResponse.data);
-  
-      return Promise.resolve(); // Return a resolved promise after setting the state
+
+      return Promise.resolve();
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setError("Harvest not found");
       } else {
         setError("Error fetching harvest details");
       }
-      return Promise.reject(error); // Return a rejected promise if an error occurs
+      return Promise.reject(error);
     }
   };
 
@@ -58,8 +59,9 @@ const HarvestDetails = () => {
       notes: data.notes,
     }));
   };
+
   const handleImageUpload = () => {
-    window.location.reload(); // Reload the page after successful upload
+    navigate("/harvests");
   };
 
   if (error) {
@@ -86,21 +88,26 @@ const HarvestDetails = () => {
       <UploadHarvestImage
         harvest={harvest}
         token={token}
-        handleSave={handleImageUpload}
+        onImageUpload={handleImageUpload}
       />
 
       <h3>Task Information:</h3>
-      <h2>Plant_Id: {task.plant_id}</h2>
-      
+      <h2>Plant ID: {task.plant_id}</h2>
+
       <h2>Task Scheduled: {task.task_scheduled}</h2>
-      <h2>Task Comlpeted: {task.task_completed}</h2>
+      <h2>Task Completed: {task.task_completed}</h2>
       <h2>Assigned User: {task.user_id}</h2>
 
       <div className="image-container">
-        <img
-          className="harvest-image"
-          src={`http://127.0.0.1:5000/static/images/${harvest.image_url}`}
-        />
+        {harvest.image_url ? (
+          <img
+            className="harvest-image"
+            src={`http://127.0.0.1:5000/static/images/${harvest.image_url}`}
+            alt="Harvest Image"
+          />
+        ) : (
+          <p>No image available</p>
+        )}
       </div>
     </div>
   );

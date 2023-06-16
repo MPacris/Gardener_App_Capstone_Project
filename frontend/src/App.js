@@ -64,7 +64,7 @@ function App() {
         <Route path="/add-user-garden" element={<AddUserGarden/>}/>
         <Route path="/user-gardens" element={<UserGardens/>}/>
         <Route path="/weather-page" element={<WeatherPage/>}/>
-        <Route path="/tasks/:task_id/edit" element={<EditTaskDetails />} />
+        <Route path="/edit-task-details/:task_id" element={<EditTaskDetails />} />
 
 
 

@@ -10,12 +10,32 @@ const TasksPage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/tasks", {
+        const taskResponse = await axios.get("http://localhost:5000/api/tasks", {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
-        setTasks(response.data);
+
+        const taskPromises = taskResponse.data.map(async (task) => {
+          const plantResponse = await axios.get(
+            `http://localhost:5000/api/plants/${task.plant_id}`,
+            {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            }
+          );
+          const plant = plantResponse.data;
+
+          return {
+            ...task,
+            plant_type: plant.type,
+          };
+        });
+
+        const updatedTasks = await Promise.all(taskPromises);
+
+        setTasks(updatedTasks);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -36,6 +56,7 @@ const TasksPage = () => {
             <th>Task Completed</th>
             <th>User ID</th>
             <th>Plant ID</th>
+            <th>Plant Type</th>
             <th>Details</th>
           </tr>
         </thead>
@@ -48,6 +69,7 @@ const TasksPage = () => {
               <td>{task.task_completed}</td>
               <td>{task.user_id}</td>
               <td>{task.plant_id}</td>
+              <td>{task.plant_type}</td>
               <td>
                 <Link to={`/task-details/${task.id}`}>View Details</Link>
               </td>
