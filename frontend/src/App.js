@@ -17,6 +17,7 @@ import HarvestDetails from "./pages/HarvestDetails/HarvestDetails";
 import UserGardens from "./pages/UserGardens/UserGardens";
 import WeatherPage from "./pages/WeatherPage/WeatherPage";
 
+
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
@@ -28,6 +29,7 @@ import AddPlant from "./utils/AddPlant/AddPlant";
 import CreateTask from "./utils/CreateTask/CreateTask";
 import CreateHarvest from "./utils/CreateHarvest/CreateHarvest";
 import AddUserGarden from "./utils/AddUserGarden/AddUserGarden";
+import EditTaskDetails from "./utils/EditTaskDetails/EditTaskDetails";
 
 
 
@@ -62,6 +64,7 @@ function App() {
         <Route path="/add-user-garden" element={<AddUserGarden/>}/>
         <Route path="/user-gardens" element={<UserGardens/>}/>
         <Route path="/weather-page" element={<WeatherPage/>}/>
+        <Route path="/tasks/:task_id/edit" element={<EditTaskDetails />} />
 
 
 

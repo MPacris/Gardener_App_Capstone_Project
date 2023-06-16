@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+
+const defaultValues = {
+  type: "",
+  location: "",
+};
 
 const GardenDetails = () => {
   const { garden_id } = useParams();
@@ -10,6 +14,9 @@ const GardenDetails = () => {
   const [plants, setPlants] = useState([]);
   const [user, token] = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [formData, setFormData] = useState(defaultValues);
 
   const fetchGardenDetails = async () => {
     try {
@@ -49,6 +56,38 @@ const GardenDetails = () => {
     (plant) => plant.garden_id === parseInt(garden_id)
   );
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/plants",
+        {
+          ...formData,
+          garden_id: parseInt(garden_id),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      setFormData(defaultValues);
+      navigate("/plants");
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <div>
       <h2>{garden.name}</h2>
@@ -69,9 +108,33 @@ const GardenDetails = () => {
           </Link>
         ))}
       </div>
-      <Link to={`/add-plant?garden_id=${garden_id}`}>
-        <p>Add a New Plant!!</p>
-      </Link>
+
+      <div className="container">
+        <h3>Add Plant</h3>
+
+        <form className="form" onSubmit={handleSubmit}>
+          <label htmlFor="type">Type:</label>
+          <input
+            type="text"
+            id="type"
+            name="type"
+            value={formData.type}
+            onChange={handleInputChange}
+          />
+
+          <label htmlFor="location">Location:</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleInputChange}
+          />
+
+          <button type="submit">Add plant</button>
+        </form>
+        <Link to="/gardens">Go to Gardens Page</Link>
+      </div>
     </div>
   );
 };

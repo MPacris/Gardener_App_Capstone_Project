@@ -19,7 +19,7 @@ const UploadPlantImage = ({ plant, token, handleImageUpload }) => {
 
       handleImageUpload();
     } catch (error) {
-      // Handle error
+
     }
   };
 

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams, Link, useNavigate } from "react-router-dom"; // Add the useNavigate hook
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 const EditTaskDetails = ({ task, token, handleSave }) => {
-  const { task_id } = useParams(); // Get the task ID from the URL
+  const { task_id } = useParams();
   const [editUser, setEditUser] = useState(false);
   const [editCompleted, setEditCompleted] = useState(false);
-  const [newUserId, setNewUserId] = useState("");
-  const [newCompleted, setNewCompleted] = useState(task.task_completed || "");
-  const navigate = useNavigate(); // Add the useNavigate hook
+  const [newUserId, setNewUserId] = useState(task ? task.user_id : "");
+  const [newCompleted, setNewCompleted] = useState(task ? task.task_completed : "");
+  const navigate = useNavigate();
 
   const handleEdit = (field) => {
     if (field === "user_id") {
@@ -35,12 +35,16 @@ const EditTaskDetails = ({ task, token, handleSave }) => {
 
       setEditUser(false);
       setEditCompleted(false);
-      
-      navigate(`/tasks/${task_id}`); // Navigate back to the TaskDetails page
+
+      navigate(`/tasks/${task_id}`);
     } catch (error) {
-      // Handle error
+      console.error(error);
     }
   };
+
+  if (!task) {
+    return <p>Loading task details...</p>;
+  }
 
   return (
     <div>
@@ -73,14 +77,13 @@ const EditTaskDetails = ({ task, token, handleSave }) => {
           />
         ) : (
           <>
-            {task.user_id}{" "}
-            <button onClick={() => handleEdit("user_id")}>Edit</button>
+            {task.user_id} <button onClick={() => handleEdit("user_id")}>Edit</button>
           </>
         )}
         {editUser && <button onClick={() => handleUpdate("user_id")}>Save</button>}
       </h2>
 
-      <Link to={`/tasks/${task_id}`}>Back to Task Details</Link> {/* Add the link back to TaskDetails */}
+      <Link to={`/tasks/${task_id}`}>Back to Task Details</Link>
     </div>
   );
 };
