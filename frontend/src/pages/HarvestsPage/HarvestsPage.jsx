@@ -35,6 +35,8 @@ const HarvestsPage = () => {
             <th>Image URL</th>
             <th>Notes</th>
             <th>Task ID</th>
+            <th>Plant ID</th>
+            <th>Task Completed</th>
             <th>Details</th>
           </tr>
         </thead>
@@ -46,6 +48,8 @@ const HarvestsPage = () => {
               <td>{harvest.image_url}</td>
               <td>{harvest.notes}</td>
               <td>{harvest.task_id}</td>
+              <td>{harvest.plant_id}</td>
+              <td>{harvest.task_completed}</td>
               <td>
                 <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>
               </td>

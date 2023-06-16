@@ -148,10 +148,12 @@ class HarvestSchema(ma.Schema):
     rating = fields.Integer(required=True)
     image_url = fields.String()
     notes = fields.String()
+    task_completed = fields.Date(required=True)
+    plant_id = fields.Integer(required=True)
     task = ma.Nested(TaskSchema, many=False)
 
     class Meta:
-        fields = ("id", "task_id", "rating", "image_url", "notes", "task")
+        fields = ("id", "task_id", "rating", "image_url", "notes", "task_completed", "plant_id", "task")
     
     @post_load
     def create_harvest(self, data, **kwargs):

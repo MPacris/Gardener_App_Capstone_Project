@@ -13,7 +13,7 @@ from resources.cars import AllCarResource, UserCarResource
 from resources.gardens import GardensResource, GetGardenResource
 from resources.plants import PlantsResource, GetPlantResource, PlantImageUploadResource
 from resources.tasks import TasksResource, GetTaskResource
-from resources.harvests import HarvestsResource, GetHarvestResource, HarvestImageUploadResource
+from resources.harvests import HarvestsResource, GetHarvestResource, HarvestImageUploadResource, GetHarvestChartResource
 from resources.user_gardens import UserGardensResource
 
 
@@ -44,6 +44,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('SQLALCHEMY_DATABASE_URI')
     app.config['JWT_SECRET_KEY'] = environ.get('JWT_SECRET_KEY')
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Registers all routes with API
     api = create_routes()
@@ -85,8 +86,10 @@ def create_routes():
     api.add_resource(HarvestsResource, '/api/harvests')
     api.add_resource(GetHarvestResource, '/api/harvests/<int:harvest_id>')
     api.add_resource(HarvestImageUploadResource, '/api/harvestImage/<int:harvest_id>')
+    api.add_resource(GetHarvestChartResource, '/api/harvest-chart/<int:plant_id>')
 
     api.add_resource(UserGardensResource, '/api/user_gardens')
+    
 
 
  

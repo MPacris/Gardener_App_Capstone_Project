@@ -75,6 +75,7 @@ const HarvestDetails = () => {
       <h3>Harvest Information:</h3>
       <h2>Harvest ID: {harvest.id}</h2>
       <h2>Task ID: {harvest.task_id}</h2>
+      <h2>Rating: {harvest.rating}</h2>
 
       <EditHarvestDetails
         harvest={harvest}
@@ -89,6 +90,8 @@ const HarvestDetails = () => {
       />
 
       <h3>Task Information:</h3>
+      <h2>Plant_Id: {task.plant_id}</h2>
+      
       <h2>Task Scheduled: {task.task_scheduled}</h2>
       <h2>Task Comlpeted: {task.task_completed}</h2>
       <h2>Assigned User: {task.user_id}</h2>

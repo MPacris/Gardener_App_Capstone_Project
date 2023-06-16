@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Chart } from "react-google-charts";
 import axios from "axios";
 
 const PlantHistory = ({ plant, token }) => {
   const [plantTasks, setPlantTasks] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
+  const [harvestRatings, setHarvestRatings] = useState([]);
 
   const fetchPlantTasks = async () => {
     try {
@@ -21,12 +23,7 @@ const PlantHistory = ({ plant, token }) => {
     }
   };
 
-  useEffect(() => {
-    fetchPlantTasks();
-    calculateAverageRating();
-  }, [plant, token]);
-
-  const calculateAverageRating = async () => {
+  const fetchHarvestRatings = async () => {
     try {
       const response = await axios.get(
         `http://localhost:5000/api/harvests?plant_id=${plant.id}`,
@@ -37,10 +34,14 @@ const PlantHistory = ({ plant, token }) => {
         }
       );
 
-      const ratings = response.data.map((harvest) => harvest.rating);
+      const ratings = response.data
+        .filter((harvest) => harvest.plant_id === plant.id)
+        .map((harvest) => [new Date(harvest.task_completed), harvest.rating]);
+
+      setHarvestRatings(ratings);
 
       if (ratings.length > 0) {
-        const sum = ratings.reduce((a, b) => a + b, 0);
+        const sum = ratings.reduce((a, b) => a + b[1], 0);
         const averageRating = sum / ratings.length;
         setAverageRating(averageRating.toFixed(2));
       } else {
@@ -51,11 +52,16 @@ const PlantHistory = ({ plant, token }) => {
     }
   };
 
+  useEffect(() => {
+    fetchPlantTasks();
+    fetchHarvestRatings();
+  }, [plant, token]);
+
   return (
     <div>
       <h3>Plant History:</h3>
       {plantTasks
-        .filter((task) => task.plant.id === plant.id)
+        .filter((task) => task.plant_id === plant.id)
         .map((task) => (
           <div key={task.id}>
             <p>Task ID: {task.id}</p>
@@ -63,6 +69,21 @@ const PlantHistory = ({ plant, token }) => {
             <p>Task Completed: {task.task_completed}</p>
           </div>
         ))}
+      {harvestRatings.length > 0 ? (
+        <Chart
+          chartType="ScatterChart"
+          data={[["Date", "Rating"], ...harvestRatings]}
+          width="100%"
+          height="400px"
+          options={{
+            legend: { position: "bottom" },
+            curveType: "none",
+          }}
+          legendToggle
+        />
+      ) : (
+        <p>No harvest ratings found.</p>
+      )}
       <p>Average Rating: {averageRating}</p>
     </div>
   );

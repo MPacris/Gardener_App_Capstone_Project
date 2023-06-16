@@ -70,15 +70,14 @@ const PlantDetails = () => {
 
           <PlantHistory plant={plant} token={token} />
 
+
           <div className="image-container">
             <img
               className="plant-image"
               src={`http://127.0.0.1:5000/static/images/${plant.image_url}`}
-              />
+              alt="Plant"
+            />
           </div>
-
-          <HarvestTracker plantId={plant} token={token} />
-
         </div>
       )}
 

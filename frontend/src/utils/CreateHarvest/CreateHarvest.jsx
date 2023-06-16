@@ -1,107 +1,93 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
-import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
-
-const defaultValues = {
-  rating: "",
-  image_url: "",
-  notes: "",
-  task_id: "",
-}
-
+import React, { useState } from "react";
 
 const CreateHarvest = () => {
-  const [user, token] = useAuth();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState(defaultValues);
-  const location = useLocation();
+  const [formData, setFormData] = useState({
+    rating: "",
+    image_url: "",
+    notes: "",
+    task_id: "",
+    plant_id: "",
+    task_completed: "", // Set task_completed as an empty string initially
+  });
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const taskIdFromQuery = searchParams.get("task_id");
-    setFormData((prevData) => ({
-      ...prevData,
-      task_id: taskIdFromQuery,
-    }));
-  }, [location.search]);
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  async function postNewHarvest() {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/harvests",
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      setFormData(defaultValues);
-      navigate("/harvests");
-      window.location.reload();
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    postNewHarvest();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData); // Do something with the form data
   };
-
 
   return (
-    <div className="container">
+    <div>
       <h1>Create Harvest</h1>
-      <form className="form" onSubmit={handleSubmit}>
-        <label element="rating">Rating:</label>
-        <input
-          type="number"
-          id="rating"
-          name="rating"
-          value={formData.rating}
-          onChange={handleInputChange}
-        />
-
-        <label element="image_url">Harvest Image:</label>
-        <input
-          type="text"
-          id="image_url"
-          name="image_url"
-          value={formData.image_url}
-          onChange={handleInputChange}
-        />
-        <label element="notes">Notes:</label>
-        <input
-          type="text"
-          id="notes"
-          name="notes"
-          value={formData.notes}
-          onChange={handleInputChange}
-        />
-
-        <label element="task_id">Task ID:</label>
-        <input
-          type="number"
-          id="task_id"
-          name="task_id"
-          value={formData.task_id}
-          onChange={handleInputChange}
-        />
-        <button type="submit">Create Harvest</button>
-        
-
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="rating">Rating:</label>
+          <input
+            type="number"
+            id="rating"
+            name="rating"
+            value={formData.rating}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="image_url">Image URL:</label>
+          <input
+            type="text"
+            id="image_url"
+            name="image_url"
+            value={formData.image_url}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="notes">Notes:</label>
+          <textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <div>
+          <label htmlFor="task_id">Task ID:</label>
+          <input
+            type="text"
+            id="task_id"
+            name="task_id"
+            value={formData.task_id}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="plant_id">Plant ID:</label>
+          <input
+            type="text"
+            id="plant_id"
+            name="plant_id"
+            value={formData.plant_id}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="task_completed">Task Completed:</label>
+          <input
+            type="text"
+            id="task_completed"
+            name="task_completed"
+            value={formData.task_completed}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

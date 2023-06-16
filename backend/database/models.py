@@ -45,8 +45,6 @@ class Garden(db.Model):
     user = db.relationship("User")
 
 
-
-
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(255), nullable=False)
@@ -72,4 +70,6 @@ class Harvest(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255))
     notes = db.Column(db.Text)
+    plant_id = db.Column(db.Integer)
+    task_completed = db.Column(db.Date)
     task = db.relationship("Task")

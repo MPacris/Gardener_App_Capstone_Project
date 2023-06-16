@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_req
 from werkzeug.utils import secure_filename
 from flask_restful import Resource
 from database.models import db, Harvest
-from database.schemas import harvest_schema, harvests_schema
+from database.schemas import harvest_schema, harvests_schema, plant_schema
 
 
 
@@ -25,10 +25,20 @@ class HarvestsResource(Resource):
         db.session.commit()
         return harvest_schema.dump(new_harvest), 201
     
+class GetHarvestChartResource(Resource):
+    def get(self, plant_id):
+        harvests = Harvest.query.filter_by(plant_id=plant_id).all()
+        if not harvests:
+            return {'message': 'No harvests found for the provided plant_id'}, 404
 
+        chart_data = []
+        for harvest in harvests:
+            chart_data.append([str(harvest.task_completed), harvest.rating])
+
+        return {'chartData': chart_data}, 200
+    
 class GetHarvestResource(Resource):
-    
-    
+     
 
     def get(self, harvest_id): 
         harvest = Harvest.query.filter_by(id=harvest_id).first()
