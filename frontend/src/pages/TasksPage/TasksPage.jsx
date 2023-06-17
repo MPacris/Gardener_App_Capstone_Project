@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "./TasksPage.css"; // Import the CSS file
 
 const TasksPage = () => {
   const [user, token] = useAuth();
@@ -62,7 +63,7 @@ const TasksPage = () => {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id}>
+            <tr key={task.id} className={task.task_completed ? "" : "task-incomplete"}>
               <td>{task.id}</td>
               <td>{task.task_type}</td>
               <td>{task.task_scheduled}</td>

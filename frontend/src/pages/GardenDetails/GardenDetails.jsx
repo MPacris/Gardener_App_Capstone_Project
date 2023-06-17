@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import EditGardenDetails from "../../utils/EditGardenDetails/EditGardenDetails";
 
 const defaultValues = {
-  type: "",
-  location: "",
+  name: "",
+  notes: "",
 };
 
 const GardenDetails = () => {
@@ -14,38 +15,51 @@ const GardenDetails = () => {
   const [plants, setPlants] = useState([]);
   const [user, token] = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-
+  const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState(defaultValues);
 
-  const fetchGardenDetails = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/gardens/${garden_id}`,
-        {
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchGardenDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/gardens/${garden_id}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        if (mounted) {
+          setGarden(response.data);
+        }
+      } catch (error) {
+        // Handle error
+      }
+    };
+
+    const fetchPlants = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/plants", {
           headers: {
             Authorization: "Bearer " + token,
           },
+        });
+        if (mounted) {
+          setPlants(response.data);
         }
-      );
-      setGarden(response.data);
-    } catch (error) {}
-  };
+      } catch (error) {
+        // Handle error
+      }
+    };
 
-  const fetchPlants = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/api/plants`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      setPlants(response.data);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
     fetchGardenDetails();
     fetchPlants();
+
+    return () => {
+      mounted = false;
+    };
   }, [garden_id, token]);
 
   if (!garden) {
@@ -88,10 +102,22 @@ const GardenDetails = () => {
     }
   };
 
+  const handleSave = (data) => {
+    setGarden((prevGarden) => ({
+      ...prevGarden,
+      type: data.type,
+      location: data.location,
+    }));
+    setEditMode(false);
+  };
+
   return (
     <div>
       <h2>{garden.name}</h2>
       <p>{garden.notes}</p>
+
+      <button onClick={() => setEditMode(true)}>Edit Garden</button>
+
       <h3>Users:</h3>
       <div>
         {garden.users.map((user) => (
@@ -101,7 +127,11 @@ const GardenDetails = () => {
       <h3>Plants:</h3>
       <div>
         {filteredPlants.map((plant) => (
-          <Link to={`/plant-details/${plant.id}`} key={plant.id}>
+          <Link
+            to={`/plant-details/${plant.id}`}
+            key={plant.id}
+            className={plant.rating <= 2 ? "low-rating-plant" : ""}
+          >
             <li>
               {plant.type} {plant.location} {plant.image_url}
             </li>
@@ -110,30 +140,41 @@ const GardenDetails = () => {
       </div>
 
       <div className="container">
-        <h3>Add Plant</h3>
-
-        <form className="form" onSubmit={handleSubmit}>
-          <label htmlFor="type">Type:</label>
-          <input
-            type="text"
-            id="type"
-            name="type"
-            value={formData.type}
-            onChange={handleInputChange}
+        {editMode ? (
+          <EditGardenDetails
+            garden={garden}
+            token={token}
+            handleSave={handleSave}
           />
+        ) : (
+          <>
+            <h3>Add Plant</h3>
 
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleInputChange}
-          />
+            <form className="form" onSubmit={handleSubmit}>
+              <label htmlFor="type">Type:</label>
+              <input
+                type="text"
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+              />
 
-          <button type="submit">Add plant</button>
-        </form>
-        <Link to="/gardens">Go to Gardens Page</Link>
+              <label htmlFor="location">Location:</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+              />
+
+              <button type="submit">Add plant</button>
+            </form>
+            <Link to="/gardens">Go to Gardens Page</Link>
+    
+          </>
+        )}
       </div>
     </div>
   );

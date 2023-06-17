@@ -22,6 +22,36 @@ const Navbar = () => {
             <button onClick={() => navigate("/login")}>Login</button>
           )}
         </li>
+        <li>
+          <Link to="/gardens" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            GardensPage
+          </Link>
+        </li>
+        <li>
+          <Link to="/plants" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            PlantsPage
+          </Link>
+        </li>
+        <li>
+          <Link to="/tasks" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            TasksPage
+          </Link>
+        </li>
+        <li>
+          <Link to="/harvests" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            HarvestsPage
+          </Link>
+        </li>
+        <li>
+          <Link to="/user-gardens" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            UserGarden
+          </Link>
+        </li>
+        <li>
+          <Link to="/weather-page" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            WeatherPage
+          </Link>
+        </li>
       </ul>
     </div>
   );

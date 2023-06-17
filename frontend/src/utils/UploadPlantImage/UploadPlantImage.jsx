@@ -15,11 +15,19 @@ const UploadPlantImage = ({ plant, token, handleImageUpload }) => {
       const formData = new FormData();
       formData.append("image_url", imageFile);
 
-      await axios.post(`http://localhost:5000/api/plantImage/${plant.id}`, formData);
+      await axios.post(
+        `http://localhost:5000/api/plantImage/${plant.id}`,
+        formData,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
 
       handleImageUpload();
     } catch (error) {
-
+      // Handle error
     }
   };
 
