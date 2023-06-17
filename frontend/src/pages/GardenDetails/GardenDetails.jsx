@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import EditGardenDetails from "../../utils/EditGardenDetails/EditGardenDetails";
+import "./GardenDetails.css";
 
 const defaultValues = {
   type: "",
@@ -119,70 +120,87 @@ const GardenDetails = () => {
   };
 
   return (
-    <div>
-      <h2>{garden.name}</h2>
-      <p>{garden.notes}</p>
+    <div className="container-fluid">
 
-      <button onClick={() => setEditMode(true)}>Edit Garden</button>
-
-      <h3>Users:</h3>
-      <div>
-        {garden.users.map((user) => (
-          <li key={user.id}>{user.username}</li>
-        ))}
-      </div>
-      <h3>Plants:</h3>
-      <div>
-        {filteredPlants.map((plant) => (
-          <Link
-            to={`/plant-details/${plant.id}`}
-            key={plant.id}
-            className={plant.rating <= 2 ? "low-rating-plant" : ""}
-          >
-            <li>
-              {plant.type} {plant.location} {plant.image_url}
-            </li>
-          </Link>
-        ))}
-      </div>
-
-      <div className="container">
-        {editMode ? (
-          <EditGardenDetails
-            garden={garden}
-            token={token}
-            handleSave={handleSave}
-          />
-        ) : (
-          <>
-            <h3>Add Plant</h3>
-
-            <form className="form" onSubmit={handleSubmit}>
-              <label element="type">Type:</label>
-              <input
-                type="text"
-                id="type"
-                name="type"
-                value={formData.type}
-                onChange={handleInputChange}
-              />
-
-              <label element="location">Location:</label>
-              <input
-                type="text"
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-              />
-
-              <button type="submit">Add plant</button>
-            </form>
+        <div className="top-container">
+      <div className="col-md-4 col-lg-3">
+          <div className="description">
+            <h2>{garden.name}</h2>
+            <p>{garden.notes}</p>
+            <button onClick={() => setEditMode(true)}>Edit Garden</button>
             <Link to="/gardens">Go to Gardens Page</Link>
-          </>
-        )}
+            <div className="container">
+              {editMode ? (
+                <EditGardenDetails
+                  garden={garden}
+                  token={token}
+                  handleSave={handleSave}
+                />
+              ) : (<></>)}
+            </div>
+          </div>
+        </div>
+
+        <div className="col-md-4 col-lg-3">
+          <div className="add-plant">
+          <h3>Add Plant</h3>
+
+          <form className="form" onSubmit={handleSubmit}>
+            <label element="type">Type:</label>
+            <input
+              type="text"
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleInputChange}
+            />
+
+            <label element="location">Location:</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+            />
+
+            <button type="submit">Add plant</button>
+          </form>
+        </div>
+        </div>
+
+        <div className="col-md-4 col-lg-3">
+          <div className="users">
+          <h3>Users:</h3>
+          <div>
+            {garden.users.map((user) => (
+              <li key={user.id}>{user.username}</li>
+            ))}
+          </div>
+        </div>
+      </div>
+      </div>
+      <div className="row">
+        <div className="bottom-container">
+          {filteredPlants.map((plant) => (
+            <div className="plant-card" key={plant.id}>
+              <Link to={`/plant-details/${plant.id}`}>
+                <div>{plant.type}</div>
+                <div>{plant.location}</div>
+                {plant.image_url && (
+                  <img
+                    src={`http://localhost:5000/static/images/${plant.image_url}`}
+                    alt="Plant Image"
+                    className="plant-picture"
+                  />
+                )}
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
+
   );
 };
 

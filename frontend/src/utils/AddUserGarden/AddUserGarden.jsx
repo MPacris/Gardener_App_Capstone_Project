@@ -55,7 +55,7 @@ function AddUserGarden() {
     <div>
       <h1>Add User Garden</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
+        <label element="username">Username:</label>
         <input
           type="text"
           id="username"
@@ -65,7 +65,7 @@ function AddUserGarden() {
           required
         />
 
-        <label htmlFor="gardenId">Garden ID:</label>
+        <label element="gardenId">Garden ID:</label>
         <select
           id="gardenId"
           name="gardenId"

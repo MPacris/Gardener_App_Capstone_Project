@@ -1,5 +1,53 @@
-.low-rating-plant {
-    background-color: #ffcccc;
-    border: 1px solid #ff0000;
-    padding: 5px;
-  }
+.plant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 300px;
+  height: 400px;
+  margin: 30px; /* Add margin to create space between cards */
+}
+
+.plant-picture {
+  object-fit: cover;
+  width: 290px;
+  height: 395px; /* Adjust the height as per your requirement */
+
+}
+
+.bottom-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  justify-content: left; /* Center the cards horizontally */
+  margin-top: 40px;
+}
+
+.description {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+}
+
+.add-plant {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.users {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-end;
+}
+
+
+.top-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
