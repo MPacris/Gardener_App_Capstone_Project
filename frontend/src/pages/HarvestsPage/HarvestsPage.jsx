@@ -7,6 +7,25 @@ const HarvestsPage = () => {
   const [user, token] = useAuth();
   const [harvests, setHarvests] = useState([]);
 
+  const fetchPlant = async (harvest) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/plants/${harvest.plant_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const updatedHarvest = { ...harvest, plant_type: response.data.type };
+      return updatedHarvest;
+    } catch (error) {
+      console.log(error.response.data);
+      return harvest;
+    }
+  };
+
   useEffect(() => {
     const fetchHarvests = async () => {
       try {
@@ -15,7 +34,11 @@ const HarvestsPage = () => {
             Authorization: "Bearer " + token,
           },
         });
-        setHarvests(response.data);
+
+        const updatedHarvests = await Promise.all(
+          response.data.map(fetchPlant)
+        );
+        setHarvests(updatedHarvests);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -36,6 +59,7 @@ const HarvestsPage = () => {
             <th>Notes</th>
             <th>Task ID</th>
             <th>Plant ID</th>
+            <th>Plant Type</th>
             <th>Task Completed</th>
             <th>Details</th>
           </tr>
@@ -49,6 +73,7 @@ const HarvestsPage = () => {
               <td>{harvest.notes}</td>
               <td>{harvest.task_id}</td>
               <td>{harvest.plant_id}</td>
+              <td>{harvest.plant_type}</td>
               <td>{harvest.task_completed}</td>
               <td>
                 <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>

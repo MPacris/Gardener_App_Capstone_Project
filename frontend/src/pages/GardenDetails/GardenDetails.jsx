@@ -5,8 +5,8 @@ import useAuth from "../../hooks/useAuth";
 import EditGardenDetails from "../../utils/EditGardenDetails/EditGardenDetails";
 
 const defaultValues = {
-  name: "",
-  notes: "",
+  type: "",
+  location: "",
 };
 
 const GardenDetails = () => {
@@ -80,11 +80,18 @@ const GardenDetails = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!formData.type || !formData.location) {
+      console.log("Type and location are required");
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:5000/api/plants",
         {
-          ...formData,
+          type: formData.type,
+          location: formData.location,
           garden_id: parseInt(garden_id),
         },
         {
@@ -172,7 +179,6 @@ const GardenDetails = () => {
               <button type="submit">Add plant</button>
             </form>
             <Link to="/gardens">Go to Gardens Page</Link>
-    
           </>
         )}
       </div>
