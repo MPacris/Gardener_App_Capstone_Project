@@ -29,7 +29,7 @@ const CreateHarvest = () => {
       <h1>Create Harvest</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="rating">Rating:</label>
+          <label element="rating">Rating:</label>
           <input
             type="number"
             id="rating"
@@ -39,7 +39,7 @@ const CreateHarvest = () => {
           />
         </div>
         <div>
-          <label htmlFor="image_url">Image URL:</label>
+          <label element="image_url">Image URL:</label>
           <input
             type="text"
             id="image_url"
@@ -49,7 +49,7 @@ const CreateHarvest = () => {
           />
         </div>
         <div>
-          <label htmlFor="notes">Notes:</label>
+          <label element="notes">Notes:</label>
           <textarea
             id="notes"
             name="notes"
@@ -58,7 +58,7 @@ const CreateHarvest = () => {
           ></textarea>
         </div>
         <div>
-          <label htmlFor="task_id">Task ID:</label>
+          <label element="task_id">Task ID:</label>
           <input
             type="text"
             id="task_id"
@@ -68,7 +68,7 @@ const CreateHarvest = () => {
           />
         </div>
         <div>
-          <label htmlFor="plant_id">Plant ID:</label>
+          <label element="plant_id">Plant ID:</label>
           <input
             type="text"
             id="plant_id"
@@ -78,7 +78,7 @@ const CreateHarvest = () => {
           />
         </div>
         <div>
-          <label htmlFor="task_completed">Task Completed:</label>
+          <label element="task_completed">Task Completed:</label>
           <input
             type="text"
             id="task_completed"

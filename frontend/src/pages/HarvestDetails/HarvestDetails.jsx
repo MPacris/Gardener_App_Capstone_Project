@@ -10,6 +10,7 @@ const HarvestDetails = () => {
   const { harvest_id } = useParams();
   const [harvest, setHarvest] = useState(null);
   const [task, setTask] = useState(null);
+  const [plantType, setPlantType] = useState(null); // New state for plant type
   const [user, token] = useAuth();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -34,8 +35,18 @@ const HarvestDetails = () => {
         }
       );
 
+      const plantResponse = await axios.get(
+        `http://localhost:5000/api/plants/${taskResponse.data.plant_id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
       setHarvest(harvestResponse.data);
       setTask(taskResponse.data);
+      setPlantType(plantResponse.data.type); // Set the plant type
 
       return Promise.resolve();
     } catch (error) {
@@ -93,6 +104,7 @@ const HarvestDetails = () => {
 
       <h3>Task Information:</h3>
       <h2>Plant ID: {task.plant_id}</h2>
+      <h2>Plant Type: {plantType}</h2> 
 
       <h2>Task Scheduled: {task.task_scheduled}</h2>
       <h2>Task Completed: {task.task_completed}</h2>

@@ -1,11 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 function AddUserGarden() {
   const [username, setUsername] = useState('');
   const [gardenId, setGardenId] = useState('');
+  const [gardens, setGardens] = useState([]);
   const [user, token] = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchGardens = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/api/gardens', {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
+
+        setGardens(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchGardens();
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,15 +39,15 @@ function AddUserGarden() {
         },
         {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
-        });
-  
+        }
+      );
+
       console.log(response.data);
-  
+      navigate('/gardens');
     } catch (error) {
       console.error(error);
-
     }
   };
 
@@ -43,15 +64,23 @@ function AddUserGarden() {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+
         <label htmlFor="gardenId">Garden ID:</label>
-        <input
-          type="text"
+        <select
           id="gardenId"
           name="gardenId"
           value={gardenId}
           onChange={(e) => setGardenId(e.target.value)}
           required
-        />
+        >
+          <option value="">Select a garden</option>
+          {gardens.map((garden) => (
+            <option key={garden.id} value={garden.id}>
+              {garden.name}
+            </option>
+          ))}
+        </select>
+
         <button type="submit">Submit</button>
       </form>
     </div>

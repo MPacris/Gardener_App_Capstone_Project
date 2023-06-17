@@ -50,7 +50,7 @@ const WeatherPage = () => {
   return (
     <div>
       <form onSubmit={handleForecastSubmit}>
-        <label htmlFor="zipCode">Zip Code:</label>
+        <label element="zipCode">Zip Code:</label>
         <input
           type="text"
           id="zipCode"
@@ -58,7 +58,7 @@ const WeatherPage = () => {
           onChange={(e) => setZipCode(e.target.value)}
         />
 
-        <label htmlFor="forecastDays">Forecast Days:</label>
+        <label element="forecastDays">Forecast Days:</label>
         <input
           type="text"
           id="forecastDays"
@@ -70,7 +70,7 @@ const WeatherPage = () => {
       </form>
 
       <form onSubmit={handleHistorySubmit}>
-        <label htmlFor="startDate">Start Date:</label>
+        <label element="startDate">Start Date:</label>
         <input
           type="date"
           id="startDate"
@@ -78,7 +78,7 @@ const WeatherPage = () => {
           onChange={(e) => setStartDate(e.target.value)}
         />
 
-        <label htmlFor="endDate">End Date:</label>
+        <label element="endDate">End Date:</label>
         <input
           type="date"
           id="endDate"

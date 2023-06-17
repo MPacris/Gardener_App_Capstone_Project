@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -10,6 +10,7 @@ const EditTaskDetails = () => {
   const [newUserId, setNewUserId] = useState("");
   const [newCompleted, setNewCompleted] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchTaskDetails = async () => {
@@ -23,13 +24,14 @@ const EditTaskDetails = () => {
           }
         );
         setTask(response.data);
+        setNewUserId(new URLSearchParams(location.search).get("user_id")); // Set the initial value for newUserId
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchTaskDetails();
-  }, [task_id, token]);
+  }, [task_id, token, location.search]);
 
   const handleUpdate = async () => {
     try {

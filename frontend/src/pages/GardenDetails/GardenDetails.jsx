@@ -158,7 +158,7 @@ const GardenDetails = () => {
             <h3>Add Plant</h3>
 
             <form className="form" onSubmit={handleSubmit}>
-              <label htmlFor="type">Type:</label>
+              <label element="type">Type:</label>
               <input
                 type="text"
                 id="type"
@@ -167,7 +167,7 @@ const GardenDetails = () => {
                 onChange={handleInputChange}
               />
 
-              <label htmlFor="location">Location:</label>
+              <label element="location">Location:</label>
               <input
                 type="text"
                 id="location"

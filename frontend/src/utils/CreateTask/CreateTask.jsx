@@ -69,6 +69,17 @@ const CreateTask = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Check if the required fields are filled in
+    if (
+      formData.user_id === "" ||
+      formData.task_type === "" ||
+      formData.task_scheduled === ""
+    ) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
+
     postNewTask();
   };
 
@@ -77,7 +88,7 @@ const CreateTask = () => {
       <h1>Create Task</h1>
 
       <form className="form" onSubmit={handleSubmit}>
-        <label htmlFor="plant_id">Plant ID:</label>
+        <label element="plant_id">Plant ID:</label>
         <input
           type="number"
           id="plant_id"
@@ -86,7 +97,7 @@ const CreateTask = () => {
           onChange={handleInputChange}
         />
 
-        <label htmlFor="task_type">Task Type:</label>
+        <label element="task_type">Task Type:</label>
         <select
           id="task_type"
           name="task_type"
@@ -101,16 +112,16 @@ const CreateTask = () => {
           ))}
         </select>
 
-        <label htmlFor="task_scheduled">Task Scheduled:</label>
+        <label element="task_scheduled">Task Scheduled:</label>
         <input
-          type="datetime"
+          type="date"
           id="task_scheduled"
           name="task_scheduled"
           value={formData.task_scheduled}
           onChange={handleInputChange}
         />
 
-        <label htmlFor="user_id">User ID:</label>
+        <label element="user_id">User ID:</label>
         <input
           type="number"
           id="user_id"
