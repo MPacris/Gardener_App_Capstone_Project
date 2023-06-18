@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./TasksPage.css"; // Import the CSS file
+import "./TasksPage.css";
 
 const TasksPage = () => {
   const [user, token] = useAuth();
@@ -11,30 +11,32 @@ const TasksPage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const taskResponse = await axios.get("http://localhost:5000/api/tasks", {
+        const response = await axios.get("http://localhost:5000/api/tasks", {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
 
-        const taskPromises = taskResponse.data.map(async (task) => {
-          const plantResponse = await axios.get(
-            `http://localhost:5000/api/plants/${task.plant_id}`,
-            {
-              headers: {
-                Authorization: "Bearer " + token,
-              },
-            }
-          );
-          const plant = plantResponse.data;
+        const taskData = response.data;
 
+        const plantIds = taskData.map((task) => task.plant_id);
+        const plantResponse = await axios.get(
+          `http://localhost:5000/api/plants?ids=${plantIds.join(",")}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        const plants = plantResponse.data;
+
+        const updatedTasks = taskData.map((task) => {
+          const plant = plants.find((plant) => plant.id === task.plant_id);
           return {
             ...task,
-            plant_type: plant.type,
+            plant_type: plant ? plant.type : "",
           };
         });
-
-        const updatedTasks = await Promise.all(taskPromises);
 
         setTasks(updatedTasks);
       } catch (error) {

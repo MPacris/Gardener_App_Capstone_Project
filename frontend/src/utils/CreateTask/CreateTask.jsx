@@ -16,6 +16,7 @@ const taskTypeOptions = [
   "till soil",
   "plant seed",
   "water",
+  "weed",
   "harvest",
   "final harvest",
 ];

@@ -105,12 +105,12 @@ const TaskDetails = () => {
   return (
     <div>
       <h3>Task Information:</h3>
-      <h2>Task ID: {task.id}</h2>
-      <h2>Task Type: {task.task_type}</h2>
-      <h2>Task Scheduled: {task.task_scheduled}</h2>
-      <h2>Task Completed: {task.task_completed}</h2>
-      <h2>Plant ID: {task.plant_id}</h2>
-      <h2>Plant Type: {plantType}</h2>
+      <div>Task ID: {task.id}</div>
+      <div>Task Type: {task.task_type}</div>
+      <div>Task Scheduled: {task.task_scheduled}</div>
+      <div>Task Completed: {task.task_completed}</div>
+      <div>Plant ID: {task.plant_id}</div>
+      <div>Plant Type: {plantType}</div>
 
       <Link to="/plants">Back to Plants</Link>
       <Link to="/tasks">Back to Tasks</Link>
@@ -133,14 +133,7 @@ const TaskDetails = () => {
                   onChange={handleHarvestChange}
                 />
               </div>
-              <div>
-                <label>Upload Image:</label>
-                <UploadHarvestImage
-                  onImageUpload={handleImageUpload}
-                  harvest={task}
-                  token={token}
-                />
-              </div>
+   
               <div>
                 <label element="notes">Notes:</label>
                 <textarea
