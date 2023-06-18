@@ -5,7 +5,6 @@ import useAuth from "../../hooks/useAuth";
 import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
 import TaskHistory from "./../../utils/TaskHistory/TaskHistory";
-import "./PlantDetails.css";
 import HarvestTracker from "../../utils/HarvestTracker/HarvestTracker";
 
 const PlantDetails = () => {
@@ -53,53 +52,63 @@ const PlantDetails = () => {
 
   return (
     <div className="container-fluid">
-      <div className="top-container">
-        <div className="plant-information">
-          <h3>Plant Information:</h3>
-          <div>
-            <div>PLANT ID: {plant_id}</div>
-            <div>PLANT Type: {plant.type}</div>
+      <div className="row">
+        <div className="col-8">
+          <div className="plant-information">
+            <h5>Plant Information:</h5>
+            <div>
+              <div>PLANT ID: {plant_id}</div>
+              <div>PLANT Type: {plant.type}</div>
 
-            <div className="edit-upload-container">
-              <h5>Edit Plant Details</h5>
-              <EditPlantDetails
-                plant={plant}
-                token={token}
-                handleSave={handleSave}
-              />
+              <div className="edit-upload-container">
+                <h5>Edit Plant Details</h5>
+                <EditPlantDetails
+                  plant={plant}
+                  token={token}
+                  handleSave={handleSave}
+                />
 
-              <UploadPlantImage
-                plant={plant}
-                token={token}
-                handleImageUpload={handleImageUpload}
-              />
+                <UploadPlantImage
+                  plant={plant}
+                  token={token}
+                  handleImageUpload={handleImageUpload}
+                />
 
-              <div className="links">
-                <Link to="/plants">Back to Plants</Link>
-                <Link to={`/create-task?plant_id=${plant_id}`}>
-                  Create task
-                </Link>
+                <div className="links">
+                  <Link to="/plants">Back to Plants</Link>
+                  <Link to={`/create-task?plant_id=${plant_id}`}>
+                    Create task
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="plant-image-container">
-          <img
-            className="plant-image"
-            src={`http://localhost:5000/static/images/${plant.image_url || ""}`}
-            alt="Plant"
-          />
+        <div className="col-4">
+          <div className="plant-image-container">
+            <img
+              className="plant-image"
+              src={`http://localhost:5000/static/images/${
+                plant.image_url || ""
+              }`}
+              alt="Plant"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="bottom-container">
-        <div className="plant-history">
-          <TaskHistory plant={plant} token={token} />
+      <div className="row">
+        <div className="col-4">
+          <div className="task-history">
+            <TaskHistory plant={plant} token={token} />
+          </div>
         </div>
 
-        <div className="harvest-tracker">
-          <HarvestTracker plant={plant} token={token} />
+        <div className="col-8">
+          <div className="harvest-tracker">
+            <HarvestTracker plant={plant} token={token} />
+          </div>
         </div>
       </div>
     </div>

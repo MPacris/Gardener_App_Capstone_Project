@@ -30,12 +30,13 @@ const TaskHistory = ({ plant, token }) => {
     <div className="container-fluid">
       <div className="bottom-container">
         <div className="task-info">
-          <h3>Plant History:</h3>
+          <h5>Task History:</h5>
           <table>
             <thead>
               <tr>
                 <th>Task ID</th>
                 <th>Task Type</th>
+                <th>Task Scheduled</th>
                 <th>Task Completed</th>
               </tr>
             </thead>
@@ -46,6 +47,7 @@ const TaskHistory = ({ plant, token }) => {
                   <tr key={task.id}>
                     <td>{task.id}</td>
                     <td>{task.task_type}</td>
+                    <td>{task.task_scheduled}</td>
                     <td>{task.task_completed}</td>
                   </tr>
                 ))}

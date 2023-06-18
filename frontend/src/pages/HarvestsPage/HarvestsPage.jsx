@@ -7,25 +7,6 @@ const HarvestsPage = () => {
   const [user, token] = useAuth();
   const [harvests, setHarvests] = useState([]);
 
-  const fetchPlant = async (harvest) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/plants/${harvest.plant_id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      const updatedHarvest = { ...harvest, plant_type: response.data.type };
-      return updatedHarvest;
-    } catch (error) {
-      console.log(error.response.data);
-      return harvest;
-    }
-  };
-
   useEffect(() => {
     const fetchHarvests = async () => {
       try {
@@ -35,10 +16,30 @@ const HarvestsPage = () => {
           },
         });
 
-        const updatedHarvests = await Promise.all(
-          response.data.map(fetchPlant)
+        const harvestsWithPlantType = await Promise.all(
+          response.data.map(async (harvest) => {
+            try {
+              const plantResponse = await axios.get(
+                `http://localhost:5000/api/plants/${harvest.plant_id}`,
+                {
+                  headers: {
+                    Authorization: "Bearer " + token,
+                  },
+                }
+              );
+
+              return {
+                ...harvest,
+                plant_type: plantResponse.data.type,
+              };
+            } catch (error) {
+              console.log(error.response.data);
+              return harvest;
+            }
+          })
         );
-        setHarvests(updatedHarvests);
+
+        setHarvests(harvestsWithPlantType);
       } catch (error) {
         console.log(error.response.data);
       }
