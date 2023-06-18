@@ -4,8 +4,9 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
+import TaskHistory from "./../../utils/TaskHistory/TaskHistory";
 import "./PlantDetails.css";
-import PlantHistory from "../../utils/PlantHistory/PlantHistory";
+import HarvestTracker from "../../utils/HarvestTracker/HarvestTracker";
 
 const PlantDetails = () => {
   const { plant_id } = useParams();
@@ -16,7 +17,7 @@ const PlantDetails = () => {
   const fetchPlantDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/plants/${plant_id}`,
+        `http://localhost:5000/api/plants/${plant_id}?include_type=true`,
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -51,42 +52,56 @@ const PlantDetails = () => {
   }
 
   return (
-    <div>
-      <h3>Plant Information:</h3>
-      <div>
-        <div>PLANT ID: {plant_id}</div>
+    <div className="container-fluid">
+      <div className="top-container">
+        <div className="plant-information">
+          <h3>Plant Information:</h3>
+          <div>
+            <div>PLANT ID: {plant_id}</div>
+            <div>PLANT Type: {plant.type}</div>
 
-        <div>
-        <Link to="/plants">Back to Plants</Link>
-        <Link to={`/create-task?plant_id=${plant_id}`}>Create task</Link>
-      </div>
+            <div className="edit-upload-container">
+              <h5>Edit Plant Details</h5>
+              <EditPlantDetails
+                plant={plant}
+                token={token}
+                handleSave={handleSave}
+              />
 
-        <EditPlantDetails
-          plant={plant}
-          token={token}
-          handleSave={handleSave}
-        />
+              <UploadPlantImage
+                plant={plant}
+                token={token}
+                handleImageUpload={handleImageUpload}
+              />
 
-        <UploadPlantImage
-          plant={plant}
-          token={token}
-          handleImageUpload={handleImageUpload}
-        />
+              <div className="links">
+                <Link to="/plants">Back to Plants</Link>
+                <Link to={`/create-task?plant_id=${plant_id}`}>
+                  Create task
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <PlantHistory plant={plant} token={token} />
-
-        <div className="image-container">
+        <div className="plant-image-container">
           <img
             className="plant-image"
-            src={`http://localhost:5000/static/images/${
-              plant.image_url || "" // Check if the image_url is defined before using it
-            }`}
+            src={`http://localhost:5000/static/images/${plant.image_url || ""}`}
             alt="Plant"
           />
         </div>
       </div>
 
+      <div className="bottom-container">
+        <div className="plant-history">
+          <TaskHistory plant={plant} token={token} />
+        </div>
 
+        <div className="harvest-tracker">
+          <HarvestTracker plant={plant} token={token} />
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,46 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { Chart } from 'react-google-charts';
-import axios from 'axios';
-import useAuth from '../../hooks/useAuth';
+import React, { useEffect, useState } from "react";
+import { Chart } from "react-google-charts";
+import axios from "axios";
+import "../../pages/PlantDetails/PlantDetails.css";
 
-const HarvestTracker = ({ plantId }) => {
-  const [chartData, setChartData] = useState([]);
-  const [user, token] = useAuth();
+const HarvestTracker = ({ plant, token }) => {
+  const [averageRating, setAverageRating] = useState(null);
+  const [harvestRatings, setHarvestRatings] = useState([]);
+
+  const fetchHarvestRatings = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/harvests?plant_id=${plant.id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      const ratings = response.data
+        .filter((harvest) => harvest.plant_id === plant.id)
+        .map((harvest) => [new Date(harvest.task_completed), harvest.rating]);
+
+      setHarvestRatings(ratings);
+
+      if (ratings.length > 0) {
+        const sum = ratings.reduce((a, b) => a + b[1], 0);
+        const averageRating = sum / ratings.length;
+        setAverageRating(averageRating.toFixed(2));
+      } else {
+        setAverageRating("No Harvests");
+      }
+    } catch (error) {
+      setAverageRating("Error calculating average rating");
+    }
+  };
 
   useEffect(() => {
-    const fetchRatings = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5000/api/harvests?plant_id=${plantId}`,
-          {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          }
-        );
-        const ratings = response.data.map((harvest) => [
-          new Date(harvest.task_completed),
-          harvest.rating,
-        ]);
-        setChartData([['Date', 'Rating'], ...ratings]);
-      } catch (error) {
-        // Handle error
-      }
-    };
-
-    fetchRatings();
-  }, [plantId, token]);
+    fetchHarvestRatings();
+  }, [plant, token]);
 
   return (
-    <div>
-      <h3>Harvest Ratings Chart:</h3>
-      {chartData.length > 0 ? (
+    <div className="harvest-info">
+      <div>Average Rating: {averageRating}</div>
+      {harvestRatings.length > 0 ? (
         <Chart
-          chartType="LineChart"
-          data={chartData}
+          chartType="ScatterChart"
+          data={[["Date", "Rating"], ...harvestRatings]}
           width="100%"
           height="400px"
-          options={{ legend: { position: 'bottom' } }}
+          options={{
+            legend: { position: "bottom" },
+            curveType: "none",
+          }}
           legendToggle
         />
       ) : (

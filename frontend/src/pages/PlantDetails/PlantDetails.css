@@ -1,9 +1,64 @@
-.image-container {
-    max-width: 300px;
-    margin: 0 auto;
-  }
-  
-  .plant-image {
-    max-width: 100%;
-    height: auto;
-  }
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.top-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.plant-information {
+
+  margin-right: 20px;
+}
+
+.links a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.edit-upload-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.plant-image-container {
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.plant-image {
+  width: 100%;
+  height: auto;
+  max-width: 500px;
+  max-height: 400px;
+}
+
+.bottom-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.task-history {
+  flex: 1;
+
+  margin-right: 20px;
+  align-self: flex-start;
+}
+
+.harvest-tracker {
+
+  align-self: flex-end;
+}

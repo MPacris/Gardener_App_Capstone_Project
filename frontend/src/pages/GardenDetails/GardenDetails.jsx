@@ -121,9 +121,8 @@ const GardenDetails = () => {
 
   return (
     <div className="container-fluid">
-
-        <div className="top-container">
-      <div className="col-md-4 col-lg-3">
+      <div className="top-container">
+        <div className="col-lg-4 col-lg-3">
           <div className="description">
             <h2>{garden.name}</h2>
             <p>{garden.notes}</p>
@@ -136,49 +135,51 @@ const GardenDetails = () => {
                   token={token}
                   handleSave={handleSave}
                 />
-              ) : (<></>)}
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
 
-        <div className="col-md-4 col-lg-3">
+        <div className="col-lg-4 col-lg-3">
           <div className="add-plant">
-          <h3>Add Plant</h3>
+            <h3>Add Plant</h3>
 
-          <form className="form" onSubmit={handleSubmit}>
-            <label element="type">Type:</label>
-            <input
-              type="text"
-              id="type"
-              name="type"
-              value={formData.type}
-              onChange={handleInputChange}
-            />
+            <form className="form" onSubmit={handleSubmit}>
+              <label element="type">Type:</label>
+              <input
+                type="text"
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+              />
 
-            <label element="location">Location:</label>
-            <input
-              type="text"
-              id="location"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-            />
+              <label element="location">Location:</label>
+              <input
+                type="text"
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+              />
 
-            <button type="submit">Add plant</button>
-          </form>
-        </div>
-        </div>
-
-        <div className="col-md-4 col-lg-3">
-          <div className="users">
-          <h3>Users:</h3>
-          <div>
-            {garden.users.map((user) => (
-              <li key={user.id}>{user.username}</li>
-            ))}
+              <button type="submit">Add plant</button>
+            </form>
           </div>
         </div>
-      </div>
+
+        <div className="col-lg-4 col-lg-3">
+          <div className="users">
+            <h3>Users:</h3>
+            <div>
+              {garden.users.map((user) => (
+                <li key={user.id}>{user.username}</li>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
       <div className="row">
         <div className="bottom-container">
@@ -200,7 +201,6 @@ const GardenDetails = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
