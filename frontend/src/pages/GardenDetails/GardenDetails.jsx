@@ -36,7 +36,7 @@ const GardenDetails = () => {
           setGarden(response.data);
         }
       } catch (error) {
-        // Handle error
+        
       }
     };
 
@@ -51,7 +51,7 @@ const GardenDetails = () => {
           setPlants(response.data);
         }
       } catch (error) {
-        // Handle error
+        
       }
     };
 
@@ -103,7 +103,7 @@ const GardenDetails = () => {
       );
 
       setFormData(defaultValues);
-      navigate("/plants");
+      navigate(`/garden-details/${garden_id}`); 
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
@@ -126,14 +126,20 @@ const GardenDetails = () => {
           <div className="description">
             <h2>{garden.name}</h2>
             <p>{garden.notes}</p>
-            <button onClick={() => setEditMode(true)}>Edit Garden</button>
-            <Link to="/gardens">Go to Gardens Page</Link>
-            <div className="container">
-              {editMode ? (
-                <EditGardenDetails
-                  garden={garden}
-                  token={token}
-                  handleSave={handleSave}
+            {!editMode ? (
+            <Link to={`/edit-garden/${garden_id}`}>Edit Garden</Link>
+          ) : (
+            <Link to="#" onClick={() => setEditMode(false)}>
+              Cancel Edit
+            </Link>
+          )}
+          <Link to="/gardens">Go to Gardens Page</Link>
+          <div className="container">
+            {editMode ? (
+              <EditGardenDetails
+                garden={garden}
+                token={token}
+                handleSave={handleSave}
                 />
               ) : (
                 <></>

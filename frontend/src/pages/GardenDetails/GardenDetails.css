@@ -26,10 +26,12 @@
 }
 
 .description {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
-  justify-content: flex-start;
+  justify-content: center;
   margin: 20px;
 }
 

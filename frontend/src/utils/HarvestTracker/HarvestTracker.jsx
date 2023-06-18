@@ -45,7 +45,7 @@ const HarvestTracker = ({ plant, token }) => {
       <div>Average Rating: {averageRating}</div>
       {harvestRatings.length > 0 ? (
         <Chart
-          chartType="ScatterChart"
+          chartType="LineChart"
           data={[["Date", "Rating"], ...harvestRatings]}
           width="100%"
           height="400px"
