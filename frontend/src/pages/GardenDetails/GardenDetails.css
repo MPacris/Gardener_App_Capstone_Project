@@ -6,13 +6,14 @@
   text-align: center;
   width: 300px;
   height: 400px;
-  margin: 30px; /* Add margin to create space between cards */
+  margin: 30px; 
+  
 }
 
 .plant-picture {
   object-fit: cover;
   width: 300px;
-  height: 400px; /* Adjust the height as per your requirement */
+  height: 400px; 
 
 }
 

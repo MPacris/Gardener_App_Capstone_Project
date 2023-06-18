@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "./PlantsPage.css";
 
 const PlantsPage = () => {
   const [user, token] = useAuth();
@@ -27,16 +28,23 @@ const PlantsPage = () => {
   return (
     <div className="container">
       <h1>This is the Plants Page</h1>
-      <div>
+      <div className="bottom-container">
         {plants.map((plant) => (
-          <Link to={`/plant-details/${plant.id}`} key={plant.id}>
-            <li>
-              <h3>Type: {plant.type}</h3>
-              <p>Location: {plant.location}</p>
-              <p>Image: {plant.image_url} </p>
-              <p>Garden ID: {plant.garden_id}</p>
-            </li>
-          </Link>
+          <div className="plant-card" key={plant.id}>
+            <Link to={`/plant-details/${plant.id}`}>
+              <div>{plant.type}</div>
+              <div>{plant.location}</div>
+             
+              {plant.image_url && (
+                <img
+                  src={`http://localhost:5000/static/images/${plant.image_url}`}
+                  alt="Plant Image"
+                  className="plant-picture"
+                />
+              )}
+               <div>Garden ID: {plant.garden_id}</div>
+            </Link>
+          </div>
         ))}
       </div>
 
