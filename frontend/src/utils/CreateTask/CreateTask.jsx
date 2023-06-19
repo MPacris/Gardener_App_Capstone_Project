@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import "./CreateTask.css"
 
 const defaultValues = {
   plant_id: "",
@@ -85,10 +86,10 @@ const CreateTask = () => {
   };
 
   return (
-    <div>
+    <div className="container text-center">
       <h1>Create Task</h1>
-
-      <form className="form" onSubmit={handleSubmit}>
+      <div className="col-md-4 offset-md-4 center-box">
+      <form className="form-control" onSubmit={handleSubmit}>
         <label element="plant_id">Plant ID:</label>
         <input
           type="number"
@@ -137,6 +138,8 @@ const CreateTask = () => {
       <Link to="/tasks">
         <p>Go To All Tasks</p>
       </Link>
+
+      </div>  
     </div>
   );
 };
