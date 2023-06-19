@@ -72,7 +72,7 @@ const CreateTask = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if the required fields are filled in
+  
     if (
       formData.user_id === "" ||
       formData.task_type === "" ||
@@ -86,9 +86,9 @@ const CreateTask = () => {
   };
 
   return (
-    <div className="container text-center">
+    <div className="container-text-center">
       <h1>Create Task</h1>
-      <div className="col-md-4 offset-md-4 center-box">
+      
       <form className="form-control" onSubmit={handleSubmit}>
         <label element="plant_id">Plant ID:</label>
         <input
@@ -135,12 +135,14 @@ const CreateTask = () => {
         <button type="submit">Create Task</button>
       </form>
 
+      <div className="link-wrapper">    
       <Link to="/tasks">
         <p>Go To All Tasks</p>
       </Link>
+      </div>  
 
       </div>  
-    </div>
+
   );
 };
 
