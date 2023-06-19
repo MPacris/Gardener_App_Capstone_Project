@@ -39,11 +39,24 @@ const TasksPage = () => {
         );
         const plants = plantResponse.data;
 
+        const gardenIds = plants.map((plant) => plant.garden_id);
+        const gardenResponse = await axios.get(
+          `http://localhost:5000/api/gardens?ids=${gardenIds.join(",")}`,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+        const gardens = gardenResponse.data;
+
         const updatedTasks = taskData.map((task) => {
           const plant = plants.find((plant) => plant.id === task.plant_id);
+          const garden = gardens.find((garden) => garden.id === plant.garden_id);
           return {
             ...task,
             plant_type: plant ? plant.type : "",
+            garden_id: garden ? garden.id : "",
           };
         });
 
@@ -68,7 +81,6 @@ const TasksPage = () => {
   }, [tasks]);
 
   const filteredTasks = tasks.filter((task) => {
-
     if (filterPlantType && filterPlantType !== "empty" && task.plant_type !== filterPlantType) {
       return false;
     }
@@ -91,7 +103,6 @@ const TasksPage = () => {
   });
 
   useEffect(() => {
-    // Adjust the width of the sticky header cells
     const tableHeaders = tableRef.current.querySelectorAll("th");
     tableHeaders.forEach((header) => {
       const cellWidth = header.offsetWidth;
@@ -103,60 +114,70 @@ const TasksPage = () => {
     <div className="container">
       <h1>This is the Tasks Page</h1>
       <div className="filters">
-        
-        <label>
-          Plant Type:
+        <div className="filter">
+          <label htmlFor="filterTaskCompleted">Filter by Task Completed:</label>
           <select
+            id="filterTaskCompleted"
+            value={filterTaskCompleted}
+            onChange={(e) => setFilterTaskCompleted(e.target.value)}
+          >
+            <option value="">All</option>
+            {uniqueTaskCompletedDates.map((date, index) => (
+              <option key={index} value={date}>
+                {date}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="filter">
+          <label htmlFor="filterPlantType">Filter by Plant Type:</label>
+          <select
+            id="filterPlantType"
             value={filterPlantType}
             onChange={(e) => setFilterPlantType(e.target.value)}
           >
             <option value="">All</option>
-            <option value="empty">Empty</option>
-            {uniquePlantTypes.map((plantType, index) => (
-              <option key={index} value={plantType}>
-                {plantType}
+            <option value="empty">No Plant</option>
+            {uniquePlantTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
               </option>
             ))}
           </select>
-        </label>
-        <label>
-          Task Type:
+        </div>
+        <div className="filter">
+          <label htmlFor="filterTaskType">Filter by Task Type:</label>
           <select
+            id="filterTaskType"
             value={filterTaskType}
             onChange={(e) => setFilterTaskType(e.target.value)}
           >
             <option value="">All</option>
-            <option value="empty">Empty</option>
-            {uniqueTaskTypes.map((taskType, index) => (
-              <option key={index} value={taskType}>
-                {taskType}
+            {uniqueTaskTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
               </option>
             ))}
           </select>
-        </label>
-        <label>
-          Sort By:
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        </div>
+        <div className="sort">
+          <label htmlFor="sortBy">Sort by:</label>
+          <select id="sortBy" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="">None</option>
             <option value="taskType">Task Type</option>
             <option value="taskCompleted">Task Completed</option>
           </select>
-        </label>
-        <label>
-          Sort Order:
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
+          <select id="sortOrder" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
-        </label>
+        </div>
       </div>
       <div className="table-container" ref={tableRef}>
         <table>
           <thead>
             <tr>
+              <th>Garden ID</th>
               <th>Task ID</th>
               <th>Task Type</th>
               <th>Task Scheduled</th>
@@ -173,6 +194,7 @@ const TasksPage = () => {
                 key={task.id}
                 className={task.task_completed ? "" : "task-incomplete"}
               >
+                <td>{task.garden_id}</td>
                 <td>{task.id}</td>
                 <td>{task.task_type}</td>
                 <td>{task.task_scheduled}</td>
@@ -181,16 +203,13 @@ const TasksPage = () => {
                 <td>{task.plant_id}</td>
                 <td>{task.plant_type}</td>
                 <td>
-                  <Link to={`/task-details/${task.id}`}>View Details</Link>
+                  <Link to={`/tasks/${task.id}`}>View Details</Link>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <Link to="/create-task">
-        <p>Add a New Task!!</p>
-      </Link>
     </div>
   );
 };
