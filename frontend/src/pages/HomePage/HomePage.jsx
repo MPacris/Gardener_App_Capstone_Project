@@ -83,7 +83,7 @@ const HomePage = () => {
 
       <form onSubmit={handleSubmit}>
         <h2>Add a Gardener to the Current List of Gardens</h2>
-        <label htmlFor="username">Username:</label>
+        <label element="username">Username:</label>
         <input
           type="text"
           id="username"
@@ -93,7 +93,7 @@ const HomePage = () => {
           required
         />
 
-        <label htmlFor="gardenId">Garden ID:</label>
+        <label element="gardenId">Garden ID:</label>
         <select
           id="gardenId"
           name="gardenId"

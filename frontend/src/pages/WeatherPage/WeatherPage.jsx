@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./WeatherPage.css"
 
 const WeatherPage = () => {
   const [weatherData, setWeatherData] = useState({
@@ -49,83 +50,68 @@ const WeatherPage = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleForecastSubmit} className="mb-3">
-        <div className="form-row">
-          <div className="col-auto">
-            <label htmlFor="zipCode" className="sr-only">
-              Zip Code:
-            </label>
-            <input
-              type="text"
-              id="zipCode"
-              className="form-control"
-              value={zipCode}
-              onChange={(e) => setZipCode(e.target.value)}
-            />
-          </div>
-
-          <div className="col-auto">
-            <label htmlFor="forecastDays" className="sr-only">
-              Forecast Days:
-            </label>
-            <input
-              type="text"
-              id="forecastDays"
-              className="form-control"
-              value={forecastDays}
-              onChange={(e) => setForecastDays(e.target.value)}
-            />
-          </div>
-
-          <div className="col-auto">
+      <div className="row">
+        <div className="col-md-6">
+          <form onSubmit={handleForecastSubmit} className="mb-3">
+            <div className="form-group">
+              <label htmlFor="zipCode">Zip Code:</label>
+              <input
+                type="text"
+                id="zipCode"
+                className="form-control"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="forecastDays">Forecast Days:</label>
+              <input
+                type="text"
+                id="forecastDays"
+                className="form-control"
+                value={forecastDays}
+                onChange={(e) => setForecastDays(e.target.value)}
+              />
+            </div>
             <button type="submit" className="btn btn-primary">
               Get Forecast
             </button>
-          </div>
+          </form>
         </div>
-      </form>
-
-      <form onSubmit={handleHistorySubmit} className="mb-3">
-        <div className="form-row">
-          <div className="col-auto">
-            <label htmlFor="startDate" className="sr-only">
-              Start Date:
-            </label>
-            <input
-              type="date"
-              id="startDate"
-              className="form-control"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
-          </div>
-
-          <div className="col-auto">
-            <label htmlFor="endDate" className="sr-only">
-              End Date:
-            </label>
-            <input
-              type="date"
-              id="endDate"
-              className="form-control"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
-          </div>
-
-          <div className="col-auto">
+        <div className="col-md-6">
+          <form onSubmit={handleHistorySubmit} className="mb-3">
+            <div className="form-group">
+              <label htmlFor="startDate">Start Date:</label>
+              <input
+                type="date"
+                id="startDate"
+                className="form-control"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="endDate">End Date:</label>
+              <input
+                type="date"
+                id="endDate"
+                className="form-control"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
             <button type="submit" className="btn btn-primary">
               Get Historical Data
             </button>
-          </div>
+          </form>
         </div>
-      </form>
+      </div>
 
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div className="row">
-          <div className="col">
+          <div className="col-md-6">
             <div className="card">
               <div className="card-header">
                 <h2 className="card-title">Forecast</h2>
@@ -156,7 +142,7 @@ const WeatherPage = () => {
             </div>
           </div>
 
-          <div className="col">
+          <div className="col-md-6">
             <div className="card">
               <div className="card-header">
                 <h2 className="card-title">Historical Data</h2>

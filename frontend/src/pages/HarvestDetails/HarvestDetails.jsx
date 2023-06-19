@@ -10,7 +10,7 @@ const HarvestDetails = () => {
   const { harvest_id } = useParams();
   const [harvest, setHarvest] = useState(null);
   const [task, setTask] = useState(null);
-  const [plantType, setPlantType] = useState(null); // New state for plant type
+  const [plantType, setPlantType] = useState(null);
   const [user, token] = useAuth();
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const HarvestDetails = () => {
 
       setHarvest(harvestResponse.data);
       setTask(taskResponse.data);
-      setPlantType(plantResponse.data.type); // Set the plant type
+      setPlantType(plantResponse.data.type);
 
       return Promise.resolve();
     } catch (error) {
@@ -84,42 +84,47 @@ const HarvestDetails = () => {
   }
 
   return (
-    <div>
-      <h3>Harvest Information:</h3>
-      <h2>Harvest ID: {harvest.id}</h2>
-      <h2>Task ID: {harvest.task_id}</h2>
-      <h2>Rating: {harvest.rating}</h2>
+    <div className="container">
+      <div className="row">
+        <div className="col-md-8">
+          <div className="section bg-light p-3 mb-4">
+            <h3 className="mb-3">Harvest Information:</h3>
+            <div>Harvest ID: {harvest.id}</div>
+            <div>Task ID: {harvest.task_id}</div>
+            <div>Rating: {harvest.rating}</div>
+          </div>
 
-      <EditHarvestDetails
-        harvest={harvest}
-        token={token}
-        handleSave={handleSave}
-      />
+          <div className="section bg-light p-3 mb-4">
+            <h3 className="mb-3">Task Information:</h3>
+            <div>Plant ID: {task.plant_id}</div>
+            <div>Plant Type: {plantType}</div>
+            <div>Task Scheduled: {task.task_scheduled}</div>
+            <div>Task Completed: {task.task_completed}</div>
+            <div>Assigned User: {task.user_id}</div>
+          </div>
 
-      <UploadHarvestImage
-        harvest={harvest}
-        token={token}
-        onImageUpload={handleImageUpload}
-      />
+          <EditHarvestDetails harvest={harvest} token={token} handleSave={handleSave} />
 
-      <h3>Task Information:</h3>
-      <h2>Plant ID: {task.plant_id}</h2>
-      <h2>Plant Type: {plantType}</h2> 
-
-      <h2>Task Scheduled: {task.task_scheduled}</h2>
-      <h2>Task Completed: {task.task_completed}</h2>
-      <h2>Assigned User: {task.user_id}</h2>
-
-      <div className="image-container">
-        {harvest.image_url ? (
-          <img
-            className="harvest-image"
-            src={`http://127.0.0.1:5000/static/images/${harvest.image_url}`}
-            alt="Harvest Image"
+          <UploadHarvestImage
+            harvest={harvest}
+            token={token}
+            onImageUpload={handleImageUpload}
           />
-        ) : (
-          <p>No image available</p>
-        )}
+        </div>
+
+        <div className="col-md-4">
+          <div className="image-container bg-white p-3 shadow rounded">
+            {harvest.image_url ? (
+              <img
+                className="harvest-image"
+                src={`http://127.0.0.1:5000/static/images/${harvest.image_url}`}
+                alt="Harvest Image"
+              />
+            ) : (
+              <p>No image available</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

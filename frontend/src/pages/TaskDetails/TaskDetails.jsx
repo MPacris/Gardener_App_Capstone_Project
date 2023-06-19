@@ -137,7 +137,7 @@ const TaskDetails = () => {
             <div>
               <form onSubmit={handleHarvestSubmit}>
                 <div>
-                  <label htmlFor="rating">Rating:</label>
+                  <label element="rating">Rating:</label>
                   <select
                     id="rating"
                     name="rating"
@@ -154,7 +154,7 @@ const TaskDetails = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="notes">Notes:</label>
+                  <label element="notes">Notes:</label>
                   <textarea
                     id="notes"
                     name="notes"
