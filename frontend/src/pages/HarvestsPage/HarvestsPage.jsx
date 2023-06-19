@@ -2,11 +2,17 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import "./HarvestsPage.css"
 
 const HarvestsPage = () => {
   const [user, token] = useAuth();
   const [harvests, setHarvests] = useState([]);
+  const [filterPlantType, setFilterPlantType] = useState("");
+  const [filterTaskCompleted, setFilterTaskCompleted] = useState("");
+  const [uniquePlantTypes, setUniquePlantTypes] = useState([]);
+  const [uniqueTaskCompletedDates, setUniqueTaskCompletedDates] = useState([]);
+  const [sortBy, setSortBy] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
     const fetchHarvests = async () => {
@@ -47,9 +53,82 @@ const HarvestsPage = () => {
     fetchHarvests();
   }, [token]);
 
+  useEffect(() => {
+
+    const types = [...new Set(harvests.map((harvest) => harvest.plant_type))];
+    setUniquePlantTypes(types);
+    
+
+    const dates = [...new Set(harvests.map((harvest) => harvest.task_completed))];
+    setUniqueTaskCompletedDates(dates);
+  }, [harvests]);
+
+  const filteredHarvests = harvests.filter((harvest) => {
+    if (filterPlantType && harvest.plant_type !== filterPlantType) {
+      return false;
+    }
+    if (filterTaskCompleted && harvest.task_completed !== filterTaskCompleted) {
+      return false;
+    }
+    return true;
+  });
+
+  const sortedHarvests = filteredHarvests.sort((a, b) => {
+    if (sortBy === "plantType") {
+      const comparison = a.plant_type.localeCompare(b.plant_type);
+      return sortOrder === "asc" ? comparison : -comparison;
+    } else if (sortBy === "taskCompleted") {
+      const dateA = new Date(a.task_completed);
+      const dateB = new Date(b.task_completed);
+      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
+    }
+    return 0;
+  });
+
+
   return (
     <div className="container">
       <h1>This is the Harvests Page</h1>
+      <div className="filters">
+        <label>
+          Plant Type:
+          <select value={filterPlantType} onChange={(e) => setFilterPlantType(e.target.value)}>
+            <option value="">All</option>
+            {uniquePlantTypes.map((type, index) => (
+              <option key={index} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Task Completed:
+          <select value={filterTaskCompleted} onChange={(e) => setFilterTaskCompleted(e.target.value)}>
+            <option value="">All</option>
+            {uniqueTaskCompletedDates.map((date, index) => (
+              <option key={index} value={date}>
+                {date}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Sort By:
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="">None</option>
+            <option value="plantType">Plant Type</option>
+            <option value="taskCompleted">Task Completed</option>
+          </select>
+        </label>
+        <label>
+          Sort Order:
+          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </label>
+      </div>
+      <div className="table-container">
       <table>
         <thead>
           <tr>
@@ -65,7 +144,7 @@ const HarvestsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {harvests.map((harvest) => (
+          {sortedHarvests.map((harvest) => (
             <tr key={harvest.id} className={harvest.task_completed ? "" : "task-incomplete"}>
               <td>{harvest.id}</td>
               <td>{harvest.rating}</td>
@@ -82,10 +161,7 @@ const HarvestsPage = () => {
           ))}
         </tbody>
       </table>
-
-      <Link to="/create-harvest">
-        <p>Add a New Harvest!!</p>
-      </Link>
+      </div>
     </div>
   );
 };
