@@ -1,0 +1,13 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    align-self: flex-start;
+  }
+  
+  button {
+    align-self: flex-start;
+  }

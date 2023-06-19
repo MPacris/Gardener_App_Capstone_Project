@@ -105,11 +105,7 @@ const HarvestDetails = () => {
 
           <EditHarvestDetails harvest={harvest} token={token} handleSave={handleSave} />
 
-          <UploadHarvestImage
-            harvest={harvest}
-            token={token}
-            onImageUpload={handleImageUpload}
-          />
+
         </div>
 
         <div className="col-md-4">
@@ -124,6 +120,12 @@ const HarvestDetails = () => {
               <p>No image available</p>
             )}
           </div>
+
+          <div>          <UploadHarvestImage
+            harvest={harvest}
+            token={token}
+            onImageUpload={handleImageUpload}
+          /></div>
         </div>
       </div>
     </div>
