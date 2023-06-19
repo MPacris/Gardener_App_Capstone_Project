@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./HarvestsPage.css"
+import "./HarvestsPage.css";
 
 const HarvestsPage = () => {
   const [user, token] = useAuth();
@@ -17,7 +17,7 @@ const HarvestsPage = () => {
   useEffect(() => {
     const fetchHarvests = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/harvests", {
+        const response = await axios.get(`http://localhost:5000/api/harvests?user_id=${user.id}`, {
           headers: {
             Authorization: "Bearer " + token,
           },
@@ -51,13 +51,11 @@ const HarvestsPage = () => {
     };
 
     fetchHarvests();
-  }, [token]);
+  }, [user.id, token]);
 
   useEffect(() => {
-
     const types = [...new Set(harvests.map((harvest) => harvest.plant_type))];
     setUniquePlantTypes(types);
-    
 
     const dates = [...new Set(harvests.map((harvest) => harvest.task_completed))];
     setUniqueTaskCompletedDates(dates);
@@ -85,7 +83,6 @@ const HarvestsPage = () => {
     return 0;
   });
 
-
   return (
     <div className="container">
       <h1>This is the Harvests Page</h1>
@@ -103,7 +100,10 @@ const HarvestsPage = () => {
         </label>
         <label>
           Task Completed:
-          <select value={filterTaskCompleted} onChange={(e) => setFilterTaskCompleted(e.target.value)}>
+          <select
+            value={filterTaskCompleted}
+            onChange={(e) => setFilterTaskCompleted(e.target.value)}
+          >
             <option value="">All</option>
             {uniqueTaskCompletedDates.map((date, index) => (
               <option key={index} value={date}>
@@ -129,38 +129,38 @@ const HarvestsPage = () => {
         </label>
       </div>
       <div className="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Harvest ID</th>
-            <th>Rating</th>
-            <th>Image URL</th>
-            <th>Notes</th>
-            <th>Task ID</th>
-            <th>Plant ID</th>
-            <th>Plant Type</th>
-            <th>Task Completed</th>
-            <th>Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedHarvests.map((harvest) => (
-            <tr key={harvest.id} className={harvest.task_completed ? "" : "task-incomplete"}>
-              <td>{harvest.id}</td>
-              <td>{harvest.rating}</td>
-              <td>{harvest.image_url}</td>
-              <td>{harvest.notes}</td>
-              <td>{harvest.task_id}</td>
-              <td>{harvest.plant_id}</td>
-              <td>{harvest.plant_type}</td>
-              <td>{harvest.task_completed}</td>
-              <td>
-                <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>
-              </td>
+        <table>
+          <thead>
+            <tr>
+              <th>Harvest ID</th>
+              <th>Rating</th>
+              <th>Image URL</th>
+              <th>Notes</th>
+              <th>Task ID</th>
+              <th>Plant ID</th>
+              <th>Plant Type</th>
+              <th>Task Completed</th>
+              <th>Details</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sortedHarvests.map((harvest) => (
+              <tr key={harvest.id} className={harvest.task_completed ? "" : "task-incomplete"}>
+                <td>{harvest.id}</td>
+                <td>{harvest.rating}</td>
+                <td>{harvest.image_url}</td>
+                <td>{harvest.notes}</td>
+                <td>{harvest.task_id}</td>
+                <td>{harvest.plant_id}</td>
+                <td>{harvest.plant_type}</td>
+                <td>{harvest.task_completed}</td>
+                <td>
+                  <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

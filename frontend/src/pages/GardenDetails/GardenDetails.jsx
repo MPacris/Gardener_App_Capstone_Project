@@ -168,7 +168,7 @@ const GardenDetails = () => {
             ) : (
               <button onClick={() => setEditMode(false)}>Cancel Edit</button>
             )}
-            <Link to="/gardens">Go to Gardens Page</Link>
+            <Link to="/">Go back to Home Page</Link>
             <div className="container">
               {editMode ? (
                 <EditGardenDetails
