@@ -26,7 +26,7 @@ function UserGardens() {
       setGardens(response.data);
     } catch (error) {
       console.error(error);
-      // Handle the error case
+  
     }
   };
 
@@ -40,7 +40,7 @@ function UserGardens() {
       setUsers(response.data);
     } catch (error) {
       console.error(error);
-      // Handle the error case
+      
     }
   };
 
@@ -61,12 +61,12 @@ function UserGardens() {
       );
 
       console.log(response.data);
-      // Reset selected values
+ 
       setSelectedUser('');
       setSelectedGarden('');
-      fetchUserGardens(); // Fetch updated user gardens
+      fetchUserGardens(); 
 
-      // Navigate to /gardens
+
       navigate('/gardens');
     } catch (error) {
       console.error(error);
