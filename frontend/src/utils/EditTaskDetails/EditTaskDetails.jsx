@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import "./EditTaskDetails.css";
 
 const EditTaskDetails = () => {
   const { task_id } = useParams();
@@ -57,31 +58,41 @@ const EditTaskDetails = () => {
   }
 
   return (
-    <div>
-      <h3>Edit Task Details:</h3>
-      <h2>Task ID: {task.id}</h2>
-      <h2>Task Type: {task.task_type}</h2>
-      <h2>Task Scheduled: {task.task_scheduled}</h2>
-      <h2>
-        Task Completed:{" "}
+    <div className="edit-task-details">
+      <h3 className="edit-task-details__title">Edit Task Details:</h3>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">Task ID:</span> {task.id}
+      </div>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">Task Type:</span> {task.task_type}
+      </div>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">Task Scheduled:</span> {task.task_scheduled}
+      </div>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">Task Completed:</span>{" "}
         <input
+          className="edit-task-details__input"
           type="date"
           value={newCompleted}
           onChange={(e) => setNewCompleted(e.target.value)}
           min="1000-01-01"
         />
-      </h2>
-      <h2>
-        User ID:{" "}
+      </div>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">User ID:</span>{" "}
         <input
+          className="edit-task-details__input"
           type="text"
           value={newUserId}
           onChange={(e) => setNewUserId(e.target.value)}
         />
-      </h2>
-      <h2>Plant ID: {task.plant_id}</h2>
+      </div>
+      <div className="edit-task-details__item">
+        <span className="edit-task-details__label">Plant ID:</span> {task.plant_id}
+      </div>
 
-      <button onClick={handleUpdate}>Save Changes</button>
+      <button className="edit-task-details__button" onClick={handleUpdate}>Save Changes</button>
     </div>
   );
 };
