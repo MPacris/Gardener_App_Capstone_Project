@@ -2,14 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import "./TasksPage.css"
+import "./TasksPage.css";
 
 const TasksPage = () => {
   const [user, token] = useAuth();
   const [tasks, setTasks] = useState([]);
   const [filterTaskCompleted, setFilterTaskCompleted] = useState("");
+  const [filterPlantType, setFilterPlantType] = useState("");
+  const [filterTaskType, setFilterTaskType] = useState("");
   const [uniqueTaskTypes, setUniqueTaskTypes] = useState([]);
   const [uniqueTaskCompletedDates, setUniqueTaskCompletedDates] = useState([]);
+  const [uniquePlantTypes, setUniquePlantTypes] = useState([]);
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const tableRef = useRef(null);
@@ -45,6 +48,9 @@ const TasksPage = () => {
         });
 
         setTasks(updatedTasks);
+
+        const plantTypes = [...new Set(updatedTasks.map((task) => task.plant_type))];
+        setUniquePlantTypes(plantTypes);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -62,7 +68,11 @@ const TasksPage = () => {
   }, [tasks]);
 
   const filteredTasks = tasks.filter((task) => {
-    if (filterTaskCompleted && task.task_completed !== filterTaskCompleted) {
+
+    if (filterPlantType && filterPlantType !== "empty" && task.plant_type !== filterPlantType) {
+      return false;
+    }
+    if (filterTaskType && filterTaskType !== "empty" && task.task_type !== filterTaskType) {
       return false;
     }
     return true;
@@ -93,16 +103,33 @@ const TasksPage = () => {
     <div className="container">
       <h1>This is the Tasks Page</h1>
       <div className="filters">
+        
         <label>
-          Task Completed:
+          Plant Type:
           <select
-            value={filterTaskCompleted}
-            onChange={(e) => setFilterTaskCompleted(e.target.value)}
+            value={filterPlantType}
+            onChange={(e) => setFilterPlantType(e.target.value)}
           >
             <option value="">All</option>
-            {uniqueTaskCompletedDates.map((date, index) => (
-              <option key={index} value={date}>
-                {date}
+            <option value="empty">Empty</option>
+            {uniquePlantTypes.map((plantType, index) => (
+              <option key={index} value={plantType}>
+                {plantType}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Task Type:
+          <select
+            value={filterTaskType}
+            onChange={(e) => setFilterTaskType(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="empty">Empty</option>
+            {uniqueTaskTypes.map((taskType, index) => (
+              <option key={index} value={taskType}>
+                {taskType}
               </option>
             ))}
           </select>
@@ -117,7 +144,10 @@ const TasksPage = () => {
         </label>
         <label>
           Sort Order:
-          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
@@ -139,7 +169,10 @@ const TasksPage = () => {
           </thead>
           <tbody>
             {sortedTasks.map((task) => (
-              <tr key={task.id} className={task.task_completed ? "" : "task-incomplete"}>
+              <tr
+                key={task.id}
+                className={task.task_completed ? "" : "task-incomplete"}
+              >
                 <td>{task.id}</td>
                 <td>{task.task_type}</td>
                 <td>{task.task_scheduled}</td>
