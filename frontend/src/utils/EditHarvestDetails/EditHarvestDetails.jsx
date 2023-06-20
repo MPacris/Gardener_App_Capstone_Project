@@ -4,6 +4,7 @@ import axios from "axios";
 const EditHarvestDetails = ({ harvest, token, handleSave }) => {
   const [newRating, setNewRating] = useState(harvest.rating);
   const [newNotes, setNewNotes] = useState(harvest.notes);
+  const [editCompleted, setEditCompleted] = useState(false);
 
   const handleRatingChange = (e) => {
     setNewRating(e.target.value);
@@ -29,13 +30,15 @@ const EditHarvestDetails = ({ harvest, token, handleSave }) => {
       });
 
       handleSave(data);
+      setEditCompleted(true);
     } catch (error) {
-      // Handle error
+      // Need to put an error message here
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="section bg-light p-3 mb-4">
+      {editCompleted && <div className="alert alert-success">Edit completed successfully!</div>}
       <h3 className="mb-3">Edit Harvest Details:</h3>
       <div className="form-group row">
         <label element="rating" className="col-sm-2 col-form-label">Rating:</label>

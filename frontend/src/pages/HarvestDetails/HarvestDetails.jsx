@@ -121,7 +121,7 @@ const HarvestDetails = () => {
             )}
           </div>
 
-          <div>          <UploadHarvestImage
+          <div><UploadHarvestImage
             harvest={harvest}
             token={token}
             onImageUpload={handleImageUpload}

@@ -58,7 +58,7 @@ class GetHarvestResource(Resource):
         update_data = request.get_json()
         updated_harvest = harvest_schema.load(update_data, partial=True)
         harvest.rating = updated_harvest.rating
-        harvest.image_url = updated_harvest.image_url
+  
         harvest.notes = updated_harvest.notes
         db.session.commit()
 

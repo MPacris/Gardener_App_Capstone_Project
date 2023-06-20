@@ -37,8 +37,7 @@ class GetPlantResource(Resource):
         update_data = request.get_json()
         updated_plant = plant_schema.load(update_data, partial=True)
         plant.type = updated_plant.type
-        plant.location = updated_plant.location
-        plant.image_url = updated_plant.image_url
+
         plant.garden_id = updated_plant.garden_id
         db.session.commit()
 
