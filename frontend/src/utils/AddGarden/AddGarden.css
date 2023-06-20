@@ -43,7 +43,7 @@
   }
   
   .add-garden-button {
-    background-color: #4c91af;
+    background-color: #37d60f;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -52,7 +52,7 @@
   }
   
   .add-garden-button:hover {
-    background-color: #4572a0;
+    background-color: #086d10;
   }
   
   .go-to-gardens-link {

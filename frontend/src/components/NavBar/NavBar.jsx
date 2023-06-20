@@ -11,8 +11,8 @@ const Navbar = () => {
     <div className="navBar">
       <ul>
         <li className="brand">
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            <b>Gardening App</b>
+        <Link to="/" style={{ textDecoration: "none", color: "white", textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)", outline: "2px solid white" }}>
+            <b>The Gardening App</b>
           </Link>
         </li>
     

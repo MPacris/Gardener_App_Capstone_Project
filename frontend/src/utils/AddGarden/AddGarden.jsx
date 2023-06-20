@@ -60,7 +60,7 @@ const AddGarden = () => {
 
   return (
     <div className="add-garden-container">
-      <h1 className="add-garden-heading">Add Garden</h1>
+      <h1 className="add-garden-heading">Add a New Garden</h1>
 
       <div className="add-garden-form">
         {error && <p className="error-message">{error}</p>}
