@@ -1,0 +1,41 @@
+.container {
+    text-align: center;
+  }
+  
+  .welcome-message {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 20px auto;
+  }
+  
+  .garden-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+  }
+  
+  .garden-item {
+    margin-bottom: 5px;
+  }
+  
+  .add-gardener-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+  
+  .homepage-image {
+    height: 300px;
+    border: 1px solid gray;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }

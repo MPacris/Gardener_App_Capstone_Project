@@ -58,10 +58,14 @@ const AddGarden = () => {
   };
 
   return (
-    <div className="container">
+    <div>
+      <div>
       <h1>Add Garden</h1>
+      </div>
+
+      <div>
       {error && <p>{error}</p>}
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form-control" onSubmit={handleSubmit}>
         <label element="name">Name:</label>
         <input
           type="text"
@@ -83,6 +87,7 @@ const AddGarden = () => {
         <button type="submit">Add Garden</button>
       </form>
       <Link to="/gardens">Go to Gardens Page</Link>
+    </div>
     </div>
   );
 };

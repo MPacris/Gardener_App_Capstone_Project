@@ -4,17 +4,15 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
 const HomePage = () => {
   const [user, token] = useAuth();
   const [gardens, setGardens] = useState([]);
-  const [username, setUsername] = useState('');
-  const [gardenId, setGardenId] = useState('');
-  const [submissionStatus, setSubmissionStatus] = useState('');
+  const [username, setUsername] = useState("");
+  const [gardenId, setGardenId] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState("");
   const navigate = useNavigate();
-
-
-
 
   useEffect(() => {
     const fetchGardens = async () => {
@@ -35,7 +33,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (user) {
-      setUsername('');
+      setUsername("");
     }
   }, [user]);
 
@@ -56,61 +54,143 @@ const HomePage = () => {
       );
 
       console.log(response.data);
-      setSubmissionStatus('Gardener Added!!!');
-      navigate('/gardens');
+      setSubmissionStatus("Gardener Added!!!");
+      navigate("/gardens");
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <div className="container">
-      {user && <h1>Welcome Back, {user.username}</h1>}
-      <h3>Your Gardens</h3>
-      <div>
-        {gardens.map((garden) => (
-          <Link to={`/garden-details/${garden.id}`} key={garden.id}>
-            <li>{garden.name}</li>
-          </Link>
-        ))}
+    <div className="container text-center">
+      <div className="row">
+        <div className="col-md-8">
+          {user && (
+            <h1 className="welcome-message">
+              Welcome Back, {user.username} !!!!
+            </h1>
+          )}
+        </div>
+        <div className="col-6 col-md-4">
+        <div className="garden-list">
+
+        <Link to="/add-garden" className="add-garden-link">
+            <p className="add-garden-text">Add a New Garden!!</p>
+          </Link>    
+          <div className="section-title">Your Gardens</div>
+     
+            {gardens.map((garden) => (
+              <Link
+                to={`/garden-details/${garden.id}`}
+                key={garden.id}
+                className="garden-link"
+              >
+                <li className="garden-item">{garden.name}</li>
+              </Link>
+            ))}
+          </div>
+            
+        </div>
       </div>
 
-      <Link to="/add-garden">
-        <p>Add a New Garden!!</p>
-      </Link>
+      <div className="row">
+        <div className="col-3">
+          <img
+            src="/uploadpictures/breesfence.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+        </div>
+        <div className="col-3">
+          <img
+            src="/uploadpictures/farmeranddog.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+        </div>
+        <div className="col-3">
+          <img
+            src="/uploadpictures/insidelook.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+        </div>
+        <div className="col-3">
+          <img
+            src="/uploadpictures/watering.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+        </div>
+      </div>
 
-      {submissionStatus && <p>{submissionStatus}</p>}
+      <div className="row">
+        <div className="col-6">
+          <form onSubmit={handleSubmit} className="add-gardener-form">
+            <div className="section-title">Add a Gardener to a Garden</div>
+            <div className="form-group">
+              <label htmlFor="username" className="form-label">
+                Username:
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="form-control"
+                required
+              />
+            </div>
 
-      <form onSubmit={handleSubmit}>
-        <h2>Add a Gardener to the Current List of Gardens</h2>
-        <label element="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+            <div className="form-group">
+              <label htmlFor="gardenId" className="form-label">
+                Garden ID:
+              </label>
+              <select
+                id="gardenId"
+                name="gardenId"
+                value={gardenId}
+                onChange={(e) => setGardenId(e.target.value)}
+                className="form-select"
+                required
+              >
+                <option value="">Select a garden</option>
+                {gardens.map((garden) => (
+                  <option key={garden.id} value={garden.id}>
+                    {garden.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <label element="gardenId">Garden ID:</label>
-        <select
-          id="gardenId"
-          name="gardenId"
-          value={gardenId}
-          onChange={(e) => setGardenId(e.target.value)}
-          required
-        >
-          <option value="">Select a garden</option>
-          {gardens.map((garden) => (
-            <option key={garden.id} value={garden.id}>
-              {garden.name}
-            </option>
-          ))}
-        </select>
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+            {submissionStatus && (
+              <p className="submission-status">{submissionStatus}</p>
+            )}
+          </form>
+        </div>
+        <div className="col-3">
+          <img
+            src="/uploadpictures/outsidelook.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+        </div>
 
-        <button type="submit">Submit</button>
-      </form>
+        <div className="col-3">
+          <img
+            src="/uploadpictures/flower.jpg"
+            alt="brees"
+            className="homepage-image"
+          />
+
+      </div>
+    
+   
+      </div>
     </div>
   );
 };
