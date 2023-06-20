@@ -54,7 +54,7 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleForecastSubmit} className="mb-3">
             <div className="form-group">
-              <label htmlFor="zipCode">Zip Code:</label>
+              <label element="zipCode">Zip Code:</label>
               <input
                 type="text"
                 id="zipCode"
@@ -64,7 +64,7 @@ const WeatherPage = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="forecastDays">Forecast Days:</label>
+              <label element="forecastDays">Forecast Days:</label>
               <input
                 type="text"
                 id="forecastDays"
@@ -81,7 +81,7 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleHistorySubmit} className="mb-3">
             <div className="form-group">
-              <label htmlFor="startDate">Start Date:</label>
+              <label element="startDate">Start Date:</label>
               <input
                 type="date"
                 id="startDate"
@@ -91,7 +91,7 @@ const WeatherPage = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="endDate">End Date:</label>
+              <label element="endDate">End Date:</label>
               <input
                 type="date"
                 id="endDate"

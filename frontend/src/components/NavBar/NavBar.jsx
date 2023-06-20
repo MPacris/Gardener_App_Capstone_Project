@@ -19,23 +19,23 @@ const Navbar = () => {
    
         <li>
           <Link to="/plants" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
-            PlantsPage
+            Plants List
           </Link>
         </li>
         <li>
           <Link to="/tasks" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
-            TasksPage
+            My Tasks
           </Link>
         </li>
         <li>
           <Link to="/harvests" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
-            HarvestsPage
+            Harvest Tracker
           </Link>
         </li>
  
         <li>
           <Link to="/weather-page" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
-            WeatherPage
+            Weather 
           </Link>
         </li>
 

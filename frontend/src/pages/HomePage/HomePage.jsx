@@ -55,7 +55,7 @@ const HomePage = () => {
 
       console.log(response.data);
       setSubmissionStatus("Gardener Added!!!");
-      navigate("/gardens");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -129,7 +129,7 @@ const HomePage = () => {
           <form onSubmit={handleSubmit} className="add-gardener-form">
             <div className="section-title">Add a Gardener to a Garden</div>
             <div className="form-group">
-              <label htmlFor="username" className="form-label">
+              <label element="username" className="form-label">
                 Username:
               </label>
               <input
@@ -144,7 +144,7 @@ const HomePage = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="gardenId" className="form-label">
+              <label element="gardenId" className="form-label">
                 Garden ID:
               </label>
               <select

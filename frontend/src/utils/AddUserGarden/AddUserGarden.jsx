@@ -45,7 +45,7 @@ function AddUserGarden() {
       );
 
       console.log(response.data);
-      navigate('/gardens');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }

@@ -66,7 +66,7 @@ const AddGarden = () => {
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name" className="form-label">
+            <label element="name" className="form-label">
               Name:
             </label>
             <input
@@ -80,7 +80,7 @@ const AddGarden = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="notes" className="form-label">
+            <label element="notes" className="form-label">
               Notes:
             </label>
             <textarea
@@ -96,8 +96,8 @@ const AddGarden = () => {
             Add Garden
           </button>
         </form>
-        <Link to="/gardens" className="go-to-gardens-link">
-          Go to Gardens Page
+        <Link to="/" className="go-to-gardens-link">
+           Home
         </Link>
       </div>
     </div>
