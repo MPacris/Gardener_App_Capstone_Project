@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import "./AddGarden.css"
 
 const defaultValues = {
   name: '',
@@ -45,7 +46,7 @@ const AddGarden = () => {
 
       setFormData(defaultValues);
 
-      navigate('/gardens');
+      navigate('/');
       window.location.reload();
     } catch (error) {
       console.log(error.response.data);
@@ -58,36 +59,47 @@ const AddGarden = () => {
   };
 
   return (
-    <div>
-      <div>
-      <h1>Add Garden</h1>
+    <div className="add-garden-container">
+      <h1 className="add-garden-heading">Add Garden</h1>
+
+      <div className="add-garden-form">
+        {error && <p className="error-message">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">
+              Name:
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="form-input"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="notes" className="form-label">
+              Notes:
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              value={formData.notes}
+              onChange={handleInputChange}
+              className="form-textarea"
+            />
+          </div>
+
+          <button type="submit" className="add-garden-button">
+            Add Garden
+          </button>
+        </form>
+        <Link to="/gardens" className="go-to-gardens-link">
+          Go to Gardens Page
+        </Link>
       </div>
-
-      <div>
-      {error && <p>{error}</p>}
-      <form className="form-control" onSubmit={handleSubmit}>
-        <label element="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-        />
-
-        <label element="notes">Notes:</label>
-        <textarea
-          type="text"
-          id="notes"
-          name="notes"
-          value={formData.notes}
-          onChange={handleInputChange}
-        />
-
-        <button type="submit">Add Garden</button>
-      </form>
-      <Link to="/gardens">Go to Gardens Page</Link>
-    </div>
     </div>
   );
 };
