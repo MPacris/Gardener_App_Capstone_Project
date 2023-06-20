@@ -64,7 +64,7 @@ const PlantsPage = () => {
 
   return (
     <div className="container">
-      <h1>This is the Plants Page</h1>
+      <h1>All Plants</h1>
       <div className="bottom-container">
         {plants.map((plant) => (
           <div
