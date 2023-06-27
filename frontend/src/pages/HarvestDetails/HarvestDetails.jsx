@@ -86,15 +86,15 @@ const HarvestDetails = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-8">
-          <div className="section bg-light p-3 mb-4">
+        <div className="col-md-6">
+          <div className="harvest-information">
             <h3 className="mb-3">Harvest Information:</h3>
             <div>Harvest ID: {harvest.id}</div>
             <div>Task ID: {harvest.task_id}</div>
             <div>Rating: {harvest.rating}</div>
           </div>
 
-          <div className="section bg-light p-3 mb-4">
+          <div className="task-information">
             <h3 className="mb-3">Task Information:</h3>
             <div>Plant ID: {task.plant_id}</div>
             <div>Plant Type: {plantType}</div>
@@ -103,13 +103,13 @@ const HarvestDetails = () => {
             <div>Assigned User: {task.user_id}</div>
           </div>
 
-          <EditHarvestDetails harvest={harvest} token={token} handleSave={handleSave} />
+          <EditHarvestDetails className="edit-harvest-details" harvest={harvest} token={token} handleSave={handleSave} />
 
 
         </div>
 
-        <div className="col-md-4">
-          <div className="image-container bg-white p-3 shadow rounded">
+        <div className="col-md-6">
+          <div className="image-container">
             {harvest.image_url ? (
               <img
                 className="harvest-image"
