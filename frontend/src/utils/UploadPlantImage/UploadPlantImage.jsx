@@ -32,12 +32,12 @@ const UploadPlantImage = ({ plant, token, handleImageUpload }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form className="form-group" onSubmit={handleSubmit}>
+      <label className="form-label">
         Upload Image:
-        <input type="file" onChange={handleFileChange} />
+        <input className="form-control" type="file" onChange={handleFileChange} />
       </label>
-      <button type="submit">Upload</button>
+      <button className="submit-button" type="submit">Upload</button>
     </form>
   );
 };

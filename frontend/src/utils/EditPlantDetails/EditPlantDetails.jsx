@@ -35,16 +35,16 @@ const EditPlantDetails = ({ plant, token, handleSave }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form className="form-group" onSubmit={handleSubmit}>
+      <label className="form-label">
         Type:
-        <input type="text" value={newType} onChange={handleTypeChange} />
+        <input className="form-control" type="text" value={newType} onChange={handleTypeChange} />
       </label>
-      <label>
+      <label className="form-label">
         Location:
-        <input type="text" value={newLocation} onChange={handleLocationChange} />
+        <input className="form-control" type="text" value={newLocation} onChange={handleLocationChange} />
       </label>
-      <button type="submit">Save</button>
+      <button className="submit-button" type="submit">Save</button>
     </form>
   );
 };

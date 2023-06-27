@@ -5,13 +5,20 @@ import useAuth from "../../hooks/useAuth";
 import EditPlantDetails from "../../utils/EditPlantDetails/EditPlantDetails";
 import UploadPlantImage from "../../utils/UploadPlantImage/UploadPlantImage";
 import TaskHistory from "./../../utils/TaskHistory/TaskHistory";
+import HarvestHistory from "../../utils/HarvestHistory/HarvestHistory";
 import HarvestTracker from "../../utils/HarvestTracker/HarvestTracker";
+import "./PlantDetails.css";
 
 const PlantDetails = () => {
   const { plant_id } = useParams();
   const [plant, setPlant] = useState(null);
   const [user, token] = useAuth();
   const navigate = useNavigate();
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    type: "",
+    location: "",
+  });
 
   const fetchPlantDetails = async () => {
     try {
@@ -39,11 +46,54 @@ const PlantDetails = () => {
       type: data.type,
       location: data.location,
     }));
+    setEditMode(false);
   };
 
   const handleImageUpload = async () => {
     await fetchPlantDetails();
     navigate(`/garden-details/${plant.garden_id}`);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!formData.type || !formData.location) {
+      console.log("Type and location are required");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/plants",
+        {
+          type: formData.type,
+          location: formData.location,
+          garden_id: parseInt(plant.garden_id),
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+
+      setFormData({
+        type: "",
+        location: "",
+      });
+      navigate(`/garden-details/${plant.garden_id}`);
+      window.location.reload();
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   if (!plant) {
@@ -53,47 +103,67 @@ const PlantDetails = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-8">
-          <div className="plant-information">
-            <h5>Plant Information:</h5>
-            <div>
-              <div>PLANT ID: {plant_id}</div>
-              <div>PLANT Type: {plant.type}</div>
+        <div className="col-4">
+          <div className="top-row-container">
+            <div className="plant-information">
+              <h5>Plant Information:</h5>
+              <div>
+                <div>Plant ID: {plant_id}</div>
+                <div>Plant Type: {plant.type}</div>
+                <div>Plant Location: {plant.location}</div>
 
-              <div className="edit-upload-container">
-                <h5>Edit Plant Details</h5>
-                <EditPlantDetails
-                  plant={plant}
-                  token={token}
-                  handleSave={handleSave}
-                />
-
-                <UploadPlantImage
-                  plant={plant}
-                  token={token}
-                  handleImageUpload={handleImageUpload}
-                />
-
-                <div className="links">
-                  <Link to="/plants">Back to Plants</Link>
-                  <Link to={`/create-task?plant_id=${plant_id}`}>
-                    Create task
-                  </Link>
-                </div>
+                {editMode ? (
+                  <div className="edit-plant-details-container">
+                    <EditPlantDetails
+                      plant={plant}
+                      token={token}
+                      handleSave={handleSave}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
+                {!editMode && (
+                  <button
+                    onClick={() => setEditMode(true)}
+                    className="edit-plant-submit-button"
+                  >
+                    Edit Plant Details
+                  </button>
+                )}
               </div>
             </div>
           </div>
         </div>
 
         <div className="col-4">
-          <div className="plant-image-container">
-            <img
-              className="plant-image"
-              src={`http://localhost:5000/static/images/${
-                plant.image_url || ""
-              }`}
-              alt="Plant"
-            />
+          <div className="top-row-container">
+            <div className="upload-container">
+              <UploadPlantImage
+                plant={plant}
+                token={token}
+                handleImageUpload={handleImageUpload}
+              />
+              <div className="links">
+              <Link to={`/create-task?plant_id=${plant_id}`}>
+                Create a New Task
+              </Link>
+            </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-4">
+          <div className="top-row-container">
+            <div className="plant-image-container">
+              <img
+                className="plant-image"
+                src={`http://localhost:5000/static/images/${
+                  plant.image_url || ""
+                }`}
+                alt="Plant"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +175,13 @@ const PlantDetails = () => {
           </div>
         </div>
 
-        <div className="col-8">
+        <div className="col-4">
+          <div className="task-history">
+            <HarvestHistory plant={plant} token={token} />
+          </div>
+        </div>
+
+        <div className="col-4">
           <div className="harvest-tracker">
             <HarvestTracker plant={plant} token={token} />
           </div>

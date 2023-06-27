@@ -72,7 +72,7 @@ const GardensPage = () => {
       </div>
 
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-md-6">
           <div className="garden-list">
             <Link to="/add-garden" className="add-garden-link">
               <p className="add-garden-text">Click Here to Add a New Garden</p>

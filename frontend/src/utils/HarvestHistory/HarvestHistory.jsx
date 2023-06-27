@@ -3,50 +3,51 @@ import axios from "axios";
 import "../../pages/PlantDetails/PlantDetails.css";
 import HarvestTracker from "../HarvestTracker/HarvestTracker";
 
-const TaskHistory = ({ plant, token }) => {
-  const [plantTasks, setPlantTasks] = useState([]);
+const HarvestHistory = ({ plant, token }) => {
+  const [harvests, setHarvests] = useState([]);
 
-  const fetchPlantTasks = async () => {
+  const fetchHarvests = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/tasks?plant_id=${plant.id}`,
+        `http://localhost:5000/api/harvests?plant_id=${plant.id}`,
         {
           headers: {
             Authorization: "Bearer " + token,
           },
         }
       );
-      setPlantTasks(response.data);
+      setHarvests(response.data);
     } catch (error) {
       // Handle error
     }
   };
 
   useEffect(() => {
-    fetchPlantTasks();
+    fetchHarvests();
   }, [plant, token]);
 
   return (
     <div className="container-fluid">
       <div className="bottom-container">
-        <div className="task-info">
-          <h5>Task History:</h5>
+        <div className="harvest-info">
+          <h5>Harvest History:</h5>
           <table>
             <thead>
-              <tr>  
-                <th>Task Scheduled</th>
+              <tr>
                 <th>Task Completed</th>
-                <th>Task Type</th>
+                <th>Rating</th>    
+                <th>Notes</th>
               </tr>
             </thead>
             <tbody>
-              {plantTasks
-                .filter((task) => task.plant_id === plant.id)
-                .map((task) => (
-                  <tr key={task.id}>                    
-                    <td>{task.task_scheduled}</td>
-                    <td>{task.task_completed}</td>
-                    <td>{task.task_type}</td>
+              {harvests
+                .filter((harvest) => harvest.plant_id === plant.id)
+                .map((harvest) => (
+                  <tr key={harvest.id}>
+                    <td>{harvest.task_completed}</td>
+                    <td>{harvest.rating}</td>   
+                    <td>{harvest.notes}</td>
+             
                   </tr>
                 ))}
             </tbody>
@@ -57,4 +58,4 @@ const TaskHistory = ({ plant, token }) => {
   );
 };
 
-export default TaskHistory;
+export default HarvestHistory;
