@@ -18,6 +18,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #f5f5f5;
+    box-shadow:  2px 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   .task-details h3 {
@@ -50,7 +51,7 @@
   }
   
   .task-details button:hover {
-    background-color: #0cf54a;
+    background-color: #2f8cd8de;
   }
   
   .link-wrapper {
@@ -65,4 +66,8 @@
   
   .link-wrapper a:hover {
     text-decoration: underline;
+  }
+
+  .create-harvest-container{
+    margin-top: 20px;
   }

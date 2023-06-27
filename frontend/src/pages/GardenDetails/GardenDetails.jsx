@@ -205,7 +205,7 @@ const GardenDetails = () => {
 
         <div className="col-lg-4 col-lg-3">
           <div className="add-plant">
-            <h3>Add Plant</h3>
+            <h3>Add a New Plant</h3>
 
             <form className="form-group" onSubmit={handleSubmit}>
               <label className="form-label" element="type">Type:</label>
@@ -235,7 +235,7 @@ const GardenDetails = () => {
 
         <div className="col-lg-4 col-lg-3">
           <div className="users">
-            <h3>Users:</h3>
+            <h3>Active Gardeners:</h3>
             <div>
               {garden.users.map((user) => (
                 <li key={user.id}>{user.username}</li>

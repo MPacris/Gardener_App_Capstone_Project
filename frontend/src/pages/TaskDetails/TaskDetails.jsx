@@ -132,17 +132,18 @@ const TaskDetails = () => {
         </div>
 
         {task.task_type === "harvest" && (
-          <div>
+          <div className="create-harvest-container">
             <h3>Create Harvest</h3>
             <div>
               <form onSubmit={handleHarvestSubmit}>
                 <div>
-                  <label element="rating">Rating:</label>
+                  <label className="form-label" element="rating">Rating:</label>
                   <select
                     id="rating"
                     name="rating"
                     value={harvestFormData.rating}
                     onChange={handleHarvestChange}
+                    className="form-select"
                   >
                     <option value="">Select rating</option>
                     {ratingOptions.map((rating) => (
@@ -154,15 +155,16 @@ const TaskDetails = () => {
                 </div>
 
                 <div>
-                  <label element="notes">Notes:</label>
+                  <label className="form-label" element="notes">Notes:</label>
                   <textarea
+                    className="form-control"
                     id="notes"
                     name="notes"
                     value={harvestFormData.notes}
                     onChange={handleHarvestChange}
                   ></textarea>
                 </div>
-                <button type="submit">Create Harvest</button>
+                <button className="submit-button" type="submit">Create Harvest</button>
               </form>
             </div>
           </div>
