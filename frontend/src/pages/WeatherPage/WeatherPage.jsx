@@ -54,7 +54,7 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleForecastSubmit} className="mb-3">
             <div className="form-group">
-              <label element="zipCode">Zip Code:</label>
+              <label className="form-label" element="zipCode">Zip Code:</label>
               <input
                 type="text"
                 id="zipCode"
@@ -64,7 +64,7 @@ const WeatherPage = () => {
               />
             </div>
             <div className="form-group">
-              <label element="forecastDays">Forecast Days:</label>
+              <label className="form-label" element="forecastDays">Forecast Days:</label>
               <input
                 type="text"
                 id="forecastDays"
@@ -73,7 +73,7 @@ const WeatherPage = () => {
                 onChange={(e) => setForecastDays(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="submit-button">
               Get Forecast
             </button>
           </form>
@@ -81,7 +81,7 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleHistorySubmit} className="mb-3">
             <div className="form-group">
-              <label element="startDate">Start Date:</label>
+              <label className="form-label" element="startDate">Start Date:</label>
               <input
                 type="date"
                 id="startDate"
@@ -91,7 +91,7 @@ const WeatherPage = () => {
               />
             </div>
             <div className="form-group">
-              <label element="endDate">End Date:</label>
+              <label className="form-label" element="endDate">End Date:</label>
               <input
                 type="date"
                 id="endDate"
@@ -100,7 +100,7 @@ const WeatherPage = () => {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="submit-button">
               Get Historical Data
             </button>
           </form>
@@ -155,7 +155,7 @@ const WeatherPage = () => {
                         <div className="card-header">{day.date}</div>
                         <div className="card-body">
                           <p className="card-text">
-                            Chance of Rain: {day.day?.daily_chance_of_rain}%
+                            Total Precipitation: {day.day?.totalprecip_in} in
                           </p>
                           <p className="card-text">
                             Temperature Max: {day.day?.maxtemp_f}°F
@@ -179,3 +179,10 @@ const WeatherPage = () => {
 };
 
 export default WeatherPage;
+
+
+
+
+
+
+
