@@ -15,8 +15,12 @@ const Navbar = () => {
             <b>The Gardening App</b>
           </Link>
         </li>
-    
-   
+        <li>
+          <Link to="/gardens" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+            Gardens Page
+          </Link>
+        </li>
+  
         <li>
           <Link to="/plants" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
             Plants List

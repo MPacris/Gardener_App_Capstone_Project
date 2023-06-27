@@ -42,20 +42,26 @@ const GardenDetails = () => {
 
     const fetchPlants = async () => {
       try {
-        const plantResponse = await axios.get("http://localhost:5000/api/plants", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        
+        const plantResponse = await axios.get(
+          "http://localhost:5000/api/plants",
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
         const plantData = plantResponse.data;
 
-        const harvestResponse = await axios.get("http://localhost:5000/api/harvests", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        
+        const harvestResponse = await axios.get(
+          "http://localhost:5000/api/harvests",
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
+
         const harvestData = harvestResponse.data;
 
         const plantMap = {};
@@ -164,9 +170,21 @@ const GardenDetails = () => {
             <h2>{garden.name}</h2>
             <p>{garden.notes}</p>
             {!editMode ? (
-              <button onClick={() => setEditMode(true)}>Edit Garden</button>
+              <button
+                type="submit"
+                onClick={() => setEditMode(true)}
+                className="submit-button"
+              >
+                Edit Garden
+              </button>
             ) : (
-              <button onClick={() => setEditMode(false)}>Cancel Edit</button>
+              <button
+                type="submit"
+                onClick={() => setEditMode(false)}
+                className="submit-button"
+              >
+                Cancel Edit
+              </button>
             )}
             <Link to="/">Go back to Home Page</Link>
             <div className="container">
@@ -187,26 +205,28 @@ const GardenDetails = () => {
           <div className="add-plant">
             <h3>Add Plant</h3>
 
-            <form className="form" onSubmit={handleSubmit}>
-              <label element="type">Type:</label>
+            <form className="form-group" onSubmit={handleSubmit}>
+              <label className="form-label" element="type">Type:</label>
               <input
                 type="text"
                 id="type"
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
+                className="form-control"
               />
 
-              <label element="location">Location:</label>
+              <label className="form-label" element="location">Location:</label>
               <input
                 type="text"
                 id="location"
                 name="location"
                 value={formData.location}
                 onChange={handleInputChange}
+                className="form-control"
               />
 
-              <button type="submit">Add plant</button>
+              <button className="submit-button" type="submit">Add plant</button>
             </form>
           </div>
         </div>
@@ -226,7 +246,9 @@ const GardenDetails = () => {
         <div className="bottom-container">
           {filteredPlants.map((plant) => (
             <div
-              className={`plant-card ${plant.average_harvest_rating <= 2 ? "red-background" : ""}`}
+              className={`plant-card ${
+                plant.average_harvest_rating <= 2 ? "red-background" : ""
+              }`}
               key={plant.id}
             >
               <Link to={`/plant-details/${plant.id}`}>
@@ -240,7 +262,10 @@ const GardenDetails = () => {
                   />
                 )}
                 <div>Garden ID: {plant.garden_id}</div>
-                <div>Average Harvest Rating: {plant.average_harvest_rating}</div>
+                <div>
+                  Average Harvest Rating:{" "}
+                  {plant.average_harvest_rating.toFixed(1)}
+                </div>
               </Link>
             </div>
           ))}

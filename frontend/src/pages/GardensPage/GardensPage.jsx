@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import './GardensPage.css'
 
 const GardensPage = () => {
   const [user, token] = useAuth();
   const [gardens, setGardens] = useState([]);
-  const [username, setUsername] = useState('');
-  const [gardenId, setGardenId] = useState('');
-  const [submissionStatus, setSubmissionStatus] = useState('');
+  const [username, setUsername] = useState("");
+  const [gardenId, setGardenId] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,7 +33,7 @@ const GardensPage = () => {
 
   useEffect(() => {
     if (user) {
-      setUsername('');
+      setUsername("");
     }
   }, [user]);
 
@@ -51,8 +54,8 @@ const GardensPage = () => {
       );
 
       console.log(response.data);
-      setSubmissionStatus('Gardener Added!!!');
-      navigate('/gardens');
+      setSubmissionStatus("Gardener Added!!!");
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -60,52 +63,81 @@ const GardensPage = () => {
 
   return (
     <div className="container">
-      {user && <h1>Welcome Back, {user.username}</h1>}
-      <h3>Your Gardens</h3>
-      <div>
-        {gardens.map((garden) => (
-          <Link to={`/garden-details/${garden.id}`} key={garden.id}>
-            <li>{garden.name}</li>
-          </Link>
-        ))}
+      <div className="row justify-content-center">
+        <div className="col-md-8 text-center">
+          {user && (
+            <h1 className="welcome-message">Welcome Back, {user.username}!</h1>
+          )}
+        </div>
       </div>
 
-      <Link to="/add-garden">
-        <p>Add a New Garden!!</p>
-      </Link>
+      <div className="row">
+        <div className="col-md-4">
+          <div className="garden-list">
+            <Link to="/add-garden" className="add-garden-link">
+              <p className="add-garden-text">Click Here to Add a New Garden</p>
+            </Link>
+            <div className="section-title">Your Gardens</div>
+            {gardens.map((garden) => (
+              <Link
+                to={`/garden-details/${garden.id}`}
+                key={garden.id}
+                className="garden-link"
+              >
+                <p className="garden-item">{garden.name}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
 
-      {submissionStatus && <p>{submissionStatus}</p>}
+        <div className="col-md-6">
+          <form onSubmit={handleSubmit} className="add-gardener-form">
+            <div className="section-title">Add a Gardener to a Garden</div>
+            <div className="form-group">
+              <label element="username" className="form-label">
+                Username:
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="form-control"
+                required
+              />
+            </div>
 
-      <form onSubmit={handleSubmit}>
-        <h2>Add a Gardener to the Current List of Gardens</h2>
-        <label element="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+            <div className="form-group">
+              <label element="gardenId" className="form-label">
+                Garden ID:
+              </label>
+              <select
+                id="gardenId"
+                name="gardenId"
+                value={gardenId}
+                onChange={(e) => setGardenId(e.target.value)}
+                className="form-select"
+                required
+              >
+                <option value="">Select a garden</option>
+                {gardens.map((garden) => (
+                  <option key={garden.id} value={garden.id}>
+                    {garden.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <label element="gardenId">Garden ID:</label>
-        <select
-          id="gardenId"
-          name="gardenId"
-          value={gardenId}
-          onChange={(e) => setGardenId(e.target.value)}
-          required
-        >
-          <option value="">Select a garden</option>
-          {gardens.map((garden) => (
-            <option key={garden.id} value={garden.id}>
-              {garden.name}
-            </option>
-          ))}
-        </select>
-
-        <button type="submit">Submit</button>
-      </form>
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+            {submissionStatus && (
+              <p className="submission-status">{submissionStatus}</p>
+            )}
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
