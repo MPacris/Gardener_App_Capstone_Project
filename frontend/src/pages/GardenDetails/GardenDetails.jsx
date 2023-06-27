@@ -169,6 +169,8 @@ const GardenDetails = () => {
           <div className="description">
             <h2>{garden.name}</h2>
             <p>{garden.notes}</p>
+
+            <Link className="garden-link" to="/gardens">Back to Gardens Page</Link>
             {!editMode ? (
               <button
                 type="submit"
@@ -186,8 +188,8 @@ const GardenDetails = () => {
                 Cancel Edit
               </button>
             )}
-            <Link to="/">Go back to Home Page</Link>
-            <div className="container">
+        
+
               {editMode ? (
                 <EditGardenDetails
                   garden={garden}
@@ -197,7 +199,7 @@ const GardenDetails = () => {
               ) : (
                 <></>
               )}
-            </div>
+
           </div>
         </div>
 
