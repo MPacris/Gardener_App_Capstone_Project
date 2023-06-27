@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import "./CreateTask.css"
+import "./CreateTask.css";
 
 const defaultValues = {
   plant_id: "",
@@ -63,7 +63,7 @@ const CreateTask = () => {
         }
       );
       setFormData(defaultValues);
-      navigate('/tasks')
+      navigate("/tasks");
     } catch (error) {
       console.log(error.response.data);
     }
@@ -72,7 +72,6 @@ const CreateTask = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-  
     if (
       formData.user_id === "" ||
       formData.task_type === "" ||
@@ -86,64 +85,80 @@ const CreateTask = () => {
   };
 
   return (
-    <div className="container-text-center">
-      <h1>Create Task</h1>
-      
-      <form className="form-control" onSubmit={handleSubmit}>
-        <label element="plant_id">Plant ID:</label>
-        <input
-          type="number"
-          id="plant_id"
-          name="plant_id"
-          value={formData.plant_id}
-          onChange={handleInputChange}
-        />
+    <div className="create-task-container">
+      <div className="row">
+        <div className="col-4"></div>
+        <div className="col-4">
+          <div className="middle-container">
+            <h2>Create Task</h2>
 
-        <label element="task_type">Task Type:</label>
-        <select
-          id="task_type"
-          name="task_type"
-          value={formData.task_type}
-          onChange={handleInputChange}
-        >
-          <option value="">Select a task type</option>
-          {taskTypeOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label className="form-label" htmlFor="plant_id">Plant ID:</label>
+                <input
+                  className="form-control"
+                  type="number"
+                  id="plant_id"
+                  name="plant_id"
+                  value={formData.plant_id}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-        <label element="task_scheduled">Task Scheduled:</label>
-        <input
-          type="date"
-          id="task_scheduled"
-          name="task_scheduled"
-          value={formData.task_scheduled}
-          onChange={handleInputChange}
-        />
+              <div className="form-group">
+                <label className="form-label" htmlFor="task_type">Task Type:</label>
+                <select
+                  className="form-select"
+                  id="task_type"
+                  name="task_type"
+                  value={formData.task_type}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select a task type</option>
+                  {taskTypeOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <label element="user_id">User ID:</label>
-        <input
-          type="number"
-          id="user_id"
-          name="user_id"
-          value={formData.user_id}
-          onChange={handleInputChange}
-        />
+              <div className="form-group">
+                <label className="form-label" htmlFor="task_scheduled">Task Scheduled:</label>
+                <input
+                  className="form-control"
+                  type="date"
+                  id="task_scheduled"
+                  name="task_scheduled"
+                  value={formData.task_scheduled}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-        <button type="submit">Create Task</button>
-      </form>
+              <div className="form-group">
+                <label className="form-label" htmlFor="user_id">User ID:</label>
+                <input
+                  className="form-control"
+                  type="number"
+                  id="user_id"
+                  name="user_id"
+                  value={formData.user_id}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-      <div className="link-wrapper">    
-      <Link to="/tasks">
-        <p>Go To All Tasks</p>
-      </Link>
-      </div>  
+              <button className="submit-button" type="submit">Create Task</button>
+            </form>
 
-      </div>  
-
+            <div>
+              <Link to="/tasks">Go To All Tasks</Link>
+            </div>
+          </div>
+        </div>
+        <div className="col-4"></div>
+      </div>
+    </div>
   );
 };
 
-export default CreateTask;
+export default CreateTask;;

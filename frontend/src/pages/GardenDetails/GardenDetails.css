@@ -147,7 +147,7 @@
 }
 
 button {
-  background-color:  #077c10d5; /* Replace "green" with your desired color */
+  background-color:  #077c10d5; 
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -156,5 +156,5 @@ button {
 }
 
 button:hover {
-  background-color: rgba(64, 123, 240, 0.438); /* Replace "blue" with your desired color */
+  background-color: rgba(64, 123, 240, 0.438); 
 }

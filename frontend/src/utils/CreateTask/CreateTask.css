@@ -1,39 +1,21 @@
-.container-text-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Updated */
-    height: 100vh;
-  }
+.middle-container {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  justify-content: center;
+  margin: 20px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-bottom: 20px;
+}
 
-  
-  .form-control {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Updated */
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .form-control label {
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-control input,
-  .form-control select {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .form-control button {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .link-wrapper {
-    text-align: center;
-    margin-top: 1rem;
-  }
+.create-task-container {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
