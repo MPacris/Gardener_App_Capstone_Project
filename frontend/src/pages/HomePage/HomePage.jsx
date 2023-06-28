@@ -14,182 +14,106 @@ const HomePage = () => {
   const [submissionStatus, setSubmissionStatus] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchGardens = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/gardens", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
-        setGardens(response.data);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    };
-
-    fetchGardens();
-  }, [token]);
-
-  useEffect(() => {
-    if (user) {
-      setUsername("");
-    }
-  }, [user]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/user_gardens",
-        {
-          username,
-          garden_id: gardenId,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-
-      console.log(response.data);
-      setSubmissionStatus("Gardener Added!!!");
-      navigate("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div className="container text-center">
       <div className="row">
-        <div className="col-md-8">
-          {user && (
+        <div className="col-md-12">
+      
             <h1 className="welcome-message">
-              Welcome Back, {user.username} !!!!
+              Welcome to the Gardening App !!!!
             </h1>
-          )}
+            <p>
+              Click on the Images to Navigate Through the App
+            </p>
+      
         </div>
-        <div className="col-6 col-md-4">
-        <div className="garden-list">
 
-        <Link to="/add-garden" className="add-garden-link">
-            <p className="add-garden-text">Add a New Garden!!</p>
-          </Link>    
-          <div className="section-title">Your Gardens</div>
-     
-            {gardens.map((garden) => (
-              <Link
-                to={`/garden-details/${garden.id}`}
-                key={garden.id}
-                className="garden-link"
-              >
-                <li className="garden-item">{garden.name}</li>
-              </Link>
-            ))}
-          </div>
-            
+      </div>
+
+      <div className="row">
+        <div className="col-3">
+          <Link to="/gardens">
+            <img
+              src="/uploadpictures/insidelook.jpg"
+              alt="garden"
+              className="homepage-image"
+              title="Go to Gardens"
+            />
+          </Link>
+        </div>
+        <div className="col-3">
+          <Link to="/plants">
+            <img
+              src="/uploadpictures/flower.jpg"
+              alt="plant"
+              className="homepage-image"
+              title="Go to Plants"
+            />
+          </Link>
+        </div>
+        <div className="col-3">
+          <Link to="/tasks">
+            <img
+              src="/uploadpictures/watering.jpg"
+              alt="task"
+              className="homepage-image"
+              title="Go to Tasks"
+            />
+          </Link>
+        </div>
+        <div className="col-3">
+          <Link to="/harvests">
+            <img
+              src="/uploadpictures/farmeranddog.jpg"
+              alt="harvests"
+              className="homepage-image"
+              title="Go to Harvests"
+            />
+          </Link>
         </div>
       </div>
 
       <div className="row">
         <div className="col-3">
-          <img
-            src="/uploadpictures/breesfence.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
+          <Link to="/weather-page">
+            <img
+              src="/uploadpictures/outsidelook.jpg"
+              alt="weather"
+              className="homepage-image"
+              title="Go to Weather"
+            />
+          </Link>
         </div>
-        <div className="col-3">
-          <img
-            src="/uploadpictures/farmeranddog.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
-        </div>
-        <div className="col-3">
-          <img
-            src="/uploadpictures/insidelook.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
-        </div>
-        <div className="col-3">
-          <img
-            src="/uploadpictures/watering.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
-        </div>
-      </div>
 
-      <div className="row">
+        <div className="col-3">
+          <Link to="/login">
+            <img
+              src="/uploadpictures/breesfence.jpg"
+              alt="home"
+              className="homepage-image"
+              title="Go to Login"
+            />
+          </Link>
+        </div>
+
         <div className="col-6">
-          <form onSubmit={handleSubmit} className="add-gardener-form">
-            <div className="section-title">Add a Gardener to a Garden</div>
-            <div className="form-group">
-              <label element="username" className="form-label">
-                Username:
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="form-control"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label element="gardenId" className="form-label">
-                Garden ID:
-              </label>
-              <select
-                id="gardenId"
-                name="gardenId"
-                value={gardenId}
-                onChange={(e) => setGardenId(e.target.value)}
-                className="form-select"
-                required
-              >
-                <option value="">Select a garden</option>
-                {gardens.map((garden) => (
-                  <option key={garden.id} value={garden.id}>
-                    {garden.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button type="submit" className="submit-button">
-              Submit
-            </button>
-            {submissionStatus && (
-              <p className="submission-status">{submissionStatus}</p>
-            )}
-          </form>
-        </div>
-        <div className="col-3">
-          <img
-            src="/uploadpictures/outsidelook.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
+          <div className="inspirational-quotes-container">
+            <p className="quote">
+              "Flowers are the music of the ground. From Earth's lips spoken without sound." - Edwin Curran
+            </p>
+            <p className="quote">
+              "Gardening is the art that uses flowers and plants as paint, and the soil and sky as canvas." - Elizabeth Murray
+            </p>
+            <p className="quote">
+              "The love of gardening is a seed once sown that never dies." - Gertrude Jekyll
+            </p>
+            <p className="quote">
+              "Life is a garden. Dig it!" - Joe Dirt
+            </p>
+          </div>
         </div>
 
-        <div className="col-3">
-          <img
-            src="/uploadpictures/flower.jpg"
-            alt="brees"
-            className="homepage-image"
-          />
-
-      </div>
-    
-   
       </div>
     </div>
   );
