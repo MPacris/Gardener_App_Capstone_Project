@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import "./AddPlant.css"
 
 const defaultValues = {
   type: "",
@@ -76,42 +77,62 @@ const AddPlant = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Add Plant</h1>
-
+    <div>
+      <div className="row">      
+      <div className="col-4"></div>      
+      <div className="col-4">
+      <div className="add-plant-container">      
       <form className="form" onSubmit={handleSubmit}>
-        <label element="type">Type:</label>
-        <input
-          type="text"
-          id="type"
-          name="type"
-          value={formData.type}
-          onChange={handleInputChange}
-        />
-        <label element="location">Location:</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          value={formData.location}
-          onChange={handleInputChange}
-        />
-
-
-
-        <label element="garden_id">Garden ID:</label>
-        <input
-          type="number"
-          id="garden_id"
-          name="garden_id"
-          value={formData.garden_id}
-          onChange={handleInputChange}
-        />
-
-        <button type="submit">Add plant</button>
+        <div className="form-group">
+        <h3>Add a New Plant</h3>
+          <label className="form-label" htmlFor="type">Type:</label>
+          <input
+            className="form-control"
+            type="text"
+            id="type"
+            name="type"
+            value={formData.type}
+            onChange={handleInputChange}
+          />
+        </div>
+  
+        <div className="form-group">
+          <label className="form-label" htmlFor="location">Location:</label>
+          <input
+            className="form-control"
+            type="text"
+            id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleInputChange}
+          />
+        </div>
+  
+        <div className="form-group">
+          <label className="form-label" htmlFor="garden_id">Garden ID:</label>
+          <input
+            className="form-control"
+            type="number"
+            id="garden_id"
+            name="garden_id"
+            value={formData.garden_id}
+            onChange={handleInputChange}
+          />
+        </div>
+  
+        <button className="submit-button" type="submit">Add Plant</button>
       </form>
-      <Link to="/gardens">Go to Gardens Page</Link>
+  
+      <div className="link">
+        <Link to="/gardens">Go to back to Gardens Page</Link>
+      </div>
+      </div>
+      </div>
+      <div className="col-4"></div>
+      </div>
+    
     </div>
+    
   );
 };
 

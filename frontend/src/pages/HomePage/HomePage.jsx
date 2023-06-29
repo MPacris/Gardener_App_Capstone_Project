@@ -105,9 +105,7 @@ const HomePage = () => {
             <p className="quote">
               "Gardening is the art that uses flowers and plants as paint, and the soil and sky as canvas." - Elizabeth Murray
             </p>
-            <p className="quote">
-              "The love of gardening is a seed once sown that never dies." - Gertrude Jekyll
-            </p>
+          
             <p className="quote">
               "Life is a garden. Dig it!" - Joe Dirt
             </p>

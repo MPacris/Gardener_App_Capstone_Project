@@ -70,9 +70,9 @@ const EditTaskDetails = () => {
         <span className="edit-task-details__label">Task Scheduled:</span> {task.task_scheduled}
       </div>
       <div className="edit-task-details__item">
-        <span className="edit-task-details__label">Task Completed:</span>{" "}
+        <label className="form-label">Task Completed:</label>
         <input
-          className="edit-task-details__input"
+          className="form-control"
           type="date"
           value={newCompleted}
           onChange={(e) => setNewCompleted(e.target.value)}
@@ -80,9 +80,9 @@ const EditTaskDetails = () => {
         />
       </div>
       <div className="edit-task-details__item">
-        <span className="edit-task-details__label">User ID:</span>{" "}
+        <label className="form-label">User ID:</label>
         <input
-          className="edit-task-details__input"
+          className="form-control"
           type="text"
           value={newUserId}
           onChange={(e) => setNewUserId(e.target.value)}
@@ -92,7 +92,7 @@ const EditTaskDetails = () => {
         <span className="edit-task-details__label">Plant ID:</span> {task.plant_id}
       </div>
 
-      <button className="edit-task-details__button" onClick={handleUpdate}>Save Changes</button>
+      <button className="submit-button" onClick={handleUpdate}>Save Changes</button>
     </div>
   );
 };
