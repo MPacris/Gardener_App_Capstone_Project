@@ -49,7 +49,7 @@ const PlantsPage = () => {
 
           return {
             ...plant,
-            average_harvest_rating: averageRating,
+            average_harvest_rating: averageRating.toFixed(1),
           };
         });
 
