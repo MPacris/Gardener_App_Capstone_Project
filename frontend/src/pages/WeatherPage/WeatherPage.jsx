@@ -5,19 +5,20 @@ import "./WeatherPage.css"
 const WeatherPage = () => {
   const [weatherData, setWeatherData] = useState({
     forecast: null,
-    history: null
+    history: null,
   });
   const [zipCode, setZipCode] = useState("70001");
-  const [forecastDays, setForecastDays] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [forecastStartDate, setForecastStartDate] = useState("");
+  const [forecastEndDate, setForecastEndDate] = useState("");
+  const [historyStartDate, setHistoryStartDate] = useState("");
+  const [historyEndDate, setHistoryEndDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleForecastSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const forecastUrl = `http://api.weatherapi.com/v1/forecast.json?key=b0d479a899cd4890add183140231506&q=${zipCode}&days=${forecastDays}`;
+    const forecastUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${zipCode}/${forecastStartDate}/${forecastEndDate}?key=UEGXMTVM25SR2T4KPDCNQ8PSD&include=days&elements=datetime,tempmax,tempmin,precipprob,uvindex`;
 
     try {
       const response = await axios.get(forecastUrl);
@@ -33,7 +34,7 @@ const WeatherPage = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    const historyUrl = `http://api.weatherapi.com/v1/history.json?key=b0d479a899cd4890add183140231506&q=${zipCode}&dt=${startDate}&end_dt=${endDate}`;
+    const historyUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${zipCode}/${historyStartDate}/${historyEndDate}?key=UEGXMTVM25SR2T4KPDCNQ8PSD&include=days&elements=datetime,tempmax,tempmin,precip,uvindex`;
 
     try {
       const response = await axios.get(historyUrl);
@@ -45,8 +46,8 @@ const WeatherPage = () => {
     setIsLoading(false);
   };
 
-  const forecastDaysData = weatherData.forecast?.forecast?.forecastday || [];
-  const historyDaysData = weatherData.history?.forecast?.forecastday || [];
+  const forecastDaysData = weatherData.forecast?.days || [];
+  const historyDaysData = weatherData.history?.days || [];
 
   return (
     <div className="container">
@@ -54,7 +55,9 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleForecastSubmit} className="mb-3">
             <div className="form-group">
-              <label className="form-label" element="zipCode">Zip Code:</label>
+              <label className="form-label" htmlFor="zipCode">
+                Zip Code:
+              </label>
               <input
                 type="text"
                 id="zipCode"
@@ -64,13 +67,27 @@ const WeatherPage = () => {
               />
             </div>
             <div className="form-group">
-              <label className="form-label" element="forecastDays">Forecast Days:</label>
+              <label className="form-label" htmlFor="forecastStartDate">
+                Forecast Start Date:
+              </label>
               <input
-                type="text"
-                id="forecastDays"
+                type="date"
+                id="forecastStartDate"
                 className="form-control"
-                value={forecastDays}
-                onChange={(e) => setForecastDays(e.target.value)}
+                value={forecastStartDate}
+                onChange={(e) => setForecastStartDate(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="forecastEndDate">
+                Forecast End Date:
+              </label>
+              <input
+                type="date"
+                id="forecastEndDate"
+                className="form-control"
+                value={forecastEndDate}
+                onChange={(e) => setForecastEndDate(e.target.value)}
               />
             </div>
             <button type="submit" className="submit-button">
@@ -81,23 +98,39 @@ const WeatherPage = () => {
         <div className="col-md-6">
           <form onSubmit={handleHistorySubmit} className="mb-3">
             <div className="form-group">
-              <label className="form-label" element="startDate">Start Date:</label>
+              <label className="form-label" htmlFor="zipCode">
+                Zip Code:
+              </label>
               <input
-                type="date"
-                id="startDate"
+                type="text"
+                id="zipCode"
                 className="form-control"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
               />
             </div>
             <div className="form-group">
-              <label className="form-label" element="endDate">End Date:</label>
+              <label className="form-label" htmlFor="historyStartDate">
+                History Start Date:
+              </label>
               <input
                 type="date"
-                id="endDate"
+                id="historyStartDate"
                 className="form-control"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                value={historyStartDate}
+                onChange={(e) => setHistoryStartDate(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label" htmlFor="historyEndDate">
+                History End Date:
+              </label>
+              <input
+                type="date"
+                id="historyEndDate"
+                className="form-control"
+                value={historyEndDate}
+                onChange={(e) => setHistoryEndDate(e.target.value)}
               />
             </div>
             <button type="submit" className="submit-button">
@@ -121,18 +154,18 @@ const WeatherPage = () => {
                   {forecastDaysData.map((day, index) => (
                     <div className="col-md-4" key={index}>
                       <div className="card mb-3">
-                        <div className="card-header">{day.date}</div>
+                        <div className="card-header">{day.datetime}</div>
                         <div className="card-body">
                           <p className="card-text">
-                            Chance of Rain: {day.day?.daily_chance_of_rain}%
+                            Chance of Rain: {day.precipprob}%
                           </p>
                           <p className="card-text">
-                            Temperature Max: {day.day?.maxtemp_f}°F
+                            Temperature Max: {day.tempmax}°F
                           </p>
                           <p className="card-text">
-                            Temperature Min: {day.day?.mintemp_f}°F
+                            Temperature Min: {day.tempmin}°F
                           </p>
-                          <p className="card-text">UV: {day.day?.uv}</p>
+                          <p className="card-text">UV: {day.uvindex}</p>
                         </div>
                       </div>
                     </div>
@@ -152,18 +185,18 @@ const WeatherPage = () => {
                   {historyDaysData.map((day, index) => (
                     <div className="col-md-4" key={index}>
                       <div className="card mb-3">
-                        <div className="card-header">{day.date}</div>
+                        <div className="card-header">{day.datetime}</div>
                         <div className="card-body">
                           <p className="card-text">
-                            Total Precipitation: {day.day?.totalprecip_in} in
+                            Total Precipitation: {day.precip} in
                           </p>
                           <p className="card-text">
-                            Temperature Max: {day.day?.maxtemp_f}°F
+                            Temperature Max: {day.tempmax}°F
                           </p>
                           <p className="card-text">
-                            Temperature Min: {day.day?.mintemp_f}°F
+                            Temperature Min: {day.tempmin}°F
                           </p>
-                          <p className="card-text">UV: {day.day?.uv}</p>
+                          <p className="card-text">UV: {day.uvindex}</p>
                         </div>
                       </div>
                     </div>
@@ -179,10 +212,3 @@ const WeatherPage = () => {
 };
 
 export default WeatherPage;
-
-
-
-
-
-
-

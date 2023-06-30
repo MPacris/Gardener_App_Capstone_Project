@@ -99,61 +99,75 @@ const TasksPage = () => {
     });
   }, [sortedTasks]);
 
-  return (
-    <div className="container">
-      <h1>My Tasks</h1>
-      <div className="filters">
-        
-        <label>
-          Plant Type:
-          <select
-            value={filterPlantType}
-            onChange={(e) => setFilterPlantType(e.target.value)}
-          >
-            <option value="">All</option>
-            <option value="empty">Empty</option>
-            {uniquePlantTypes.map((plantType, index) => (
-              <option key={index} value={plantType}>
-                {plantType}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Task Type:
-          <select
-            value={filterTaskType}
-            onChange={(e) => setFilterTaskType(e.target.value)}
-          >
-            <option value="">All</option>
-            <option value="empty">Empty</option>
-            {uniqueTaskTypes.map((taskType, index) => (
-              <option key={index} value={taskType}>
-                {taskType}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Sort By:
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="">None</option>
-            <option value="taskType">Task Type</option>
-            <option value="taskCompleted">Task Completed</option>
-          </select>
-        </label>
-        <label>
-          Sort Order:
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
-        </label>
+return (
+  <div className="container">
+    <h1>My Tasks</h1>
+    <div className="filters">
+      <div className="label-container">
+        <label htmlFor="plantType">Plant Type:</label>
+        <select
+          id="plantType"
+          value={filterPlantType}
+          onChange={(e) => setFilterPlantType(e.target.value)}
+          className="select-container"
+        >
+          <option value="">All</option>
+          <option value="empty">Empty</option>
+          {uniquePlantTypes.map((plantType, index) => (
+            <option key={index} value={plantType}>
+              {plantType}
+            </option>
+          ))}
+        </select>
       </div>
-      <div className="table-container" ref={tableRef}>
+
+      <div className="label-container">
+        <label htmlFor="taskType">Task Type:</label>
+        <select
+          id="taskType"
+          value={filterTaskType}
+          onChange={(e) => setFilterTaskType(e.target.value)}
+          className="select-container"
+        >
+          <option value="">All</option>
+          <option value="empty">Empty</option>
+          {uniqueTaskTypes.map((taskType, index) => (
+            <option key={index} value={taskType}>
+              {taskType}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="label-container">
+        <label htmlFor="sortBy">Sort By:</label>
+        <select
+          id="sortBy"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="select-container"
+        >
+          <option value="">None</option>
+          <option value="taskType">Task Type</option>
+          <option value="taskCompleted">Task Completed</option>
+        </select>
+      </div>
+
+      <div className="label-container">
+        <label htmlFor="sortOrder">Sort Order:</label>
+        <select
+          id="sortOrder"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+          className="select-container"
+        >
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+    </div>
+
+    <div className="table-container" ref={tableRef}>
         <table>
           <thead>
             <tr>
@@ -188,9 +202,7 @@ const TasksPage = () => {
           </tbody>
         </table>
       </div>
-      <Link to="/create-task">
-        <p>Add a New Task!!</p>
-      </Link>
+
     </div>
   );
 };
