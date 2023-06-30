@@ -9,6 +9,7 @@ const defaultValues = {
   plant_id: "",
   task_type: "",
   task_scheduled: "",
+  task_completed: "",
   user_id: "",
 };
 
@@ -75,10 +76,14 @@ const CreateTask = () => {
     if (
       formData.user_id === "" ||
       formData.task_type === "" ||
-      formData.task_scheduled === ""
+      formData.task_scheduled === "" 
     ) {
       alert("Please fill in all the required fields.");
       return;
+    }
+
+    if (formData.task_completed === "") {
+      delete formData.task_completed;
     }
 
     postNewTask();
@@ -136,6 +141,20 @@ const CreateTask = () => {
               </div>
 
               <div className="form-group">
+                <label className="form-label" htmlFor="task_completed">
+                  Task Completed:
+                </label>
+                <input
+                  className="form-control"
+                  type="date"
+                  id="task_completed"
+                  name="task_completed"
+                  value={formData.task_completed}
+                  onChange={handleInputChange}
+                />
+              </div>
+
+              <div className="form-group">
                 <label className="form-label" htmlFor="user_id">User ID:</label>
                 <input
                   className="form-control"
@@ -161,4 +180,4 @@ const CreateTask = () => {
   );
 };
 
-export default CreateTask;;
+export default CreateTask;
