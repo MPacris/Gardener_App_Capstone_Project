@@ -16,29 +16,29 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/gardens" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+          <Link to="/gardens" style={{ fontSize: "1em", textDecoration: "none", color: "white",textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
             Gardens Page
           </Link>
         </li>
   
         <li>
-          <Link to="/plants" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+          <Link to="/plants" style={{ fontSize: "1em", textDecoration: "none", color: "white",textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
             Plants List
           </Link>
         </li>
         <li>
-          <Link to="/tasks" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+          <Link to="/tasks" style={{ fontSize: "1em", textDecoration: "none", color: "white",textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
             My Tasks
           </Link>
         </li>
         <li>
-          <Link to="/harvests" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+          <Link to="/harvests" style={{ fontSize: "1em", textDecoration: "none", color: "white",textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
             Harvest Tracker
           </Link>
         </li>
  
         <li>
-          <Link to="/weather-page" style={{ fontSize: "0.8em", textDecoration: "none", color: "white" }}>
+          <Link to="/weather-page" style={{ fontSize: "1em", textDecoration: "none", color: "white",textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)" }}>
             Weather 
           </Link>
         </li>

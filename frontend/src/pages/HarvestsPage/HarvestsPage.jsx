@@ -85,7 +85,7 @@ const HarvestsPage = () => {
 
   return (
     <div className="container">
-      <h1>Harvests Tracker</h1>
+      <h1 className="welcome-message">Harvests Tracker</h1>
       <div className="filters">
         <label>
           Plant Type:

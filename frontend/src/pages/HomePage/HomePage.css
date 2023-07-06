@@ -3,9 +3,11 @@
   }
   
   .welcome-message {
-    font-size: 50px;
+    font-size: 60px;
     font-weight: bold;
+    color: darkgreen;
     margin: 20px auto;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     
   }
   

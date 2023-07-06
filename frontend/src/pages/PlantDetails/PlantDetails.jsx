@@ -106,7 +106,7 @@ const PlantDetails = () => {
         <div className="col-4">
           <div className="top-row-container">
             <div className="plant-information">
-              <h5>Plant Information:</h5>
+            <h1 className="welcome-message">Plant Information:</h1>
               <div>
                 <div>Plant ID: {plant_id}</div>
                 <div>Plant Type: {plant.type}</div>

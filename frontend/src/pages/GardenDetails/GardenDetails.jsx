@@ -167,7 +167,7 @@ const GardenDetails = () => {
       <div className="top-container">
         <div className="col-lg-4 col-lg-3">
           <div className="description">
-            <h2>{garden.name}</h2>
+          <h1 className="welcome-message">{garden.name}</h1>
             <p>{garden.notes}</p>
 
             <Link className="garden-link" to="/gardens">Back to Gardens Page</Link>

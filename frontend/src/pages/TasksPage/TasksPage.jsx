@@ -101,7 +101,7 @@ const TasksPage = () => {
 
 return (
   <div className="container">
-    <h1>My Tasks</h1>
+    <h1 className="welcome-message">My Tasks</h1>
     <div className="filters">
       <div className="label-container">
         <label htmlFor="plantType">Plant Type:</label>

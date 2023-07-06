@@ -21,6 +21,7 @@ li {
   border: 2px solid white;
   color: white;
   padding: 0.4rem 0.5rem;
+  box-shadow: 4px 2px 5px gray;
 }
 
 .navBar button:hover {

@@ -51,6 +51,7 @@ const WeatherPage = () => {
 
   return (
     <div className="container">
+      <h1 className="welcome-message">Weather Tracker</h1>
       <div className="row">
         <div className="col-md-6">
           <form onSubmit={handleForecastSubmit} className="mb-3">
