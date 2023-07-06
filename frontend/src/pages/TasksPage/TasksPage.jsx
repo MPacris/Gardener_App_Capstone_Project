@@ -171,11 +171,9 @@ return (
         <table>
           <thead>
             <tr>
-              <th>Task ID</th>
               <th>Task Type</th>
               <th>Task Scheduled</th>
-              <th>Task Completed</th>
-              <th>User ID</th>
+              <th>Task Completed</th>    
               <th>Plant ID</th>
               <th>Plant Type</th>
               <th>Details</th>
@@ -187,11 +185,9 @@ return (
                 key={task.id}
                 className={task.task_completed ? "" : "task-incomplete"}
               >
-                <td>{task.id}</td>
                 <td>{task.task_type}</td>
                 <td>{task.task_scheduled}</td>
-                <td>{task.task_completed}</td>
-                <td>{task.user_id}</td>
+                <td>{task.task_completed}</td>        
                 <td>{task.plant_id}</td>
                 <td>{task.plant_type}</td>
                 <td>

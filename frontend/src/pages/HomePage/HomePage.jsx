@@ -23,7 +23,7 @@ const HomePage = () => {
             <h1 className="welcome-message">
               Welcome to the GreenThumb Hub !!!!
             </h1>
-            <p>
+            <p className="quote">
               Click on the Images to Navigate Through the App
             </p>
       

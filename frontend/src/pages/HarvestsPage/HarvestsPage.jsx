@@ -132,28 +132,24 @@ const HarvestsPage = () => {
         <table>
           <thead>
             <tr>
-              <th>Harvest ID</th>
-              <th>Rating</th>
-              <th>Image URL</th>
-              <th>Notes</th>
-              <th>Task ID</th>
               <th>Plant ID</th>
               <th>Plant Type</th>
               <th>Task Completed</th>
+              <th>Image URL</th>
+              <th>Notes</th>
+              <th>Rating</th>
               <th>Details</th>
             </tr>
           </thead>
           <tbody>
             {sortedHarvests.map((harvest) => (
               <tr key={harvest.id} className={harvest.task_completed ? "" : "task-incomplete"}>
-                <td>{harvest.id}</td>
-                <td>{harvest.rating}</td>
-                <td>{harvest.image_url}</td>
-                <td>{harvest.notes}</td>
-                <td>{harvest.task_id}</td>
                 <td>{harvest.plant_id}</td>
                 <td>{harvest.plant_type}</td>
                 <td>{harvest.task_completed}</td>
+                <td>{harvest.image_url}</td>
+                <td>{harvest.notes}</td>
+                <td>{harvest.rating}</td>
                 <td>
                   <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>
                 </td>

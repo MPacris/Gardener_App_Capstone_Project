@@ -45,8 +45,11 @@
   }
 
   .quote {
-    margin-top: 20px;
+    margin-top: 40px;
     font-size: 18px;
     font-style: italic;
     margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
+
+ 
