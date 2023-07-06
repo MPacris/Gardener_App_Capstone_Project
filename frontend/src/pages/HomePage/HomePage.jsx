@@ -21,7 +21,7 @@ const HomePage = () => {
         <div className="col-md-12">
       
             <h1 className="welcome-message">
-              Welcome to the Gardening App !!!!
+              Welcome to the GreenThumb Hub !!!!
             </h1>
             <p>
               Click on the Images to Navigate Through the App
