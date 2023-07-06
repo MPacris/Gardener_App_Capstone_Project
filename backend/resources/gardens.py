@@ -26,17 +26,23 @@ class GardensResource(Resource):
     
 
 class GetGardenResource(Resource):
-    
-    
     @jwt_required()
     def get(self, garden_id):
         user_id = get_jwt_identity()
-        garden = Garden.query.filter_by(id=garden_id, user_id=user_id).first()
+        garden = Garden.query.filter_by(id=garden_id).first()
         if not garden:
             return {'message': 'Garden not found'}, 404
+        
+        # Check if the user is either the creator or has been assigned to the garden
+        if garden.user_id != user_id:
+            assigned_garden = db.session.execute(
+                "SELECT * FROM usergardens WHERE user_id = :user_id AND garden_id = :garden_id",
+                {'user_id': user_id, 'garden_id': garden_id}
+            ).fetchone()
+            if not assigned_garden:
+                return {'message': 'You are not authorized to access this garden'}, 403
 
         return garden_schema.dump(garden), 200
-    
     
     
     @jwt_required()

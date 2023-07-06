@@ -17,7 +17,7 @@ const GardensPage = () => {
   useEffect(() => {
     const fetchGardens = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/gardens", {
+        const response = await axios.get("http://localhost:5000/api/user_gardens", {
           headers: {
             Authorization: "Bearer " + token,
           },
