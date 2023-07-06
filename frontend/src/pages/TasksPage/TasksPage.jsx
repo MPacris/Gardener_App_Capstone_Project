@@ -100,7 +100,7 @@ const TasksPage = () => {
   }, [sortedTasks]);
 
 return (
-  <div className="container">
+  <div className="page-container">
     <h1 className="welcome-message">My Tasks</h1>
     <div className="filters">
       <div className="label-container">

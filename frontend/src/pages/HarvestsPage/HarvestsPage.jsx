@@ -84,7 +84,7 @@ const HarvestsPage = () => {
   });
 
   return (
-    <div className="container">
+    <div className="page-container">
       <h1 className="welcome-message">Harvests Tracker</h1>
       <div className="filters">
         <label>
