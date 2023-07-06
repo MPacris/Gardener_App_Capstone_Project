@@ -1,7 +1,16 @@
-.container {
-  margin: 2rem;
+.page-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+}
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 h1 {
@@ -9,14 +18,14 @@ h1 {
   margin-bottom: 1rem;
 }
 
-.filters {
-  margin-bottom: 1rem;
-}
+
 
 .table-container {
   height: 900px; 
   overflow-y: scroll; 
 }
+
+
 
 table {
   width: 100%;
@@ -51,4 +60,8 @@ tr:hover {
 
 .link-details:hover {
   color: darkblue;
+}
+
+.filters label {
+  margin-right: 10px; /* Add right margin to create spacing between labels */
 }

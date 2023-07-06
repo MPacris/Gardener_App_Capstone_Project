@@ -89,7 +89,7 @@ const HarvestsPage = () => {
       <div className="filters">
         <label>
           Plant Type:
-          <select value={filterPlantType} onChange={(e) => setFilterPlantType(e.target.value)}>
+          <select value={filterPlantType} onChange={(e) => setFilterPlantType(e.target.value)} className="select-container">
             <option value="">All</option>
             {uniquePlantTypes.map((type, index) => (
               <option key={index} value={type}>
@@ -101,6 +101,7 @@ const HarvestsPage = () => {
         <label>
           Task Completed:
           <select
+            className="select-container"
             value={filterTaskCompleted}
             onChange={(e) => setFilterTaskCompleted(e.target.value)}
           >
@@ -114,7 +115,7 @@ const HarvestsPage = () => {
         </label>
         <label>
           Sort By:
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <select className="select-container" value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="">None</option>
             <option value="plantType">Plant Type</option>
             <option value="taskCompleted">Task Completed</option>
@@ -122,7 +123,7 @@ const HarvestsPage = () => {
         </label>
         <label>
           Sort Order:
-          <select value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+          <select className="select-container" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
           </select>
