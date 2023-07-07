@@ -28,7 +28,50 @@ const PlantsPage = () => {
         });
         const plantData = plantResponse.data;
 
-        setPlants(plantData);
+        const fetchHarvests = async () => {
+          try {
+            const harvestsResponse = await axios.get("http://localhost:5000/api/harvests", {
+              headers: {
+                Authorization: "Bearer " + token,
+              },
+            });
+            const harvestsData = harvestsResponse.data;
+
+            const plantMap = {};
+
+            harvestsData.forEach((harvest) => {
+              if (!plantMap[harvest.plant_id]) {
+                plantMap[harvest.plant_id] = {
+                  totalRating: 0,
+                  count: 0,
+                  harvests: [],
+                };
+              }
+
+              plantMap[harvest.plant_id].totalRating += harvest.rating;
+              plantMap[harvest.plant_id].count++;
+              plantMap[harvest.plant_id].harvests.push(harvest);
+            });
+
+            const updatedPlants = plantData.map((plant) => {
+              const averageRating =
+                plantMap[plant.id] && plantMap[plant.id].count
+                  ? plantMap[plant.id].totalRating / plantMap[plant.id].count
+                  : 0;
+
+              return {
+                ...plant,
+                average_harvest_rating: averageRating.toFixed(1),
+              };
+            });
+
+            setPlants(updatedPlants);
+          } catch (error) {
+            console.log(error.response.data);
+          }
+        };
+
+        fetchHarvests();
       } catch (error) {
         console.log(error.response.data);
       }
@@ -36,7 +79,7 @@ const PlantsPage = () => {
 
     fetchPlants();
   }, [token]);
-  
+
   return (
     <div className="container">
       <h1 className="welcome-message">All Plants</h1>

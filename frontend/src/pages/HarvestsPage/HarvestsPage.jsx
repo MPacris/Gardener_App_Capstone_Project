@@ -83,6 +83,12 @@ const HarvestsPage = () => {
     return 0;
   });
 
+  // Construct the image URL based on the filename
+  const getImageUrl = (filename) => {
+    const imageUrl = `http://localhost:5000/static/images/${filename}`;
+    return imageUrl;
+  };
+
   return (
     <div className="page-container">
       <h1 className="welcome-message">Harvests Tracker</h1>
@@ -148,11 +154,15 @@ const HarvestsPage = () => {
                 <td>{harvest.plant_id}</td>
                 <td>{harvest.plant_type}</td>
                 <td>{harvest.task_completed}</td>
-                <td>{harvest.image_url}</td>
+                <td>
+                  <a href={getImageUrl(harvest.image_url)} target="_blank" rel="noopener noreferrer">
+                    {harvest.image_url}
+                  </a>
+                </td>
                 <td>{harvest.notes}</td>
                 <td>{harvest.rating}</td>
                 <td>
-                  <Link to={`/harvest-details/${harvest.id}`}>View Details</Link>
+                  <Link to={`/harvest-details/${harvest.id}`}>Edit Details</Link>
                 </td>
               </tr>
             ))}

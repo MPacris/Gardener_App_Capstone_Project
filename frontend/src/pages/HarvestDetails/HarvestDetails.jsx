@@ -51,7 +51,7 @@ const HarvestDetails = () => {
       return Promise.resolve();
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        setError("Harvest not found");
+        setError("Harvest not found or User not able to edit Harvest");
       } else {
         setError("Error fetching harvest details");
       }
