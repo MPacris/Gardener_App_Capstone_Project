@@ -3,14 +3,20 @@ from flask import request, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from werkzeug.utils import secure_filename
 from flask_restful import Resource
-from database.models import db, Plant
+from database.models import db, Plant, Garden
 from database.schemas import plant_schema, plants_schema
 
 class PlantsResource(Resource):
-    
     @jwt_required()
     def get(self):
-        plants = Plant.query.all()
+        user_id = get_jwt_identity()
+        garden_ids = db.session.execute(
+            "SELECT garden_id FROM usergardens WHERE user_id = :user_id",
+            {"user_id": user_id}
+        ).fetchall()
+        garden_ids = [garden_id[0] for garden_id in garden_ids]
+
+        plants = Plant.query.filter(Plant.garden_id.in_(garden_ids)).all()
         return plants_schema.dump(plants), 200
 
     @jwt_required()

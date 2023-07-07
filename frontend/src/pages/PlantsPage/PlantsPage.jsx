@@ -11,49 +11,24 @@ const PlantsPage = () => {
   useEffect(() => {
     const fetchPlants = async () => {
       try {
+        const gardenIdsResponse = await axios.get("http://localhost:5000/api/user_gardens", {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        const gardenIds = gardenIdsResponse.data.map((garden) => garden.garden_id);
+
         const plantResponse = await axios.get("http://localhost:5000/api/plants", {
           headers: {
             Authorization: "Bearer " + token,
           },
-        });
-
-        const plantData = plantResponse.data;
-
-        const harvestResponse = await axios.get("http://localhost:5000/api/harvests", {
-          headers: {
-            Authorization: "Bearer " + token,
+          params: {
+            garden_ids: gardenIds.join(","),
           },
         });
+        const plantData = plantResponse.data;
 
-        const harvestData = harvestResponse.data;
-
-        const plantMap = {};
-
-        harvestData.forEach((harvest) => {
-          if (!plantMap[harvest.plant_id]) {
-            plantMap[harvest.plant_id] = {
-              totalRating: 0,
-              count: 0,
-            };
-          }
-
-          plantMap[harvest.plant_id].totalRating += harvest.rating;
-          plantMap[harvest.plant_id].count++;
-        });
-
-        const updatedPlants = plantData.map((plant) => {
-          const averageRating =
-            plantMap[plant.id] && plantMap[plant.id].count
-              ? plantMap[plant.id].totalRating / plantMap[plant.id].count
-              : 0;
-
-          return {
-            ...plant,
-            average_harvest_rating: averageRating.toFixed(1),
-          };
-        });
-
-        setPlants(updatedPlants);
+        setPlants(plantData);
       } catch (error) {
         console.log(error.response.data);
       }
@@ -61,7 +36,7 @@ const PlantsPage = () => {
 
     fetchPlants();
   }, [token]);
-
+  
   return (
     <div className="container">
       <h1 className="welcome-message">All Plants</h1>
