@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import "./GardensPage.css";
+import './GardensPage.css'
 
 const GardensPage = () => {
   const [user, token] = useAuth();
@@ -14,21 +14,26 @@ const GardensPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchGardens = async () => {
+    const fetchUserGardens = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/gardens", {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:5000/api/gardens?user_id=${user.id}`, // Fetching gardens created by the user
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          }
+        );
         setGardens(response.data);
       } catch (error) {
         console.log(error.response.data);
       }
     };
 
-    fetchGardens();
-  }, [token]);
+    if (user) {
+      fetchUserGardens();
+    }
+  }, [user, token]);
 
   useEffect(() => {
     if (user) {

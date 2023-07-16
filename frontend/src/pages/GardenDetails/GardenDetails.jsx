@@ -146,8 +146,8 @@ const GardenDetails = () => {
       );
 
       setFormData(defaultValues);
-      navigate(`/garden-details/${garden_id}`);
-      window.location.reload();
+      navigate('/plants');
+ 
     } catch (error) {
       console.log(error.response.data);
     }

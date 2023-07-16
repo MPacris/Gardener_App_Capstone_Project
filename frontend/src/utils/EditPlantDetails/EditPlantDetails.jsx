@@ -34,17 +34,39 @@ const EditPlantDetails = ({ plant, token, handleSave }) => {
     }
   };
 
+  const handleCancel = () => {
+    // Call handleSave with the existing plant data to revert changes
+    handleSave(plant);
+  };
+
   return (
     <form className="form-group" onSubmit={handleSubmit}>
       <label className="form-label">
         Type:
-        <input className="form-control" type="text" value={newType} onChange={handleTypeChange} />
+        <input
+          className="form-control"
+          type="text"
+          value={newType}
+          onChange={handleTypeChange}
+        />
       </label>
       <label className="form-label">
         Location:
-        <input className="form-control" type="text" value={newLocation} onChange={handleLocationChange} />
+        <input
+          className="form-control"
+          type="text"
+          value={newLocation}
+          onChange={handleLocationChange}
+        />
       </label>
-      <button className="submit-button" type="submit">Save</button>
+      <div>
+        <button className="submit-button" type="button" onClick={handleCancel}>
+          Cancel
+        </button>
+        <button className="submit-button" type="submit">
+          Save
+        </button>
+      </div>
     </form>
   );
 };
