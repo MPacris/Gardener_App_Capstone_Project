@@ -106,7 +106,7 @@ const PlantDetails = () => {
         <div className="col-4">
           <div className="top-row-container">
             <div className="plant-information">
-            <h1 className="welcome-message">Plant Information:</h1>
+              <h1 className="welcome-message">Plant Information:</h1>
               <div>
                 <div>Plant ID: {plant_id}</div>
                 <div>Plant Type: {plant.type}</div>
@@ -145,10 +145,10 @@ const PlantDetails = () => {
                 handleImageUpload={handleImageUpload}
               />
               <div className="links">
-              <Link to={`/create-task?plant_id=${plant_id}`}>
-                Create a New Task
-              </Link>
-            </div>
+                <Link to={`/create-task?plant_id=${plant_id}`}>
+                  Create a New Task
+                </Link>
+              </div>
             </div>
           </div>
         </div>
