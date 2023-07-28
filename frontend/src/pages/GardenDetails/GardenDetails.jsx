@@ -162,6 +162,19 @@ const GardenDetails = () => {
     setEditMode(false);
   };
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/gardens/${garden_id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate("/gardens");
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="top-container">
@@ -171,6 +184,10 @@ const GardenDetails = () => {
             <p>{garden.notes}</p>
 
             <Link className="garden-link" to="/gardens">Back to Gardens Page</Link>
+            <div className="buttons">
+            <button onClick={handleDelete} className="submit-button">
+                Delete Garden
+              </button>
             {!editMode ? (
               <button
                 type="submit"
@@ -179,6 +196,8 @@ const GardenDetails = () => {
               >
                 Edit Garden
               </button>
+
+              
             ) : (
               <button
                 type="submit"
@@ -187,9 +206,10 @@ const GardenDetails = () => {
               >
                 Cancel Edit
               </button>
+              
             )}
         
-
+        </div>
               {editMode ? (
                 <EditGardenDetails
                   garden={garden}
