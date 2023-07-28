@@ -17,6 +17,7 @@
     border-radius: 5px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: #f5f5f5;
   }
   
   .error-message {
@@ -42,18 +43,7 @@
     border-radius: 3px;
   }
   
-  .add-garden-button {
-    background-color: #37d60f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  
-  .add-garden-button:hover {
-    background-color: #086d10;
-  }
+
   
   .go-to-gardens-link {
     display: block;

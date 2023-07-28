@@ -16,6 +16,10 @@ const AddGarden = () => {
   const [formData, setFormData] = useState(defaultValues);
   const [error, setError] = useState('');
 
+  const handleCancel = () => {
+    navigate('/'); // Navigate back to the Home page
+  };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -53,8 +57,17 @@ const AddGarden = () => {
     }
   }
 
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
+
+    if (formData.name.trim() === '') {
+      setError('Garden name must be provided.');
+      return;
+    }
+
     postNewGarden();
   };
 
@@ -91,14 +104,15 @@ const AddGarden = () => {
               className="form-textarea"
             />
           </div>
-
-          <button type="submit" className="add-garden-button">
+          <div className='buttons'>
+          <button type="submit" className="submit-button">
             Add Garden
           </button>
+          <button type="button" className="submit-button" onClick={handleCancel}>
+            Cancel
+          </button>
+          </div>
         </form>
-        <Link to="/" className="go-to-gardens-link">
-           Home
-        </Link>
       </div>
     </div>
   );
