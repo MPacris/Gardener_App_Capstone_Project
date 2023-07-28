@@ -234,15 +234,17 @@ const GardenDetails = () => {
         </div>
 
         <div className="col-lg-4 col-lg-3">
-          <div className="users">
-            <h3>Active Gardeners:</h3>
-            <div>
-              {garden.users.map((user) => (
-                <li key={user.id}>{user.username}</li>
-              ))}
-            </div>
-          </div>
-        </div>
+  <div className="users">
+    <h3>Active Gardeners:</h3>
+    <div>
+      {garden.users.map((user) => (
+        <li key={user.id}>
+          {user.username} (User ID: {user.id})
+        </li>
+      ))}
+    </div>
+  </div>
+</div>
       </div>
       <div className="row">
         <div className="bottom-container">
@@ -265,7 +267,7 @@ const GardenDetails = () => {
                 )}
                 <div>Garden ID: {plant.garden_id}</div>
                 <div>
-                  Average Harvest Rating:{" "}
+                  Avg Harvest Rating:{" "}
                   {plant.average_harvest_rating.toFixed(1)}
                 </div>
               </Link>
