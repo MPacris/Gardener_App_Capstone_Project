@@ -100,6 +100,19 @@ const PlantDetails = () => {
     return <p>Plant not found</p>;
   }
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/plants/${plant_id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate(`/garden-details/${plant.garden_id}`);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -123,7 +136,9 @@ const PlantDetails = () => {
                 ) : (
                   <></>
                 )}
+                <div className="buttons">
                 {!editMode && (
+                
                   <button
                     onClick={() => setEditMode(true)}
                     className="edit-plant-submit-button"
@@ -131,6 +146,10 @@ const PlantDetails = () => {
                     Edit Plant Details
                   </button>
                 )}
+                    <button onClick={handleDelete} className="edit-plant-submit-button">
+                Delete Plant
+              </button>
+              </div>
               </div>
             </div>
           </div>
