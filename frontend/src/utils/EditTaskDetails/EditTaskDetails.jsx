@@ -13,6 +13,8 @@ const EditTaskDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  
+  
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:5000/api/tasks/${task_id}`, {
@@ -70,6 +72,12 @@ const EditTaskDetails = () => {
     return <p>Task not found</p>;
   }
 
+  const handleCancel = () => {
+    navigate("/tasks"); // Navigate back to the Task page
+  };
+
+  
+
   return (
     <div className="edit-task-details">
       <h3 className="edit-task-details__title">Edit Task Details:</h3>
@@ -109,6 +117,9 @@ const EditTaskDetails = () => {
         Delete Task
       </button>
       <button className="submit-button" onClick={handleUpdate}>Save Changes</button>
+      <button className="submit-button" onClick={handleCancel}>
+          Cancel
+        </button>
       </div>
     </div>
   );
