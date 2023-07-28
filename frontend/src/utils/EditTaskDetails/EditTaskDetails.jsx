@@ -13,6 +13,19 @@ const EditTaskDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/tasks/${task_id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate(`/tasks`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchTaskDetails = async () => {
       try {
@@ -91,8 +104,12 @@ const EditTaskDetails = () => {
       <div className="edit-task-details__item">
         <span className="edit-task-details__label">Plant ID:</span> {task.plant_id}
       </div>
-
+      <div className="buttons">
+      <button className="submit-button" onClick={handleDelete}>
+        Delete Task
+      </button>
       <button className="submit-button" onClick={handleUpdate}>Save Changes</button>
+      </div>
     </div>
   );
 };
