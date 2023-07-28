@@ -20,6 +20,8 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
+
+<img src="/uploadpictures/GreenThumbLogo.png" alt="Background" className="login-img" />
      
       <div className="form-container">
         <form className="form" onSubmit={handleSubmit}>
@@ -51,7 +53,7 @@ const LoginPage = () => {
         </form>
        
       </div>
-      <img src="/uploadpictures/GreenThumbLogo.png" alt="Background" className="background-img" />
+     
     </div>
   );
 };
