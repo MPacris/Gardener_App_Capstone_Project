@@ -82,18 +82,23 @@ const HarvestDetails = () => {
   if (!harvest || !task) {
     return <p>Loading...</p>;
   }
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:5000/api/harvests/${harvest_id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      navigate("/harvests"); // Redirect to the Harvests page after deletion
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-6">
-          <div className="harvest-information">
-            <h3 className="mb-3">Harvest Information:</h3>
-            <div>Harvest ID: {harvest.id}</div>
-            <div>Task ID: {harvest.task_id}</div>
-            <div>Rating: {harvest.rating}</div>
-          </div>
-
           <div className="task-information">
             <h3 className="mb-3">Task Information:</h3>
             <div>Plant ID: {task.plant_id}</div>
@@ -102,10 +107,23 @@ const HarvestDetails = () => {
             <div>Task Completed: {task.task_completed}</div>
             <div>Assigned User: {task.user_id}</div>
           </div>
+          <div className="harvest-information">
+            <h3 className="mb-3">Harvest Information:</h3>
+            <div>Harvest ID: {harvest.id}</div>
+            <div>Task ID: {harvest.task_id}</div>
+            <div>Rating: {harvest.rating}</div>
 
-          <EditHarvestDetails className="edit-harvest-details" harvest={harvest} token={token} handleSave={handleSave} />
+            <button className="submit-button" onClick={handleDelete}>
+              Delete Harvest
+            </button>
+          </div>
 
-
+          <EditHarvestDetails
+            className="edit-harvest-details"
+            harvest={harvest}
+            token={token}
+            handleSave={handleSave}
+          />
         </div>
 
         <div className="col-md-6">
@@ -121,11 +139,13 @@ const HarvestDetails = () => {
             )}
           </div>
 
-          <div><UploadHarvestImage
-            harvest={harvest}
-            token={token}
-            onImageUpload={handleImageUpload}
-          /></div>
+          <div>
+            <UploadHarvestImage
+              harvest={harvest}
+              token={token}
+              onImageUpload={handleImageUpload}
+            />
+          </div>
         </div>
       </div>
     </div>
