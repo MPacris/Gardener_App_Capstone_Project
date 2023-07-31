@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import "./EditTaskDetails.css";
@@ -12,6 +12,7 @@ const EditTaskDetails = () => {
   const [newCompleted, setNewCompleted] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [isHarvest, setIsHarvest] = useState(false);
 
   
   
@@ -41,6 +42,7 @@ const EditTaskDetails = () => {
         );
         setTask(response.data);
         setNewUserId(new URLSearchParams(location.search).get("user_id")); // Set the initial value for newUserId
+        setIsHarvest(response.data.task_type === "harvest"); // Determine if the task is a Harvest
       } catch (error) {
         console.error(error);
       }
@@ -68,6 +70,8 @@ const EditTaskDetails = () => {
     }
   };
 
+
+
   if (!task) {
     return <p>Task not found</p>;
   }
@@ -75,6 +79,12 @@ const EditTaskDetails = () => {
   const handleCancel = () => {
     navigate("/tasks"); // Navigate back to the Task page
   };
+
+  const handleCreateHarvest = () => {
+    navigate(`/create-harvest?task_id=${task.id}&plant_id=${task.plant_id}`);
+  };
+
+  
 
   
 
@@ -120,6 +130,12 @@ const EditTaskDetails = () => {
       <button className="submit-button" onClick={handleCancel}>
           Cancel
         </button>
+        {isHarvest && (
+        <Link to={`/create-harvest?task_id=${task.id}&plant_id=${task.plant_id}`} className="submit-button">
+          Create Harvest
+        </Link>
+      )}
+        
       </div>
     </div>
   );
